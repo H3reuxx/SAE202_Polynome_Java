@@ -1,5 +1,5 @@
 /* 
- * PolynomeFactorise.java
+ * CreationPolynome.java
  * 
  * IUT de Rodez, no copy right/left    10/04
  */
@@ -15,7 +15,7 @@ import src.polynome.Polynome;
  * @autor 
  */
 
-class PolynomeFactorise implements Polynome {
+class CreationPolynome {
 
     /** 
      * prise des informations du polynome 
@@ -25,12 +25,17 @@ class PolynomeFactorise implements Polynome {
      * param args utilisé 
      */ 
 
-    private String polynome;
-    private Map<Double,Integer> racines;
+    private List<double> coefficients;
+    private double coefDominant;
 
+    public CreationPolynome(List<double> coefficients) {
 
-                       
-                    
+    }
+
+    public CreationPolynome(List<double> racines, double coefDominant) {
+        
+    }
+
     @Override
     public int getDegre() {
 

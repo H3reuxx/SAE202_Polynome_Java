@@ -20,7 +20,8 @@ class CalculateurPolynome {
      * Ses Coefficients
      * 
      * param args utilisé 
-     */ 
+     */
+    
 
 
     public int additionnerPolynome() {
