@@ -6,8 +6,8 @@
  
 package src.polynome.model;
 
-import java.util.Map;
-import src.polynome.Polynome;
+import java.util.List;
+import src.polynome.model.Polynome;
 
 /**
  * 
@@ -17,39 +17,11 @@ import src.polynome.Polynome;
 
 class CreationPolynome {
 
-    /** 
-     * prise des informations du polynome 
-     * Son degré
-     * Ses Coefficients
-     * 
-     * param args utilisé 
-     */ 
-
-    private List<double> coefficients;
-    private double coefDominant;
-
-    public CreationPolynome(List<double> coefficients) {
+    public Polynome CreationPolynomeCoefficients(List<Double> coefficients) {
 
     }
 
-    public CreationPolynome(List<double> racines, double coefDominant) {
+    public Polynome CreationPolynomeRacines(List<Double> racines, double coefDominant) {
         
     }
-
-    @Override
-    public int getDegre() {
-
-    }
-
-    @Override
-    public int getCoefficients() {
-
-    }
-
-    @Override
-    public String toString() {
-    
-    }
-
-
 }

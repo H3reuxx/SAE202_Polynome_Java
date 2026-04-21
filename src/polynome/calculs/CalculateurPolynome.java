@@ -6,6 +6,8 @@
  
 package src.polynome.calculs;
 
+import src.polynome.model.Polynome;
+
 /**
  * 
  * 
@@ -21,19 +23,13 @@ class CalculateurPolynome {
      * 
      * param args utilisé 
      */
-    
 
-
-    public int additionnerPolynome() {
+    public Polynome additionnerPolynome(Polynome polynome1, Polynome polynome2) {
 
     }
 
 
-    public int multiplierParScalaire() {
+    public Polynome multiplierParScalaire(Polynome polynome, double scalaire) {
 
     }
-
-
-
-
 }

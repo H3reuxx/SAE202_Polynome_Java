@@ -6,13 +6,15 @@
  
 package src.polynome.model;
 
+import java.util.List;
+
 /**
  * Création de la fiche d'indentité du polynome
  * 
  * @autor 
  */
 
-class Polynome {
+public class Polynome {
 
     /** 
      * prise des informations du polynome 
@@ -22,18 +24,19 @@ class Polynome {
      * param args utilisé 
      */ 
 
-    private String polynome;
-    private int degres,
-                coefficient,
-                racineReel;
+    private int racineReel;
+    private List<Monome> listeMonome;
                        
-                    
-
-    public int getDegre() {
-
+    public Polynome(List<Monome> listeMonome) {
+        this.listeMonome = listeMonome;
     }
 
-    public int getCoefficients() {
+
+    /*
+    TODO : retourne le degre du monome le 
+    plus haut. (dans la liste)
+    */
+    public int getMaxDegre() {
 
     }
 
@@ -41,6 +44,4 @@ class Polynome {
     public String toString() {
     
     }
-
-
 }
