@@ -4,12 +4,13 @@
  * IUT de Rodez, no copy right/left    10/04
  */
  
-package src.polynome.model;
+package polynome.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Création de la fiche d'indentité du polynome
+ * Création de la fiche d'indentité du polynome 
  * 
  * @autor 
  */
@@ -30,12 +31,17 @@ public class Polynome {
     public Polynome(List<Monome> listeMonome) {
         this.listeMonome = listeMonome;
     }
+    
+    public void ajouterMonome(Monome m) {
+        this.listeMonome.add(m);
+    }
 
 
     /*
     TODO : retourne le degre du monome le 
     plus haut. (dans la liste)
     */
+    /*
     public int getMaxDegre() {
 
     }
@@ -44,4 +50,5 @@ public class Polynome {
     public String toString() {
     
     }
+    */
 }
