@@ -4,9 +4,9 @@
  * IUT de Rodez, no copy right/left    10/04
  */
  
-package src.polynome.calculs;
+package polynome.calculs;
 
-import src.polynome.model.Polynome;
+import polynome.model.Polynome;
 
 /**
  * 
@@ -24,6 +24,7 @@ class CalculateurPolynome {
      * param args utilisé 
      */
 
+    /*
     public Polynome additionnerPolynome(Polynome polynome1, Polynome polynome2) {
 
     }
@@ -32,4 +33,5 @@ class CalculateurPolynome {
     public Polynome multiplierParScalaire(Polynome polynome, double scalaire) {
 
     }
+    */
 }
