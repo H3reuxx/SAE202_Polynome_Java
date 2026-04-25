@@ -3,8 +3,12 @@
  * 
  * IUT de Rodez, no copy right/left    10/04
  */
- 
-package src.polynome;
+
+import java.util.List;
+import polynome.calculs.CalculateurPolynome;
+import polynome.model.CreationPolynome;
+import polynome.model.Polynome;
+import polynome.model.Monome;
 
 /**
  * TODO
@@ -14,7 +18,6 @@ package src.polynome;
 
 class Main {
 
-    public void main(String[] args) {
-
+    public static void main(String[] args) {
     }
 }
