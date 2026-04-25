@@ -42,7 +42,6 @@ public class CreationPolynome {
      * @param coefDominant
      * @return polynomeFinal 
      */
-    /*
     public static Polynome creationPolynomeRacines(List<Double> racines, List<Integer> multiplicites, double coefDominant) {
         ArrayList<Double> listeRacines = new ArrayList<>(racines);
         ArrayList<Integer> listeMult = new ArrayList<>(multiplicites);
@@ -57,8 +56,6 @@ public class CreationPolynome {
          * Ajout du premier monome dans le polynome final, celui ci
          * est un polynome simple qui represente 'a', le coefficient dominant.
          */
-
-        /*
         polynomeFinal.ajouterMonome(new Monome(coefDominant , 0));
         
         for (int index=0;index<listeRacines.size();index++){
@@ -75,8 +72,6 @@ public class CreationPolynome {
              * cela permet de faire d'élever notre polynome à la puissance souhaiter (m) en passant par
              * la multiplication successive.
              */
-
-            /*
             for (int j=0 ; j < m ; j++){
                 polynomeFinal = multiplierPolynomes(polynomeFinal, facteur);
             }
@@ -84,5 +79,4 @@ public class CreationPolynome {
         }
         return polynomeFinal;
     }
-    */
 }
