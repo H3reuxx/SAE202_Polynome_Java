@@ -15,7 +15,6 @@ import polynome.model.Polynome;
  * 
  * @autor 
  */
-
 public class CalculateurPolynome {
 
     /*
@@ -66,7 +65,8 @@ public class CalculateurPolynome {
 
     /* multiplication de deux polynome : il faut que chaque monome de P1 rencoontre
      * chaque monome de P2 (distributivité), ensuite les coefficient se multiplient 
-     * et les degres s'additionent, 
+     * et les degres s'additionent puis on les insère dans polynomeFinal en additionant
+     * les monomes de même degre (en utilisant la logique de l'addition de polynome)
      */
     public static Polynome multiplierPolynomes(Polynome polynome1, Polynome polynome2) {
         Polynome polynomeFinal = new Polynome();
