@@ -6,7 +6,9 @@
  
 package polynome.model;
 
+import static polynome.calculs.CalculateurPolynome.multiplierPolynomes;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * 
@@ -43,10 +45,6 @@ public class CreationPolynome {
      * @return polynomeFinal 
      */
     public static Polynome creationPolynomeRacines(List<Double> racines, List<Integer> multiplicites, double coefDominant) {
-        ArrayList<Double> listeRacines = new ArrayList<>(racines);
-        ArrayList<Integer> listeMult = new ArrayList<>(multiplicites);
-
-
         if (racines == null || multiplicites == null || racines.size() != multiplicites.size() || racines.isEmpty()) {
             return null; // Ou renvoyer un Polynome vide selon ton choix
         }
@@ -58,9 +56,9 @@ public class CreationPolynome {
          */
         polynomeFinal.ajouterMonome(new Monome(coefDominant , 0));
         
-        for (int index=0;index<listeRacines.size();index++){
+        for (int index=0;index<racines.size();index++){
             double r = racines.get(index);
-            double m = multiplicites.get(index);
+            int m = multiplicites.get(index); 
 
             //ensuite on crée le polynome (x-r)
             // C'est une liste de deux monômes : [1.0 * x^1] et [-r * x^0]

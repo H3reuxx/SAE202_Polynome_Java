@@ -3,7 +3,7 @@
  * 
  * IUT de Rodez, no copy right/left    26/04
  */
-package polynome.interface;
+package polynome.interfaceConsole;
 
 import java.util.Scanner;
 
