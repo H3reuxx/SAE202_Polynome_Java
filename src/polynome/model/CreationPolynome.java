@@ -6,8 +6,9 @@
  
 package polynome.model;
 
-import java.util.ArrayList;
+import static polynome.calculs.CalculateurPolynome.multiplierPolynomes;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * 
@@ -15,22 +16,22 @@ import java.util.List;
  * @autor 
  */
 
-class CreationPolynome {
+public class CreationPolynome {
     /**
-     * Cree un objet Polynome a partire d'une liste de coefficients , cependant
+     * Cree un objet Polynome a partir d'une liste de coefficients , cependant
      * ne fonctionne que si la liste de coefficient est triée de façon a ce
      * que l'indice du coefficient soit la puissance du monome associé. 
      * @param coefficients
-     * @return resultat
+     * @return polynomeFinal
      */
-    public Polynome CreationPolynomeCoefficients(List<Double> coefficients) {
+    public static Polynome CreationPolynomeCoefficients(List<Double> coefficients) {
 
-        Polynome resultat = new Polynome();
+        Polynome polynomeFinal = new Polynome();
 
-        for(int i = 0 ; i<coefficients.size() ; i++){
-            resultat.ajouterMonome(new Monome(coefficients.get(i),i));
+        for(int degre = 0 ; degre<coefficients.size() ; degre++){
+            polynomeFinal.ajouterMonome(new Monome(coefficients.get(degre), degre));
         }
-        return resultat;
+        return polynomeFinal;
     }
 
 
@@ -41,25 +42,23 @@ class CreationPolynome {
      * @param racines
      * @param multiplicites
      * @param coefDominant
-     * @return resultat 
+     * @return polynomeFinal 
      */
-
-    public Polynome creationPolynomeRacines(List<Double> racines,List<Integer> multiplicites,double coefDominant) {
-        ArrayList<Double> listeRacines = new ArrayList<>(racines);
-        ArrayList<Integer> listeMult = new ArrayList<>(multiplicites);
-
-
+    public static Polynome creationPolynomeRacines(List<Double> racines, List<Integer> multiplicites, double coefDominant) {
         if (racines == null || multiplicites == null || racines.size() != multiplicites.size() || racines.isEmpty()) {
             return null; // Ou renvoyer un Polynome vide selon ton choix
         }
 
-        Polynome resultat = new Polynome();
-        resultat.ajouterMonome(new Monome(coefDominant , 0)); //Ajout du premier monome
-        //de facon a crée la base du polynome
+        Polynome polynomeFinal = new Polynome();
+        /*
+         * Ajout du premier monome dans le polynome final, celui ci
+         * est un polynome simple qui represente 'a', le coefficient dominant.
+         */
+        polynomeFinal.ajouterMonome(new Monome(coefDominant , 0));
         
-        for (int index=0;index<listeRacines.size();index++){
+        for (int index=0;index<racines.size();index++){
             double r = racines.get(index);
-            double m = multiplicites.get(index);
+            int m = multiplicites.get(index); 
 
             //ensuite on crée le polynome (x-r)
             // C'est une liste de deux monômes : [1.0 * x^1] et [-r * x^0]
@@ -67,12 +66,15 @@ class CreationPolynome {
             facteur.ajouterMonome(new Monome(1.0 , 1));
             facteur.ajouterMonome(new Monome(-r , 0));
 
-            //On multiplie m fois le resultat par le facteur , (a*(x -r) ^ m ) , c'est ici le ^m
+            /* On multiplie m fois le polynomeFinal par le facteur , (a*(x -r) ^ m ) , c'est ici le ^m,
+             * cela permet de faire d'élever notre polynome à la puissance souhaiter (m) en passant par
+             * la multiplication successive.
+             */
             for (int j=0 ; j < m ; j++){
-                resultat = multiplierPolynomes(resultat, facteur); //Pas encore réaliser.
+                polynomeFinal = multiplierPolynomes(polynomeFinal, facteur);
             }
 
         }
-        return resultat;
+        return polynomeFinal;
     }
 }

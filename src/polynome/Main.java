@@ -3,12 +3,17 @@
  * 
  * IUT de Rodez, no copy right/left    10/04
  */
- 
+
 package polynome;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import polynome.model.Monome;
+import polynome.model.Polynome;
+
+import static polynome.calculs.CalculateurPolynome.multiplierPolynomes;
+import static polynome.model.CreationPolynome.creationPolynomeRacines;
 
 /**
  * TODO
@@ -18,21 +23,17 @@ import polynome.model.Monome;
 
 class Main {
 
-    public void main(String[] args) {
-        System.out.println(tester());
-    }
+    public static void main(String[] args) {
+        List<Double> coef = List.of(1.0);
+        List<Integer> mult = List.of(2);
+        double coefDominant = 1.0;
 
-    public boolean tester(){
-        Monome monomeTest1 = new Monome(1.1, 1);
-        Monome monomeTest2 = new Monome(2.2 , 2);
-        Monome monomeTest3 = new Monome(3.3 , 0);
+        Polynome testPoly1 = creationPolynomeRacines(coef,mult,coefDominant);
 
-        ArrayList<Monome> listeMonomeTest = new ArrayList<>();
+        List<Monome> resultat = testPoly1.getListeMonome();
 
-        listeMonomeTest.add(monomeTest3);
-        listeMonomeTest.add(monomeTest1);
-        listeMonomeTest.add(monomeTest2);
-
-        return true; //STUB
+        for (int i = 0; i<resultat.size();i++){
+            System.out.println(resultat.get(i));
+        } 
     }
 }
