@@ -54,7 +54,8 @@ public class Polynome {
     /*
     public int getMaxDegre() {
 
-    }
+    import java.util.ArrayList;
+    import java.util.List;
 
     @Override
     public String toString() {
