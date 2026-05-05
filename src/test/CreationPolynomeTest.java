@@ -39,13 +39,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class CreationPolynomeTest {
 
     // utilitaire
-    private double coefPourDegre(Polynome p, int degre) {
-        return p.getListeMonome().stream()
-                .filter(m -> m.getDegre() == degre)
-                .mapToDouble(Monome::getCoefficient)
-                .findFirst()
-                .orElse(Double.NaN);
-    }
+	private double coefPourDegre(Polynome p, int degre) {
+	    for (Monome m : p.getListeMonome()) {
+	        if (m.getDegre() == degre) {
+	            return m.getCoefficient();
+	        }
+	    }
+	    return Double.NaN;
+	}
 
     // ============================================ CreationPolynomeCoefficients
     @Test

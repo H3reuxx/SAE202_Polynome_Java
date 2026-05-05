@@ -10,31 +10,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Création de la fiche d'indentité du polynome 
- * 
- * @autor 
+ * Création d'un objet polynome représenté par une liste de monome.
+ * @author Gabriel TOLL , Alban ROZES , Wassim NAFAA , Erwan NAZAL
+ * @version 1.0
  */
 
 public class Polynome {
 
-    /** 
-     * prise des informations du polynome 
-     * Son degré
-     * Ses Coefficients
-     * 
-     * param args utilisé 
-     */ 
+	/**
+	 * Classe pour gérer un polynome
+	 * @author Erwan Nazal, Gabriel Toll, Alban Rozes, Wassim Nafaa
+	 */
 
     private List<Monome> listeMonome;
     
-    //Créatiobn d'un polynome a partire d'une liste de monome.
+    /**
+     * Constructeur du polynome
+     * @param listeMonome La liste des monomes du polynome
+     */
     public Polynome(List<Monome> listeMonome) {
         this.listeMonome = new ArrayList<>(); 
     }
+    
     //Overload de la class polynome pour permettre l'inisialisation du polynome vide.
     public Polynome(){
         this.listeMonome = new ArrayList<>();
     }
+    
     //Methode permettant d'ajouter un monome a un polynome.
     public void ajouterMonome(Monome m) {
         this.listeMonome.add(m);
@@ -53,13 +55,16 @@ public class Polynome {
     */
     /*
     public int getMaxDegre() {
-
-    import java.util.ArrayList;
-    import java.util.List;
-
+	*/
+    
     @Override
     public String toString() {
-    
+    	String affichage = "";
+    	for (Monome monome : getListeMonome()) {
+    		affichage += monome.toString() + " "; 
+    	}
+    	
+    	return affichage;
     }
-    */
+
 }
