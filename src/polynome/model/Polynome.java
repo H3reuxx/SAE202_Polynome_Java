@@ -29,12 +29,13 @@ public class Polynome {
      * @param listeMonome La liste des monomes du polynome
      */
     public Polynome(List<Monome> listeMonome) {
-        this.listeMonome = new ArrayList<>(); 
+        this.listeMonome = new ArrayList<Monome>(listeMonome); 
     }
     
     //Overload de la class polynome pour permettre l'inisialisation du polynome vide.
     public Polynome(){
-        this.listeMonome = new ArrayList<>();
+    	//Polynome vide
+        this.listeMonome = new ArrayList<Monome>();
     }
     
     //Methode permettant d'ajouter un monome a un polynome.

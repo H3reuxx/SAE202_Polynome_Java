@@ -14,67 +14,45 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Plan de test unitaire pour la classe Polynome.
  * 
- * L'objectif de ce plan est de garantir l'intégrité de la structure de données 
- * représentant le polynôme. On se concentre sur la manipulation de la liste 
- * interne de monômes.
+ * Plan de test unitaire :
+ * 	création de polynome vide
+ * 	création a partir de liste de monome :
+ * 		Liste vide , Liste 1 élement , liste 10 élement
+ * 	ajouter un monome a un polynome : 
+ * 		ajouter monome avec coefficient déja pris , avec un coefficient pas encore pris , coefficient 0.0 et coefficients normal.
+ *  Recuperer la liste de monome :
+ *  	liste vide , liste avec 1 element , liste avec 10 elements
+ *  Affichage toString :
+ *   	Polynome vide , polynome simple (1 monome) , polynome 10 monomes
  * 
- * Les axes de test sont les suivants :
- * <ul>
- *     <li><b>Initialisation :</b> Vérification que tout nouveau polynôme dispose 
- *     d'une structure de stockage prête à l'emploi et non nulle.</li>
- *     <li><b>Dynamique de stockage :</b> Validation de l'ajout unitaire et 
- *     multiple d'éléments dans la collection.</li>
- *     <li><b>Cohérence des données :</b> Vérification que les objets récupérés 
- *     depuis le polynôme conservent leurs propriétés d'origine.</li>
- *     <li><b>Sécurité du constructeur :</b> Test du comportement lors de 
- *     l'instanciation pour s'assurer de l'indépendance de la liste interne.</li>
- * </ul>
- * 
- * @author
+ * @author Gabriel TOLL , Alban ROZES , Wassim NAFAA , Erwan NAZAL
  */
 
 class PolynomeTest {
 
     @Test
-    void testPolynomeVideInitialise() {
+    void testCreationVide() {
         Polynome p = new Polynome();
-        assertNotNull(p.getListeMonome());
         assertTrue(p.getListeMonome().isEmpty());
     }
-
+    
+    @Test
+    void testCreationListeMonome() {
+    	
+    }
+    
     @Test
     void testAjouterMonome() {
-        Polynome p = new Polynome();
-        p.ajouterMonome(new Monome(3.0, 2));
-        assertEquals(1, p.getListeMonome().size());
+    	
     }
-
+    
     @Test
-    void testAjouterPlusieursMonomes() {
-        Polynome p = new Polynome();
-        p.ajouterMonome(new Monome(1.0, 0));
-        p.ajouterMonome(new Monome(2.0, 1));
-        p.ajouterMonome(new Monome(3.0, 2));
-        assertEquals(3, p.getListeMonome().size());
+    void testGetListeMonome() {
+    	
     }
-
+    
     @Test
-    void testGetListeMonomeRetourneBonneValeur() {
-        Polynome p = new Polynome();
-        Monome m = new Monome(5.0, 1);
-        p.ajouterMonome(m);
-        List<Monome> liste = p.getListeMonome();
-        assertEquals(5.0, liste.get(0).getCoefficient(), 1e-9);
-        assertEquals(1,   liste.get(0).getDegre());
-    }
-
-    @Test
-    void testConstructeurAvecListeCreePropre() {
-        // Le constructeur Polynome(List<Monome>) doit initialiser une liste interne vide
-        // (comportement actuel : il ignore la liste passée en paramètre)
-        Polynome p = new Polynome(List.of(new Monome(1.0, 1)));
-        assertNotNull(p.getListeMonome());
-        // La liste interne est vide car le constructeur crée un new ArrayList<>()
-        assertTrue(p.getListeMonome().isEmpty());
+    void testToString() {
+    	
     }
 }

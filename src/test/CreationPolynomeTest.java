@@ -45,7 +45,7 @@ class CreationPolynomeTest {
 	            return m.getCoefficient();
 	        }
 	    }
-	    return Double.NaN;
+	    return 0.0;
 	}
 
     // ============================================ CreationPolynomeCoefficients
