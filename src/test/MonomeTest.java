@@ -14,13 +14,15 @@ import static org.junit.jupiter.api.Assertions.*;
  * 
  * plat de test : 
  * 	test de Création :
- * 		monome avec coefficient nul , coefficient entier , coefficient a virgule , degrés 0 et dégrés entier.
+ * 		monome avec coefficient nul , coefficient entier , coefficient a
+ *              virgule , degrés 0 et dégrés entier.
  * 	test de GetDegres :
  * 		positif puis nul
  * 	test de GetCoefficient :
  *		coefficient entier , a virgule puis nul
- *  test de ToString :
- *  	monome avec coefficient nul , coefficient entier , coefficient a virgule , degrés 0 et dégrés entier.
+ *      test de ToString :
+ *  	   monome avec coefficient nul , coefficient entier , coefficient a virgule
+ *              degrés 0 et dégrés entier.
  * 
  * 
  * 

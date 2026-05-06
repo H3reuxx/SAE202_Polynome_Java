@@ -17,10 +17,7 @@ import java.util.List;
 
 public class Polynome {
 
-	/**
-	 * Classe pour gérer un polynome
-	 * @author Erwan Nazal, Gabriel Toll, Alban Rozes, Wassim Nafaa
-	 */
+	
 
     private List<Monome> listeMonome;
     
@@ -32,16 +29,19 @@ public class Polynome {
         this.listeMonome = new ArrayList<Monome>(listeMonome); 
     }
     
-    //Overload de la class polynome pour permettre l'inisialisation du polynome vide.
+    /**
+     * initialisation du polynome nul.
+     */
     public Polynome(){
-    	//Polynome vide
+    	//Polynome nul
         this.listeMonome = new ArrayList<Monome>();
+        //TODO Monome degrès 0
     }
     
     //Methode permettant d'ajouter un monome a un polynome.
     public void ajouterMonome(Monome m) {
         this.listeMonome.add(m);
-        //TODO , Ajouter des cas d'erreur , par exemple ,
+        //TODO Ajouter des cas d'erreur , par exemple ,
         //TODO on ne peut pas avoir deux monome du meme degres , on doit donc mettre des verifications
     }
 
