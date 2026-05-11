@@ -16,9 +16,7 @@ import java.util.List;
  */
 
 public class Polynome {
-
-	
-
+    
     private List<Monome> listeMonome;
     
     /**
@@ -33,23 +31,26 @@ public class Polynome {
      * initialisation du polynome nul.
      */
     public Polynome(){
-    	//Polynome nul
-        this.listeMonome = new ArrayList<Monome>();
-        //TODO Monome degrès 0
+        Monome monomeNul = new Monome(0.0 , 0);
+        this.listeMonome = new ArrayList<Monome>(List.of(monomeNul));  
     }
     
     //Methode permettant d'ajouter un monome a un polynome.
     public void ajouterMonome(Monome m) {
-        this.listeMonome.add(m);
-        //TODO Ajouter des cas d'erreur , par exemple ,
-        //TODO on ne peut pas avoir deux monome du meme degres , on doit donc mettre des verifications
+        for (Monome monome : this.listeMonome) {
+            if (monome.getDegre() == m.getDegre()) {
+                double nouveauCoeff = monome.getCoefficient() + m.getCoefficient();
+                monome.setCoefficient(nouveauCoeff);
+            }
+            return;
+        }
     }
 
     public List<Monome> getListeMonome() {
         return this.listeMonome;
     }
 
-
+  
     /*
     TODO : retourne le degre du monome le 
     plus haut. (dans la liste)

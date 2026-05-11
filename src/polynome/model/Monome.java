@@ -26,7 +26,11 @@ public class Monome {
     public double getCoefficient() {
         return this.coefficient;
     }
-
+    
+    public void setCoefficient(double nouveauCoefficient) {
+        this.coefficient = nouveauCoefficient;
+    }
+    
     @Override
     public String toString() {
         return coefficient + "X^" + degre;
