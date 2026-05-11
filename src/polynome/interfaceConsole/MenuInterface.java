@@ -51,13 +51,14 @@ public class MenuInterface {
             System.out.println(AFFICHAGEMENU);
             System.out.print("Votre choix : ");
             
-            int selection = 0;
+            int selection;
+            String saisie = scanner.nextLine();
             
-            if (scanner.hasNextInt()) {
-            	selection = scanner.nextInt();
-        	} else {
-        		System.out.println(ERREUR_ENTREE_INVALIDE);
-        	}
+            try {
+            	selection = Integer.parseInt(saisie);
+            } catch (IllegalArgumentException erreur) {
+            	selection = -1;
+            }
             
             switch (selection) {
                 //TODO Case 3 , 4 , 5
@@ -113,13 +114,14 @@ public class MenuInterface {
             System.out.println(choixCreationPolyonme);
             System.out.print("Votre choix : ");
             
-        	int selectionCreation = 0;
-        	
-        	if (scanner.hasNextInt()) {
-        		selectionCreation = scanner.nextInt();
-        	} else {
-        		System.out.println(ERREUR_ENTREE_INVALIDE);
-        	}
+        	int selectionCreation;
+        	String saisie = scanner.nextLine();
+            
+            try {
+            	selectionCreation = Integer.parseInt(saisie);
+            } catch (IllegalArgumentException erreur) {
+            	selectionCreation = -1;
+            }
         	
 	        switch (selectionCreation) {
 	            case 1: 
