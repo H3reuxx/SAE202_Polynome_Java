@@ -14,6 +14,7 @@ import polynome.model.Polynome;
 
 import static polynome.calculs.CalculateurPolynome.multiplierPolynomes;
 import static polynome.model.CreationPolynome.creationPolynomeRacines;
+import polynome.interfaceConsole.MenuInterface;
 
 /**
  * TODO
@@ -24,16 +25,8 @@ import static polynome.model.CreationPolynome.creationPolynomeRacines;
 class Main {
 
     public static void main(String[] args) {
-        List<Double> coef = List.of(1.0);
-        List<Integer> mult = List.of(2);
-        double coefDominant = 1.0;
-
-        Polynome testPoly1 = creationPolynomeRacines(coef,mult,coefDominant);
-
-        List<Monome> resultat = testPoly1.getListeMonome();
-
-        for (int i = 0; i<resultat.size();i++){
-            System.out.println(resultat.get(i));
-        } 
+    	MenuInterface menu = new MenuInterface();
+    	
+        menu.lancerMenu();
     }
 }

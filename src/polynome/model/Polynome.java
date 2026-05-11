@@ -22,18 +22,18 @@ public class Polynome {
      * Son degré
      * Ses Coefficients
      * 
-     * param args utilisé 
+     * param args utilisé
      */ 
 
     private List<Monome> listeMonome;
     
-    //Créatiobn d'un polynome a partire d'une liste de monome.
+    //Création d'un polynome a partire d'une liste de monome.
     public Polynome(List<Monome> listeMonome) {
-        this.listeMonome = new ArrayList<>(); 
+        this.listeMonome = new ArrayList<Monome>(listeMonome);
     }
     //Overload de la class polynome pour permettre l'inisialisation du polynome vide.
     public Polynome(){
-        this.listeMonome = new ArrayList<>();
+        this.listeMonome = new ArrayList<Monome>();
     }
     //Methode permettant d'ajouter un monome a un polynome.
     public void ajouterMonome(Monome m) {
@@ -44,6 +44,16 @@ public class Polynome {
 
     public List<Monome> getListeMonome() {
         return this.listeMonome;
+    }
+    
+    @Override
+    public String toString() {
+    	String affichage = "";
+    	for (Monome monome : getListeMonome()) {
+    		affichage += monome.toString() + " "; 
+    	}
+    	
+    	return affichage;
     }
 
 

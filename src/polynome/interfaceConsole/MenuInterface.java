@@ -5,8 +5,12 @@
  */
 package polynome.interfaceConsole;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import polynome.model.Polynome;
+
+import polynome.model.CreationPolynome;
 
 /**
  * Permet d'afficher l'interface en ligne de commande et de
@@ -15,11 +19,19 @@ import polynome.model.Polynome;
  * @author 
  */
 public class MenuInterface {
+    private static final String ERREUR_ENTREE_INVALIDE = 
+                                "Erreur : l'entrée saisie est invalide, veuillez réessayer.";
+    private static final String ERREUR_TAILLE_INVALIDE = 
+            "Erreur : la taille des listes de multiplicité et racines doivent être de même taille.";
+
     private Scanner scanner;
-    private boolean ok = true; 
+    private boolean ok;
+    private Polynome polynome;
 
     public MenuInterface() {
         scanner = new Scanner(System.in);
+        ok = true;
+        polynome = new Polynome();
     }
 
     /**
@@ -28,12 +40,10 @@ public class MenuInterface {
     public void lancerMenu() {
 
         final String AFFICHAGEMENU = """
-                === MENU POLYNÔMES ===
+                ==== MENU POLYNÔMES ====
                 1 : Création d'un polynome
                 2 : Affichage d'un polynome
-                3 : Sauvegarder un polynome
-                4 : Charger un polynome
-                5 : Afficher la courbe d'un polynome
+                3 : Calculs liée au polynome
                 0 : Quitter
                 """;
 
@@ -41,7 +51,13 @@ public class MenuInterface {
             System.out.println(AFFICHAGEMENU);
             System.out.print("Votre choix : ");
             
-            int selection = scanner.nextInt();
+            int selection = 0;
+            
+            if (scanner.hasNextInt()) {
+            	selection = scanner.nextInt();
+        	} else {
+        		System.out.println(ERREUR_ENTREE_INVALIDE);
+        	}
             
             switch (selection) {
                 //TODO Case 3 , 4 , 5
@@ -57,35 +73,119 @@ public class MenuInterface {
                     ok = false;
                     break;
                 default:
-                    System.out.println("Choix invalide. Veuillez réessayer.");
-                    break;
+                    System.out.println(ERREUR_ENTREE_INVALIDE);
             }
             System.out.println();
         }
     }
     
-    public /*Polynome*/void choixCreation(){
+    /**
+     * Méthode utilitaire pour saisir une liste de nombres en boucle.
+     */
+    private ArrayList<Double> saisirListe(String message) {
+    	ArrayList<Double> liste = new ArrayList<>();
+        System.out.println(message + " (ou 'exit' pour terminer)");
+        
+        while (true) {
+            System.out.print("=> ");
+            if (scanner.hasNextDouble()) {
+                liste.add(scanner.nextDouble());
+            } else {
+                String entree = scanner.next();
+                if (entree.equalsIgnoreCase("exit")) { 
+                	break;
+                }
+                System.out.println(ERREUR_ENTREE_INVALIDE);
+            }
+        }
+        return liste;
+    }
+    
+    public void choixCreation(){
         final String choixCreationPolyonme = """
                 1 : Creation par coefficients.
                 2 : Creation par racines.
+                0 : Retour.
                 """;
-
-        int selectionCreation = 0;
-        switch (selectionCreation){
-            case 1:
-                System.out.println("Veuillez indiquer vos coefficients");
-                //TODO Recuperer l'entree pour le convertir en liste de coefs.
-                break;
-            case 2:
-                System.out.println("Veuillez indiquer vos racines reeles , le coefficients de plus haut" +
-                                    "degrès ainsi que ");
-                //TODO Recuperer les differentes entrées. 
-                break;
+        
+        boolean checkRetour = true;
+        while (checkRetour) {
+            System.out.println(choixCreationPolyonme);
+            System.out.print("Votre choix : ");
+            
+        	int selectionCreation = 0;
+        	
+        	if (scanner.hasNextInt()) {
+        		selectionCreation = scanner.nextInt();
+        	} else {
+        		System.out.println(ERREUR_ENTREE_INVALIDE);
+        	}
+        	
+	        switch (selectionCreation) {
+	            case 1: 
+	                ArrayList<Double> listeCoefficients = saisirListe("Veuillez indiquer vos coefficients dans l'ordre des degrès croissant.");
+	                polynome = CreationPolynome.CreationPolynomeCoefficients(listeCoefficients);
+	                System.out.println(polynome.toString());
+	                break;
+	            case 2:
+	                System.out.println("Veuillez indiquer votre coefficient dominant.");
+	                System.out.print("=> ");
+	                
+	                boolean erreur_exit = false;
+	                double coefDominant = 0;
+	                if (scanner.hasNextDouble()) {
+	                	coefDominant = scanner.nextInt();
+	                } else {
+	                	System.out.println(ERREUR_ENTREE_INVALIDE);
+	                	scanner.next();
+	                	erreur_exit = true;
+	                }
+	                
+	                if (erreur_exit) break;
+	                
+	                ArrayList<Double> listeRacines = saisirListe("Veuillez indiquer la liste des multiplicitées.");  
+	                
+	                System.out.println("Veuillez indiquer la liste des racines.");
+	                System.out.println("Pour quitter/finir la liste saisir 'exit' ");
+	            	
+	            	boolean isFini = false;
+	            	
+	                ArrayList<Integer> listeMultiplicite = new ArrayList<Integer>();  
+	                while(!isFini) {
+	                	System.out.print("=> ");
+	                    if (scanner.hasNextInt()) {
+	                    	listeMultiplicite.add(scanner.nextInt());
+	                    } else if (scanner.next().trim().equalsIgnoreCase("exit")) {
+	                    	isFini = true;
+	                    	checkRetour = false;
+	                    } else {
+	                        System.out.println(ERREUR_ENTREE_INVALIDE);
+	                    }
+	                }
+	                
+	                if (listeMultiplicite.size() == listeRacines.size()) {
+	                	polynome = CreationPolynome.creationPolynomeRacines(listeRacines, listeMultiplicite, coefDominant);
+	                	System.out.print(polynome.toString());
+	                } else {
+	                	System.out.print(ERREUR_TAILLE_INVALIDE);
+	                }
+	                break;
+	            case 0:
+	                System.out.println();
+	                checkRetour = false;
+	                break;
+	            default:
+	                System.out.println(ERREUR_ENTREE_INVALIDE);
+	        }
         }
-  
+        System.out.println();
     }
-    public /*Polynome*/ void AffichagePolynomes(){
+
+    public void AffichagePolynomes(){
         //TODO faire un stack pour les polynomes crée et les afficher avec cette methode.
     }
 
+    public void CalculsPolynomes(){
+        //TODO
+    }
 }

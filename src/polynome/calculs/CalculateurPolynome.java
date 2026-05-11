@@ -106,5 +106,4 @@ public class CalculateurPolynome {
 
         return polynomeFinal;
     }
-    */
 }
