@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Plan de test unitaire pour la classe Monome.
  * 
- * plat de test : 
+ * plan de test : 
  * 	test de Création :
  * 		monome avec coefficient nul , coefficient entier , coefficient a
  *              virgule , degrés 0 et dégrés entier.
@@ -23,7 +23,9 @@ import static org.junit.jupiter.api.Assertions.*;
  *      test de ToString :
  *  	   monome avec coefficient nul , coefficient entier , coefficient a virgule
  *              degrés 0 et dégrés entier.
- * 
+ *   test de SetCoefficient :
+ *       modification avec valeur entière , valeur à virgule ,
+ *          valeur nulle et valeur négative.
  * 
  * 
  *  * @author Gabriel TOLL , Alban ROZES , Wassim NAFAA , Erwan NAZAL 
@@ -50,6 +52,26 @@ class MonomeTest {
         assertEquals(0.0 , m2.getCoefficient() , 0.001);
         assertEquals(1 , m2.getDegre());
     }
+
+    @Test
+    void testSetCoefficient() {
+        Monome m = new Monome(1.0, 2);
+        m.setCoefficient(2.5);
+        assertEquals(2.5, m.getCoefficient(), 0.001);
+
+        Monome m = new Monome(0.0, 2);
+        m.setCoefficient(5.0);
+        assertEquals(5.0, m.getCoefficient(), 0.001);
+
+        Monome m = new Monome(-3.0, 2);
+        m.setCoefficient(-10.0);
+        assertEquals(-10.0, m.getCoefficient(), 0.001);
+
+        Monome m = new Monome(1.0, 2);
+        m.setCoefficient(0.0);
+        assertEquals(0.0, m.getCoefficient(), 0.001);
+    }
+    
 
     @Test
     void testToString() {
