@@ -27,6 +27,8 @@ public class MenuInterface {
     private Scanner scanner;
     private boolean ok;
     private Polynome polynome;
+    
+    private ArrayList<Polynome> listePolynomeEnregistre = new ArrayList<>();
 
     public MenuInterface() {
         scanner = new Scanner(System.in);
@@ -68,6 +70,7 @@ public class MenuInterface {
                     break;
                 case 2:
                     System.out.println("-> Affichage...");
+                    AffichagePolynomes();
                     break;
                 case 0:
                     System.out.println("Au revoir !");
@@ -127,6 +130,7 @@ public class MenuInterface {
 	            case 1: 
 	                ArrayList<Double> listeCoefficients = saisirListe("Veuillez indiquer vos coefficients dans l'ordre des degrès croissant.");
 	                polynome = CreationPolynome.CreationPolynomeCoefficients(listeCoefficients);
+	                listePolynomeEnregistre.add(polynome);
 	                System.out.println(polynome.toString());
 	                break;
 	            case 2:
@@ -167,6 +171,7 @@ public class MenuInterface {
 	                
 	                if (listeMultiplicite.size() == listeRacines.size()) {
 	                	polynome = CreationPolynome.creationPolynomeRacines(listeRacines, listeMultiplicite, coefDominant);
+	                	listePolynomeEnregistre.add(polynome);
 	                	System.out.print(polynome.toString());
 	                } else {
 	                	System.out.print(ERREUR_TAILLE_INVALIDE);
@@ -184,7 +189,12 @@ public class MenuInterface {
     }
 
     public void AffichagePolynomes(){
-        //TODO faire un stack pour les polynomes crée et les afficher avec cette methode.
+        if(listePolynomeEnregistre.size() == 0 ) { System.out.print("Aucun polynome na été crée.");}
+        else {
+            for (Polynome polynome : listePolynomeEnregistre) {
+                System.out.println(polynome.toString());
+            }
+        }
     }
 
     public void CalculsPolynomes(){
