@@ -30,9 +30,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * 
  *  * @author Gabriel TOLL , Alban ROZES , Wassim NAFAA , Erwan NAZAL 
  */
-class MonomeTest {
+public class MonomeTest {
     @Test
-    void testCreationMonomeDegres0() {
+    public void testCreationMonomeDegres0() {
        Monome m = new Monome(1.0 , 0);
        assertEquals(1.0 , m.getCoefficient() , 0.001);
        assertEquals(0 , m.getDegre());
@@ -59,17 +59,17 @@ class MonomeTest {
         m.setCoefficient(2.5);
         assertEquals(2.5, m.getCoefficient(), 0.001);
 
-        Monome m = new Monome(0.0, 2);
-        m.setCoefficient(5.0);
-        assertEquals(5.0, m.getCoefficient(), 0.001);
+        Monome m2 = new Monome(0.0, 2);
+        m2.setCoefficient(5.0);
+        assertEquals(5.0, m2.getCoefficient(), 0.001);
 
-        Monome m = new Monome(-3.0, 2);
-        m.setCoefficient(-10.0);
-        assertEquals(-10.0, m.getCoefficient(), 0.001);
+        Monome m3 = new Monome(-3.0, 2);
+        m3.setCoefficient(-10.0);
+        assertEquals(-10.0, m3.getCoefficient(), 0.001);
 
-        Monome m = new Monome(1.0, 2);
-        m.setCoefficient(0.0);
-        assertEquals(0.0, m.getCoefficient(), 0.001);
+        Monome m4 = new Monome(1.0, 2);
+        m4.setCoefficient(0.0);
+        assertEquals(0.0, m4.getCoefficient(), 0.001);
     }
     
 
