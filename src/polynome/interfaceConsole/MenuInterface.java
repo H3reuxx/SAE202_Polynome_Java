@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import polynome.model.Polynome;
 import polynome.model.CreationPolynome;
+import polynome.calculs.CalculateurPolynome;
 
 /**
  * Permet d'afficher l'interface en ligne de commande et de
@@ -67,7 +68,11 @@ public class MenuInterface {
                     break;
                 case 2:
                     System.out.println("-> Affichage...");
-                    AffichagePolynomes();
+                    affichagePolynomes();
+                    break;
+                case 3:
+                	System.out.println("-> Lancement des calculs...");
+                    calculsPolynomes();
                     break;
                 case 0:
                     System.out.println("Au revoir !");
@@ -113,7 +118,7 @@ public class MenuInterface {
      * S'occupe de l'affichage en console qui permet la création des polynomes
      * en plus de gerer les entrées utilisateur et potentiels cas d'erreurs.
      */
-    public void choixCreation(){
+    private void choixCreation(){
         final String choixCreationPolyonme = """
                 1 : Creation par coefficients.
                 2 : Creation par racines.
@@ -200,12 +205,92 @@ public class MenuInterface {
      * S'occupe de l'affichage en console qui permet l'Affichage des polynomes
      * enregistrées en plus de gerer les entrées utilisateur et potentiels cas d'erreurs.
      */
-    public void AffichagePolynomes(){
+    private void affichagePolynomes(){
         if(listePolynomeEnregistre.isEmpty()) { 
             System.out.println("Aucun polynôme n'a été créé.");
         } else {
-            for (Polynome p : listePolynomeEnregistre) {
-                System.out.println(p.toString());
+            for (int choixPolynome = 0; choixPolynome < listePolynomeEnregistre.size(); choixPolynome++) {
+        		System.out.println(choixPolynome + 1 + ". " + listePolynomeEnregistre.get(choixPolynome));
+        	}
+        }
+    }
+
+    private int[] recupererIDPolynome() {
+        int idPolynome1 = -1;
+        int idPolynome2 = -1;
+
+        System.out.print("Veuillez saisir l'id du premier polynome : ");
+        if(scanner.hasNextInt()) {
+            idPolynome1 = scanner.nextInt();
+            scanner.nextLine();
+        } else {
+            System.out.println(ERREUR_ENTREE_INVALIDE);
+        }
+        
+        System.out.print("Veuillez saisir l'id du deuxième polynome : ");
+        if(scanner.hasNextInt()) {
+            idPolynome2 = scanner.nextInt();
+            scanner.nextLine();
+        } else {
+            System.out.println(ERREUR_ENTREE_INVALIDE);
+        }
+
+        int[] polynomes = {idPolynome1, idPolynome2};
+
+        return polynomes;
+    }
+    
+    private void calculsPolynomes() {
+    	final String CHOIX_CALCULS_POLYNOME = """
+    				1 : Addition de deux polynomes.
+    				2 : Multiplication de deux polynomes. 
+    				0 : Retour.
+    				""";
+        boolean checkRetour = true;
+    	
+        affichagePolynomes(); // Affichage des Polynômes pour guider l'utilisateur
+
+        while (checkRetour) {
+
+            System.out.print("\n" + CHOIX_CALCULS_POLYNOME);
+            System.out.print("Votre choix : ");
+            
+            String saisie = scanner.nextLine();
+            int selection;
+            
+            try {
+                selection = Integer.parseInt(saisie);
+            } catch (IllegalArgumentException e) {
+                selection = -1;
+            }
+            
+            Polynome polynomeFinal;
+            switch (selection) {
+                case 1:
+                    int[] polynomesAddition = recupererIDPolynome();
+                    
+                    if(polynomesAddition[0] != -1 && polynomesAddition[1] != -1) {
+                        polynomeFinal = CalculateurPolynome.additionnerPolynome(listePolynomeEnregistre.get(polynomesAddition[0]-1), listePolynomeEnregistre.get(polynomesAddition[1]-1));
+                        listePolynomeEnregistre.add(polynomeFinal);
+                        System.out.println(polynomeFinal.toString());
+                        break;
+                    } else {
+                        System.out.println(ERREUR_ENTREE_INVALIDE);
+                    }
+                case 2:
+                    int[] polynomesMultiplication = recupererIDPolynome();
+                    
+                    if(polynomesMultiplication[0] != -1 && polynomesMultiplication[1] != -1) {
+                        polynomeFinal = CalculateurPolynome.multiplierPolynomes(listePolynomeEnregistre.get(polynomesMultiplication[0]-1), listePolynomeEnregistre.get(polynomesMultiplication[1]-1));
+                        listePolynomeEnregistre.add(polynomeFinal);
+                        System.out.println(polynomeFinal.toString());
+                        break;
+                    } else {
+                        System.out.println(ERREUR_ENTREE_INVALIDE);
+                    }
+                case 0:
+                    checkRetour = false;
+                    break;
             }
         }
     }
