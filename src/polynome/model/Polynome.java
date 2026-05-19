@@ -40,8 +40,8 @@ public class Polynome {
         this.listeMonome.add(m);
         //TODO , Ajouter des cas d'erreur , par exemple ,
         //TODO on ne peut pas avoir deux monome du meme degres , on doit donc mettre des verifications
-    }
-
+    }   
+    
     public List<Monome> getListeMonome() {
         return this.listeMonome;
     }
@@ -49,10 +49,14 @@ public class Polynome {
     @Override
     public String toString() {
     	String affichage = "";
-    	for (Monome monome : getListeMonome()) {
-    		affichage += monome.toString() + " "; 
-    	}
     	
+    	for(int indice = this.listeMonome.size()-1 ; indice >= 0; indice-- ) {
+    		if (indice == 0) {
+    			affichage += this.listeMonome.get(indice).toString();
+    			return affichage;
+    		}
+			affichage += listeMonome.get(indice).toString() + " " + this.listeMonome.get(indice-1).getSigne() + " ";
+		}
     	return affichage;
     }
 
