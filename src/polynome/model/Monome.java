@@ -26,9 +26,23 @@ public class Monome {
     public double getCoefficient() {
         return this.coefficient;
     }
-
+    
+    public static String signe (double nombre) {
+        if (nombre > 0) return "+";
+        if (nombre < 0) return "-";
+        return "0";
+    }
+    
+  
     @Override
     public String toString() {
-        return coefficient + "X^" + degre;
+    	//TODO Exeption pour les monomes de degre 0 et 1
+    	
+    	String signe = signe(coefficient);
+    	
+    	if (degre == 0) {
+    		return Double.toString(coefficient);
+    	}
+        return signe + " " + Math.abs(coefficient) + "X^" + degre;
     }
 }

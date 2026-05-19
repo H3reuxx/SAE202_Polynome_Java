@@ -210,7 +210,7 @@ public class MenuInterface {
             System.out.println("Aucun polynôme n'a été créé.");
         } else {
             for (int choixPolynome = 0; choixPolynome < listePolynomeEnregistre.size(); choixPolynome++) {
-        		System.out.println(choixPolynome + 1 + ". " + listePolynomeEnregistre.get(choixPolynome));
+        		System.out.println(choixPolynome + 1 + ") " + listePolynomeEnregistre.get(choixPolynome));
         	}
         }
     }
