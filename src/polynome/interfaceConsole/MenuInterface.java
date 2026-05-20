@@ -140,11 +140,15 @@ public class MenuInterface {
             }
             
             switch (selectionCreation) {
-                case 1: 
+                case 1:
                     ArrayList<Double> listeCoefficients = saisirListe("Veuillez indiquer vos coefficients dans l'ordre des degrès croissant.");
-                    polynome = CreationPolynome.CreationPolynomeCoefficients(listeCoefficients);
-                    listePolynomeEnregistre.add(polynome);
-                    System.out.println(polynome.toString());
+                    if (!listeCoefficients.isEmpty()) {
+                    	polynome = CreationPolynome.CreationPolynomeCoefficients(listeCoefficients);
+                        listePolynomeEnregistre.add(polynome);
+                        System.out.println(polynome.toString() + "\n");
+					} else {
+						System.out.println("Aucun polynôme n'a été créé.\n");
+					}
                     break;
                     
                 case 2:
