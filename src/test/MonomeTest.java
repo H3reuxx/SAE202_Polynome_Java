@@ -14,23 +14,33 @@ import static org.junit.jupiter.api.Assertions.*;
  * 
  * plan de test : 
  * 	test de Création :
- * 		monome avec coefficient nul , coefficient entier , coefficient a
- *              virgule , degrés 0 et dégrés entier.
+ * 		- monome nul.
+ * 		- coefficient entier. 
+ *      - coefficient a virgule. 
+ *	    - degrés 0 et dégrés entier.
  * 	test de GetDegres :
- * 		positif puis nul
+ * 		- degres positif.
+ * 		- degres nul.
  * 	test de GetCoefficient :
- *		coefficient entier , a virgule puis nul
- *      test de ToString :
- *  	   monome avec coefficient nul , coefficient entier , coefficient a virgule
- *              degrés 0 et dégrés entier.
- *   test de SetCoefficient :
- *       modification avec valeur entière , valeur à virgule ,
- *          valeur nulle et valeur négative.
- * 
+ *		- coefficient entier. 
+ *      - coefficient a virgule. 
+ *      - coefficient nul.
+ *  test de ToString :
+ *  	- monome nul.
+ *  	- coefficient entier. 
+ *  	- coefficient a virgule.
+ *      - dégrés normal.
+ * 	test de SetCoefficient :
+ *      - modification avec valeur entière. 
+ *      - valeur à virgule. 
+ *      - valeur nulle. 
+ *      - valeur négative.
  * 
  *  * @author Gabriel TOLL , Alban ROZES , Wassim NAFAA , Erwan NAZAL 
  */
+
 public class MonomeTest {
+	
     @Test
     public void testCreationMonomeDegres0() {
        Monome m = new Monome(1.0 , 0);
