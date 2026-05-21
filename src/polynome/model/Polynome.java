@@ -56,6 +56,20 @@ public class Polynome {
     public List<Monome> getListeMonome() {
         return this.listeMonome;
     }
+    
+    @Override
+    public String toString() {
+    	String affichage = "";
+    	
+    	for(int indice = this.listeMonome.size()-1 ; indice >= 0; indice-- ) {
+    		if (indice == 0) {
+    			affichage += this.listeMonome.get(indice).toString();
+    			return affichage;
+    		}
+			affichage += listeMonome.get(indice).toString() + " " + this.listeMonome.get(indice-1).getSigne() + " ";
+		}
+    	return affichage;
+    }
 
   
     /*

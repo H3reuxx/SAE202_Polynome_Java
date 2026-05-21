@@ -20,7 +20,15 @@ public class Monome {
         this.coefficient = coefficient;
         this.degre = degre;
     }   
-          
+
+    public static String signe (double nombre) {
+        if (nombre > 0) {
+        	return "+";
+        } else if (nombre < 0) {
+        	return "-";
+        } else return "0";
+    }
+    
     public int getDegre() {
         return this.degre;
     }
@@ -32,10 +40,21 @@ public class Monome {
     public void setCoefficient(double nouveauCoefficient) {
         this.coefficient = nouveauCoefficient;
     }
+    public String getSigne() {
+		    return signe(coefficient);
+	  }
+    
     
     @Override
     public String toString() {
-        return coefficient + "X^" + degre;
+    	//TODO Exeption pour les monomes de degre 0 et 1   	
+    	if (degre == 0) {
+    		return Double.toString(coefficient);
+    	}
+    	if (degre == 1) {
+    		return Math.abs(coefficient) + "X";
+    	}
+        return Math.abs(coefficient) + "X^" + degre;
     }
     
     @Override
