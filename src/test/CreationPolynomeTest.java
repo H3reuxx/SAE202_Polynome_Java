@@ -115,23 +115,23 @@ class CreationPolynomeTest {
     	//Test de creation de polynome a partir d'une liste de racines positives et d'ordre de multiplicité positifs et a negatif
     	Polynome p3 = CreationPolynome.creationPolynomeRacines(racinesPos, multiplicites, aNeg);
     	Polynome p3Attendu = new Polynome(List.of(new Monome(20.0, 0), new Monome(-50.0, 1), new Monome(40.0, 2), new Monome(-10.0, 3)));
-    	assertEquals(p3, p3Attendu);
+    	assertEquals(p3Attendu, p3);
     	
     	//Test de creation de polynome a partir d'une liste de racines positives et négatives et d'ordre de multiplicité positifs et a negatif
     	Polynome p4 = CreationPolynome.creationPolynomeRacines(racines, multiplicites, aNeg);
     	Polynome p4Attendu = new Polynome(List.of(new Monome(-20.0, 0), new Monome(30.0, 1), new Monome(0.0, 2), new Monome(-10.0, 3))); // Ajout du 0.0, 2
-    	assertEquals(p4, p4Attendu);	
+    	assertEquals(p4Attendu, p4);	
     	
     	//Test de creation de polynome a partir d'une liste de racines et de multiplicité vide et a positif
     	Polynome p5 = CreationPolynome.creationPolynomeRacines(racinesNull, multiplicitesNull, aPos);
     	Polynome p5Attendu = new Polynome(List.of(new Monome(10.0, 0)));
     	System.out.print(p5.toString() + p5Attendu.toString());
-    	assertEquals(p5, p5Attendu);
+    	assertEquals(p5Attendu, p5);
     	
     	//Test de creation de polynome a partir d'une liste de racines et de multiplicité avec un seul element et a positif
     	Polynome p6 = CreationPolynome.creationPolynomeRacines(List.of(2.0), List.of(3), aPos);
-    	Polynome p6Attendu = new Polynome(List.of(new Monome(80.0, 0), new Monome(-120.0, 1), new Monome(60.0, 2), new Monome(-10.0, 3)));
-    	assertEquals(p6, p6Attendu);
+    	Polynome p6Attendu = new Polynome(List.of(new Monome(-80.0, 0), new Monome(120.0, 1), new Monome(-60.0, 2), new Monome(10.0, 3)));
+    	assertEquals(p6Attendu, p6);
     	
     }
     
