@@ -3,7 +3,7 @@
  * 
  * IUT de Rodez, no copy right/left    10/04
  */
-package src.polynome.model;
+package polynome.model;
 
 /**
  * Creation du monome
@@ -14,6 +14,11 @@ public class Monome {
     private int degre;
     private double coefficient;
 
+    public Monome(double coefficient, int degre) {
+        this.coefficient = coefficient;
+        this.degre = degre;
+    }   
+          
     public int getDegre() {
         return this.degre;
     }
