@@ -7,6 +7,7 @@
 package polynome.calculs;
 
 import java.util.List;
+import java.util.ArrayList;
 import polynome.model.Monome;
 import polynome.model.Polynome;
 
@@ -106,5 +107,4 @@ public class CalculateurPolynome {
 
         return polynomeFinal;
     }
-    */
 }
