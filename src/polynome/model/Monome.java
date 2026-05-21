@@ -5,6 +5,8 @@
  */
 package polynome.model;
 
+import java.util.Objects;
+
 /**
  * Creation du monome
  * 
@@ -35,9 +37,12 @@ public class Monome {
         return this.coefficient;
     }
     
+    public void setCoefficient(double nouveauCoefficient) {
+        this.coefficient = nouveauCoefficient;
+    }
     public String getSigne() {
-		return signe(coefficient);
-	}
+		    return signe(coefficient);
+	  }
     
     
     @Override
@@ -51,4 +56,21 @@ public class Monome {
     	}
         return Math.abs(coefficient) + "X^" + degre;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+		Monome monome = (Monome) obj;
+		return degre == monome.degre && Double.compare(monome.coefficient, coefficient) == 0;
+	}
+    
+    @Override
+    public int hashCode() {
+		return Objects.hash(degre, coefficient);
+	}
 }

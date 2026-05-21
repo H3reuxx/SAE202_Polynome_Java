@@ -24,6 +24,10 @@ public class CalculateurPolynome {
      * ensuite on parcours le deuxieme polynome (P2) en comparant les monomes de
      * polynomeFinal, si il existe deja un monome du même degre alors on additionne
      * sinon on ajoute.
+     * 
+     * @param polynome1
+     * @param polynome2
+     * @return polynomeFinal
      */
     public static Polynome additionnerPolynome(Polynome polynome1, Polynome polynome2) {
 

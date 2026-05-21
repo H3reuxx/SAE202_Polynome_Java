@@ -45,11 +45,18 @@ public class CreationPolynome {
      * @return polynomeFinal 
      */
     public static Polynome creationPolynomeRacines(List<Double> racines, List<Integer> multiplicites, double coefDominant) {
-        if (racines == null || multiplicites == null || racines.size() != multiplicites.size() || racines.isEmpty()) {
-            return null; // Ou renvoyer un Polynome vide selon ton choix
+    	Polynome polynomeFinal = new Polynome();
+    	
+    	if (racines.size() != multiplicites.size()) {
+    		return polynomeFinal;
+    	}
+ 
+    	if (racines == null || multiplicites == null) { 
+    		polynomeFinal.ajouterMonome(new Monome(coefDominant , 0));
+            return polynomeFinal;
         }
-
-        Polynome polynomeFinal = new Polynome();
+    	
+    	
         /*
          * Ajout du premier monome dans le polynome final, celui ci
          * est un polynome simple qui represente 'a', le coefficient dominant.

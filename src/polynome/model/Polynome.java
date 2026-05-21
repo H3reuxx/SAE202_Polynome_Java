@@ -8,39 +8,50 @@ package polynome.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
- * Création de la fiche d'indentité du polynome 
- * 
- * @autor 
+ * Création d'un objet polynome représenté par une liste de monome.
+ * @author Gabriel TOLL , Alban ROZES , Wassim NAFAA , Erwan NAZAL
+ * @version 1.0
  */
 
 public class Polynome {
-
-    /** 
-     * prise des informations du polynome 
-     * Son degré
-     * Ses Coefficients
-     * 
-     * param args utilisé
-     */ 
-
+    
     private List<Monome> listeMonome;
     
-    //Création d'un polynome a partire d'une liste de monome.
+    /**
+     * Constructeur du polynome
+     * @param listeMonome La liste des monomes du polynome
+     */
     public Polynome(List<Monome> listeMonome) {
-        this.listeMonome = new ArrayList<Monome>(listeMonome);
+        this.listeMonome = new ArrayList<Monome>(listeMonome); 
     }
-    //Overload de la class polynome pour permettre l'inisialisation du polynome vide.
+    
+    /**
+     * initialisation du polynome nul.
+     */
     public Polynome(){
-        this.listeMonome = new ArrayList<Monome>();
+        Monome monomeNul = new Monome(0.0 , 0);
+        this.listeMonome = new ArrayList<Monome>(List.of(monomeNul));  
     }
-    //Methode permettant d'ajouter un monome a un polynome.
+    
+    //Méthode permettant d'ajouter un monome à un polynome.
     public void ajouterMonome(Monome m) {
-        this.listeMonome.add(m);
-        //TODO , Ajouter des cas d'erreur , par exemple ,
-        //TODO on ne peut pas avoir deux monome du meme degres , on doit donc mettre des verifications
-    }   
+        boolean degreTrouve = false;
+        
+        for (Monome monome : this.listeMonome) {
+            if (monome.getDegre() == m.getDegre()) {
+                double nouveauCoeff = monome.getCoefficient() + m.getCoefficient();
+                monome.setCoefficient(nouveauCoeff);
+                degreTrouve = true;
+                break; //
+            }
+        }
+        if (!degreTrouve) {
+            this.listeMonome.add(m);
+        }
+    }
     
     public List<Monome> getListeMonome() {
         return this.listeMonome;
@@ -60,20 +71,43 @@ public class Polynome {
     	return affichage;
     }
 
-
+  
     /*
     TODO : retourne le degre du monome le 
     plus haut. (dans la liste)
     */
     /*
     public int getMaxDegre() {
+	*/
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Polynome other = (Polynome) obj;
+        
+        // Deux polynômes sont égaux si leurs listes contiennent les mêmes monômes 
+        // (Attention : cela implique que la classe Monome doit AUSSI redéfinir la méthode equals !)
+        return Objects.equals(this.listeMonome, other.listeMonome);
+    }
 
-    import java.util.ArrayList;
-    import java.util.List;
+    @Override
+    public int hashCode() {
+        return Objects.hash(listeMonome);
+    }
 
     @Override
     public String toString() {
-    
+    	String affichage = "";
+    	for (Monome monome : getListeMonome()) {
+    		affichage += monome.toString() + " "; 
+    	}
+    	
+    	return affichage;
     }
-    */
+
 }
