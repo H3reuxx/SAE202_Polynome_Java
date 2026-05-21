@@ -9,11 +9,6 @@ package polynome;
 import java.util.ArrayList;
 import java.util.List;
 
-import polynome.model.Monome;
-import polynome.model.Polynome;
-
-import static polynome.calculs.CalculateurPolynome.multiplierPolynomes;
-import static polynome.model.CreationPolynome.creationPolynomeRacines;
 import polynome.interfaceConsole.MenuInterface;
 
 /**
