@@ -47,9 +47,14 @@ public class CreationPolynome {
     public static Polynome creationPolynomeRacines(List<Double> racines, List<Integer> multiplicites, double coefDominant) {
     	Polynome polynomeFinal = new Polynome();
     	
-    	if (racines == null || multiplicites == null || racines.size() != multiplicites.size() || racines.isEmpty()) {
+    	if (racines == null || multiplicites == null) { 
+    		polynomeFinal.ajouterMonome(new Monome(coefDominant , 0));
             return polynomeFinal;
         }
+    	
+    	if (racines.size() != multiplicites.size() || racines.isEmpty()) {
+    		return polynomeFinal;
+    	}
         /*
          * Ajout du premier monome dans le polynome final, celui ci
          * est un polynome simple qui represente 'a', le coefficient dominant.

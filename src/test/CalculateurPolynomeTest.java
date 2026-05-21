@@ -28,6 +28,8 @@ import static org.junit.jupiter.api.Assertions.*;
  *  	- multiplication de polynome avec des monomes de même degre et de degre différent
  *  	- multiplication de polynome avec des monomes de même degre et de degre différent et des monomes nuls
  *  	- multiplication de deux polynome nul
+ *  tes multiplication par un scalaire : 
+ *  	- multiplication de polynome avec des monomes de même degre
  */
 
 
@@ -37,6 +39,7 @@ class CalculateurPolynomeTest {
     private Monome m1, m2, m3, mnull;
     private Polynome p1, p2, p3, pnul;
 
+    
     /**
      * Initialise les variables pour reutiliser dans les tests
      */
