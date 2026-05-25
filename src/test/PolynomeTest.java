@@ -38,13 +38,14 @@ import static org.junit.jupiter.api.Assertions.*;
  *  Derivé d'un polynome :
  *   	- polynome vide
  *   	- polynome simple (1 monome)
- *  	- polynome 10 monomes
- *      - constante
+ *  	- polynome avec plusieurs monomes
+ *      - dériver une constante
  *      - poynlome avec un monome de degres 1 (passage de ^1 a ^0
  *  Integrale d'un polynome :
  *   	- polynome vide
  *  	- polynome simple (1 monome)
  *  	- polynome 10 monomes
+ *  	- Integrer constante (monome de degres 0)
  *   
  * @author Gabriel TOLL , Alban ROZES , Wassim NAFAA , Erwan NAZAL
  */
@@ -132,5 +133,111 @@ class PolynomeTest {
         Monome m2 = new Monome(-1.0, 2);
         Polynome pPlusieurs = new Polynome(new ArrayList<>(List.of(m1, m2)));
         assertEquals(m2.toString() + " + " + m1.toString(), pPlusieurs.toString());
+    }
+    
+    @Test
+    void testDeriver() {
+		//Polynome vide
+		Polynome pVide = new Polynome();
+		Polynome deriveeVide = pVide.deriver();
+		assertEquals(1, deriveeVide.getListeMonome().size());
+		assertEquals(0.0, deriveeVide.getListeMonome().get(0).getCoefficient(), 0.001);
+		assertEquals(0, deriveeVide.getListeMonome().get(0).getDegre());
+
+		//Polynome simple (1 monome)
+		Monome m = new Monome(3.0, 2); // 3x^2
+		Polynome pSimple = new Polynome(new ArrayList<>(List.of(m)));
+		Polynome deriveeSimple = pSimple.deriver();
+		assertEquals(1, deriveeSimple.getListeMonome().size());
+		
+		Monome mDerivee = deriveeSimple.getListeMonome().get(0);
+		assertEquals(6.0, mDerivee.getCoefficient(), 0.001); // Dérivée de 3x^2 est 6x
+		assertEquals(1, mDerivee.getDegre()); // Dérivée de x^2 est x^1
+
+		//Polynome à plusieurs monomes
+		Monome m1 = new Monome(4.0, 3); // 4x^3
+		Monome m2 = new Monome(-2.0, 1); // -2x
+		Polynome pPlusieurs = new Polynome(new ArrayList<>(List.of(m1, m2)));
+		Polynome deriveePlusieurs = pPlusieurs.deriver();
+		
+		assertEquals(2, deriveePlusieurs.getListeMonome().size());
+		
+
+		Monome mDerivee1 = null;
+		for (Monome mn : deriveePlusieurs.getListeMonome()) {
+		    if (mn.getDegre() == 2) {
+		        mDerivee1 = mn;
+		    }
+		}
+
+		Monome mDerivee2 = null;
+		for (Monome mn : deriveePlusieurs.getListeMonome()) {
+		    if (mn.getDegre() == 0) {
+		        mDerivee2 = mn;
+		    }
+		}
+		
+		assertNotNull(mDerivee1);
+		assertNotNull(mDerivee2);
+		
+		assertEquals(12.0, mDerivee1.getCoefficient(), 0.001); // Dérivée de 4x^3 est 12x^2
+		
+		//Constante 
+		Monome mConstante = new Monome(5.0, 0); // 5
+		Polynome pConstante = new Polynome(new ArrayList<>(List.of(mConstante)));
+		Polynome deriveeConstante = pConstante.deriver();
+		
+		assertEquals(1, deriveeConstante.getListeMonome().size());
+		Monome mDeriveeConstante = deriveeConstante.getListeMonome().get(0);
+		assertEquals(0.0, mDeriveeConstante.getCoefficient(), 0.001); // Dérivée de 5 est 0
+		
+		//Polynome avec un monome de degré 1 (passage de x^1 à x^0)
+		Monome mDegre1 = new Monome(2.0, 1); // 2x
+		Polynome pDegre1 = new Polynome(new ArrayList<>(List.of(mDegre1)));
+		Polynome deriveeDegre1 = pDegre1.deriver();
+		
+		assertEquals(1, deriveeDegre1.getListeMonome().size());
+		
+		Monome mDeriveeDegre1 = deriveeDegre1.getListeMonome().get(0);
+		assertEquals(2.0, mDeriveeDegre1.getCoefficient(), 0.001); // Dérivée de 2x est 2
+		assertEquals(0, mDeriveeDegre1.getDegre()); // Dérivée de x^1 est x^0
+    }
+    
+    @Test
+    void testIntegrer() {
+        //Polynome vide 
+        Polynome pVide = new Polynome();
+        Polynome primitiveVide = pVide.integrer(0.0);
+        assertEquals(1, primitiveVide.getListeMonome().size()); 
+        assertEquals(0.0, primitiveVide.getListeMonome().get(0).getCoefficient(), 0.001);
+
+        //Polynome simple (3x^2)
+        Monome m = new Monome(3.0, 2); 
+        Polynome pSimple = new Polynome(new ArrayList<>(List.of(m)));
+        Polynome primitiveSimple = pSimple.integrer(0.0);
+        assertEquals(2, primitiveSimple.getListeMonome().size());
+        
+        Monome mPrimitive = primitiveSimple.getListeMonome().get(0);
+        assertEquals(1.0, mPrimitive.getCoefficient(), 0.001); 
+        assertEquals(3, mPrimitive.getDegre()); 
+        
+        assertEquals(0.0, primitiveSimple.getListeMonome().get(1).getCoefficient(), 0.001);
+
+        //Polynome à plusieurs monomes (4x^3 - 2x)
+        Monome m1 = new Monome(4.0, 3); 
+        Monome m2 = new Monome(-2.0, 1); 
+        Polynome pPlusieurs = new Polynome(new ArrayList<>(List.of(m1, m2)));
+        Polynome primitivePlusieurs = pPlusieurs.integrer(0.0);
+        assertEquals(3, primitivePlusieurs.getListeMonome().size());
+        
+        //Constante (5.0)
+        Monome mConstante = new Monome(5.0, 0); 
+        Polynome pConstante = new Polynome(new ArrayList<>(List.of(mConstante)));
+        Polynome primitiveConstante = pConstante.integrer(0.0);
+        assertEquals(2, primitiveConstante.getListeMonome().size());
+        
+        Monome mPrimitiveConstante = primitiveConstante.getListeMonome().get(0);
+        assertEquals(5.0, mPrimitiveConstante.getCoefficient(), 0.001); 
+        assertEquals(1, mPrimitiveConstante.getDegre()); 
     }
 }

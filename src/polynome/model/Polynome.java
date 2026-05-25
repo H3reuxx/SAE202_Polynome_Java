@@ -58,16 +58,22 @@ public class Polynome {
      * @return le polynome dérivé de ce polynome
      */
     public Polynome deriver() {
-        Polynome derivee = new Polynome();
+        ArrayList<Monome> derivee = new ArrayList<Monome>();
+        
+        //Polynome avec seulement une constante renvoie un polynome nul
+        if (this.listeMonome.size() == 1 && this.listeMonome.get(0).getDegre() == 0) {
+			return new Polynome();
+		}
         
         for (Monome m : this.listeMonome) {
             if (m.getDegre() > 0) {
                 double nouveauCoef = m.getCoefficient() * m.getDegre();
                 int nouveauDegre = m.getDegre() - 1;
-                derivee.ajouterMonome(new Monome(nouveauCoef, nouveauDegre));
+                derivee.add(new Monome(nouveauCoef, nouveauDegre));
             }
         }
-        return derivee;
+        Polynome deriveePolynome = new Polynome(derivee);
+        return deriveePolynome;
     }
     
     /**
@@ -76,17 +82,18 @@ public class Polynome {
      * @return le polynome primitif de ce polynome avec la constante d'integration C
      */
     public Polynome integrer(double constanteC) {
-        Polynome primitive = new Polynome();
+        ArrayList<Monome> primitive = new ArrayList<Monome>(); 
         
         for (Monome m : this.listeMonome) {
-            double nouveauCoef = m.getCoefficient() / (m.getDegre() + 1);
-            int nouveauDegre = m.getDegre() + 1;
-            primitive.ajouterMonome(new Monome(nouveauCoef, nouveauDegre));
+            // On ignore le monôme nul 0x^0 lors de l'intégration pour éviter les fantômes
+            if (m.getCoefficient() != 0 || m.getDegre() != 0) {
+                primitive.add(new Monome(m.getCoefficient() / (m.getDegre() + 1), m.getDegre() + 1));
+            }
         }
-        if (constanteC != 0) {
-            primitive.ajouterMonome(new Monome(constanteC, 0));
-        }
-        return primitive;    
+        // On ajoute la constante (elle devient le nouveau terme de degré 0)
+        primitive.add(new Monome(constanteC, 0));
+        Polynome primitivePolynome = new Polynome(primitive);
+        return primitivePolynome;
     }
     
     

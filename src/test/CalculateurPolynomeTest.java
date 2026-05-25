@@ -76,19 +76,17 @@ class CalculateurPolynomeTest {
 		
 		
 		//Test de l'addition de polynome avec des monomes de même degre et de degre différent et des monomes nuls
-		/*//TODO ----> Mettre a jour une fois merge avec le nouveau toString de Polynome  <----
 		Polynome resultat4 = CalculateurPolynome.additionnerPolynome(p1, pnul);
 		Polynome resultatAttendue4 = new Polynome(List.of(new Monome(1.0 , 1) , new Monome(2.0 , 2)));
 		System.out.println(resultat4);
 		System.out.println(resultatAttendue4);
 		assertEquals(resultat4, resultatAttendue4);
-		*/
 		
 		//Test de l'addition de polynome nul avec un polynome nul
 		Polynome resultat5 = CalculateurPolynome.additionnerPolynome(pnul, pnul);
 		assertEquals(resultat5, pnul);
     }
-  //TODO ----> Mettre a jour une fois merge avec le nouveau toString de Polynome  <----
+    
     @Test 
     public void testMultiplicationDePolynome() {
     	
