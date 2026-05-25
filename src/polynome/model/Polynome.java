@@ -53,6 +53,43 @@ public class Polynome {
         }
     }
     
+    /**
+     * Calcule la dérivée d'un polynome en dérivant chaque monome individuellement.
+     * @return le polynome dérivé de ce polynome
+     */
+    public Polynome deriver() {
+        Polynome derivee = new Polynome();
+        
+        for (Monome m : this.listeMonome) {
+            if (m.getDegre() > 0) {
+                double nouveauCoef = m.getCoefficient() * m.getDegre();
+                int nouveauDegre = m.getDegre() - 1;
+                derivee.ajouterMonome(new Monome(nouveauCoef, nouveauDegre));
+            }
+        }
+        return derivee;
+    }
+    
+    /**
+     * Calcule la primitive d'un polynome en intégrant chaque monome individuellement.
+     * @param constanteC
+     * @return le polynome primitif de ce polynome avec la constante d'integration C
+     */
+    public Polynome integrer(double constanteC) {
+        Polynome primitive = new Polynome();
+        
+        for (Monome m : this.listeMonome) {
+            double nouveauCoef = m.getCoefficient() / (m.getDegre() + 1);
+            int nouveauDegre = m.getDegre() + 1;
+            primitive.ajouterMonome(new Monome(nouveauCoef, nouveauDegre));
+        }
+        if (constanteC != 0) {
+            primitive.ajouterMonome(new Monome(constanteC, 0));
+        }
+        return primitive;    
+    }
+    
+    
     public List<Monome> getListeMonome() {
         return this.listeMonome;
     }
@@ -70,15 +107,6 @@ public class Polynome {
 		}
     	return affichage;
     }
-
-  
-    /*
-    TODO : retourne le degre du monome le 
-    plus haut. (dans la liste)
-    */
-    /*
-    public int getMaxDegre() {
-	*/
     
     @Override
     public boolean equals(Object obj) {
@@ -89,9 +117,6 @@ public class Polynome {
             return false;
         }
         Polynome other = (Polynome) obj;
-        
-        // Deux polynômes sont égaux si leurs listes contiennent les mêmes monômes 
-        // (Attention : cela implique que la classe Monome doit AUSSI redéfinir la méthode equals !)
         return Objects.equals(this.listeMonome, other.listeMonome);
     }
 
@@ -99,15 +124,4 @@ public class Polynome {
     public int hashCode() {
         return Objects.hash(listeMonome);
     }
-
-    @Override
-    public String toString() {
-    	String affichage = "";
-    	for (Monome monome : getListeMonome()) {
-    		affichage += monome.toString() + " "; 
-    	}
-    	
-    	return affichage;
-    }
-
 }

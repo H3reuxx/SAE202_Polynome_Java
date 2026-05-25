@@ -88,8 +88,8 @@ class CalculateurPolynomeTest {
 		Polynome resultat5 = CalculateurPolynome.additionnerPolynome(pnul, pnul);
 		assertEquals(resultat5, pnul);
     }
-    
-    @Test //TODO ----> Mettre a jour une fois merge avec le nouveau toString de Polynome  <----
+  //TODO ----> Mettre a jour une fois merge avec le nouveau toString de Polynome  <----
+    @Test 
     public void testMultiplicationDePolynome() {
     	
     	//Multiplication de polynome avec des monomes de même degre

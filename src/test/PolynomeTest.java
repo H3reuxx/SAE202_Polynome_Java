@@ -35,6 +35,17 @@ import static org.junit.jupiter.api.Assertions.*;
  *   	- Polynome vide 
  *   	- polynome simple (1 monome) 
  *   	- polynome 10 monomes
+ *  Derivé d'un polynome :
+ *   	- polynome vide
+ *   	- polynome simple (1 monome)
+ *  	- polynome 10 monomes
+ *      - constante
+ *      - poynlome avec un monome de degres 1 (passage de ^1 a ^0
+ *  Integrale d'un polynome :
+ *   	- polynome vide
+ *  	- polynome simple (1 monome)
+ *  	- polynome 10 monomes
+ *   
  * @author Gabriel TOLL , Alban ROZES , Wassim NAFAA , Erwan NAZAL
  */
 
@@ -102,8 +113,6 @@ class PolynomeTest {
         int tailleAvant = p.getListeMonome().size();
         Monome mZero = new Monome(0.0, 5);
         p.ajouterMonome(mZero);
-        // Selon votre choix de conception, soit il est ajouté, soit ignoré. 
-        // Ici on teste s'il est ajouté à la liste :
         assertEquals(tailleAvant + 1, p.getListeMonome().size()); 
     }
     
@@ -111,18 +120,17 @@ class PolynomeTest {
     void testToString() {
         //Polynome vide (Contient uniquement 0.0x^0)
         Polynome pVide = new Polynome();
-        //Si Monome.toString() renvoie "0.0x^0", alors le résultat sera "0.0x^0 "
         assertFalse(pVide.toString().isEmpty());
 
         //Polynome simple (1 monome)
         Monome m = new Monome(4.5, 3);
         Polynome pSimple = new Polynome(new ArrayList<>(List.of(m)));
-        assertEquals(m.toString() + " ", pSimple.toString());
+        assertEquals(m.toString(), pSimple.toString());
 
         //Polynome à plusieurs monomes
         Monome m1 = new Monome(2.0, 1);
         Monome m2 = new Monome(-1.0, 2);
         Polynome pPlusieurs = new Polynome(new ArrayList<>(List.of(m1, m2)));
-        assertEquals(m1.toString() + " " + m2.toString() + " ", pPlusieurs.toString());
+        assertEquals(m2.toString() + " + " + m1.toString(), pPlusieurs.toString());
     }
 }

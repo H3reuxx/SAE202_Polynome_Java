@@ -46,10 +46,9 @@ public class Monome {
     
     
     @Override
-    public String toString() {
-    	//TODO Exeption pour les monomes de degre 0 et 1   	
+    public String toString() {   	
     	if (degre == 0) {
-    		return Double.toString(coefficient);
+    		return Double.toString(Math.abs(coefficient));
     	}
     	if (degre == 1) {
     		return Math.abs(coefficient) + "X";

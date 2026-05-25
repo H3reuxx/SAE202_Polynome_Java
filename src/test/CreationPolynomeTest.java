@@ -31,8 +31,8 @@ import static org.junit.jupiter.api.Assertions.*;
  *              - a positif , liste de racines positive et négative et ordre de multiplicité positive
  *              - a negatif , liste de racines positive et ordre de multiplicité positive
  *              - a negatif , liste de racines positive et négative et ordre de multiplicité positive 
- *              - a positif liste de racine et de multiplicité vide 
- *              - a positif liste de racine et de multiplicité avec un seul élement.
+ *              - a positif , liste de racine et de multiplicité vide 
+ *              - a positif ,liste de racine et de multiplicité avec un seul élement.
  * @author Gabriel TOLL , Alban Rozes , Wassim Nafaa , Erwan Nazal
  */
 
@@ -42,7 +42,6 @@ class CreationPolynomeTest {
 	
 	Double aPos = 10.0;
 	Double aNeg = -10.0;
-	
 	ArrayList<Double> racinesPos , racinesNeg , racinesNull , racines;
 	ArrayList<Integer> multiplicites , multiplicitesNeg , multiplicitesNull;
 	
@@ -132,7 +131,6 @@ class CreationPolynomeTest {
     	Polynome p6 = CreationPolynome.creationPolynomeRacines(List.of(2.0), List.of(3), aPos);
     	Polynome p6Attendu = new Polynome(List.of(new Monome(-80.0, 0), new Monome(120.0, 1), new Monome(-60.0, 2), new Monome(10.0, 3)));
     	assertEquals(p6Attendu, p6);
-    	
     }
     
    

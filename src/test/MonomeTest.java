@@ -86,10 +86,16 @@ public class MonomeTest {
     @Test
     void testToString() {
         Monome m = new Monome(0.0 , 0);
-        assertEquals(m.toString() , "0.0X^0");
+        assertEquals(m.toString() , "0.0");
         
         Monome m2 = new Monome(10.0 , 0);
-        assertEquals(m2.toString() , "10.0X^0");
+        assertEquals(m2.toString() , "10.0");
+        
+        Monome m3 = new Monome(1.0 , 1);
+        assertEquals(m3.toString() , "1.0X");
+        
+        Monome m4 = new Monome(2.5 , 3);
+        assertEquals(m4.toString() , "2.5X^3");
     }
 }
 
