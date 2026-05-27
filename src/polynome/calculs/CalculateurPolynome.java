@@ -60,7 +60,7 @@ public class CalculateurPolynome {
                 }
             }
 
-            if (!isDegreExistant) {
+            if (!isDegreExistant && monomeP2.getCoefficient() != 0.0) {
                 polynomeFinal.ajouterMonome(monomeP2);
             }
         }
@@ -111,4 +111,33 @@ public class CalculateurPolynome {
 
         return polynomeFinal;
     }
+    
+
+    /**
+     * Trie le polynôme passé en paramètre par degrés décroissants.
+     */
+    public static void trierInsertion(Polynome p) {
+        // On récupère l'ArrayList spécifique
+        List<Monome> liste = p.getListeMonome();
+        int n = liste.size();
+        
+        for (int i = 1; i < n; i++) {
+            Monome key = liste.get(i);
+            int j = i - 1;
+            
+            // On remonte les monômes de plus petit degré vers la fin
+            while (j >= 0 && liste.get(j).getDegre() < key.getDegre()) {
+                liste.set(j + 1, liste.get(j));
+                j--;
+            }
+            liste.set(j + 1, key);
+        }
+    }
+    
+    public static Polynome multiplierPolynomeAvecScalaire(Polynome polynome1, double scalaire) { 
+		Monome monomeScalaire = new Monome(scalaire,0);
+		Polynome polynomeScalaire = new Polynome(List.of(monomeScalaire));
+		return multiplierPolynomes(polynome1,polynomeScalaire); 
+	}
+    
 }

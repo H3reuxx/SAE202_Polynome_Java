@@ -20,7 +20,9 @@ public class Monome {
         this.coefficient = coefficient;
         this.degre = degre;
     }   
-
+    
+    
+    //A tester
     public static String signe (double nombre) {
         if (nombre > 0) {
         	return "+";
