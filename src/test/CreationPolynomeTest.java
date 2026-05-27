@@ -124,7 +124,6 @@ class CreationPolynomeTest {
     	//Test de creation de polynome a partir d'une liste de racines et de multiplicité vide et a positif
     	Polynome p5 = CreationPolynome.creationPolynomeRacines(racinesNull, multiplicitesNull, aPos);
     	Polynome p5Attendu = new Polynome(List.of(new Monome(10.0, 0)));
-    	System.out.print(p5.toString() + p5Attendu.toString());
     	assertEquals(p5Attendu, p5);
     	
     	//Test de creation de polynome a partir d'une liste de racines et de multiplicité avec un seul element et a positif

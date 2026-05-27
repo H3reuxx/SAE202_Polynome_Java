@@ -6,6 +6,7 @@
 
 package polynome.model;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -96,23 +97,47 @@ public class Polynome {
         return primitivePolynome;
     }
     
-    
+    public void TriInsertion(Polynome polynome) {
+    	this.listeMonome = new ArrayList<Monome>(polynome.getListeMonome());
+    	for (int i = 1; i < this.listeMonome.size(); i++) {
+			Monome key = this.listeMonome.get(i);
+			int j = i - 1;
+			while (j >= 0 && this.listeMonome.get(j).getDegre() < key.getDegre()) {
+				this.listeMonome.set(j + 1, this.listeMonome.get(j));
+				j--;
+			}
+			this.listeMonome.set(j + 1, key);
+		}
+    }
+    	
     public List<Monome> getListeMonome() {
         return this.listeMonome;
     }
     
     @Override
     public String toString() {
-    	String affichage = "";
-    	
-    	for(int indice = this.listeMonome.size()-1 ; indice >= 0; indice-- ) {
-    		if (indice == 0) {
-    			affichage += this.listeMonome.get(indice).toString();
-    			return affichage;
-    		}
-			affichage += listeMonome.get(indice).toString() + " " + this.listeMonome.get(indice-1).getSigne() + " ";
-		}
-    	return affichage;
+        // On trie d'abord le polynôme par puissances décroissantes
+        TriInsertion(this);
+        
+        // Si le polynôme est vide ou ne contient que le monôme nul 0.0X^0
+        if (this.listeMonome.isEmpty() || (this.listeMonome.size() == 1 && this.listeMonome.get(0).getCoefficient() == 0)) {
+            return "0";
+        }
+        
+        String affichage = "";
+        for (int i = 0; i < this.listeMonome.size(); i++) {
+            Monome monomeActuel = this.listeMonome.get(i);
+            if (i == 0) {
+                affichage += monomeActuel.toString();
+            } else {
+                if (monomeActuel.getCoefficient() >= 0) {
+                    affichage += " + " + monomeActuel.toString();
+                } else {
+                    affichage += " " + monomeActuel.toString(); 
+                }
+            }
+        }
+        return affichage;
     }
     
     @Override
