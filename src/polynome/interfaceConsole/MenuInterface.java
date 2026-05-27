@@ -77,7 +77,10 @@ public class MenuInterface {
                     calculsPolynomes();
                     break;
                 case 4:
-                	System.out.println("-> Lancement du calcul d'image");
+                	System.out.println("-> Lancement des tranformations de polynômes...");
+                	transfoPolynomes();
+                case 5:
+                	System.out.println("-> Lancement du calcul d'image...");
                 	break;
                 case 0:
                     System.out.println("Au revoir !");
@@ -313,6 +316,7 @@ public class MenuInterface {
         	
         }
     }
+    
     private void transfoPolynomes() {
     	final String CHOIX_TRANSFO_POLYNOME = """
     			1 : Integrer le polynome (primitive).
