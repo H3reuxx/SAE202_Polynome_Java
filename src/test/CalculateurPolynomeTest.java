@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import polynome.model.Monome;
 import polynome.model.Polynome;
+
+import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,6 +32,10 @@ import static org.junit.jupiter.api.Assertions.*;
  *  	- multiplication de deux polynome nul
  *  tes multiplication par un scalaire : 
  *  	- multiplication de polynome avec des monomes de même degre
+ *  TriInsertion :
+ *   	- polynome vide
+ *   	- polynome simple (1 monome)
+ *   	- polynome 10 monomes
  */
 
 
@@ -113,5 +119,36 @@ class CalculateurPolynomeTest {
 		//Multiplication de deux polynomes nul
 		Polynome resultat5 = CalculateurPolynome.multiplierPolynomes(pnul, pnul);
 		assertEquals(resultat5, pnul);
+	}
+    
+    @Test
+    void testTriInsertion() {
+		//Polynome vide
+		Polynome pVide = new Polynome();
+		CalculateurPolynome.trierInsertion(pVide);
+		assertEquals(1, pVide.getListeMonome().size());
+		assertEquals(0.0, pVide.getListeMonome().get(0).getCoefficient(), 0.001);
+		assertEquals(0, pVide.getListeMonome().get(0).getDegre());
+
+		//Polynome simple (1 monome)
+		Monome m = new Monome(3.0, 2); 
+		Polynome pSimple = new Polynome(new ArrayList<>(List.of(m)));
+		CalculateurPolynome.trierInsertion(pSimple);
+		assertEquals(1, pSimple.getListeMonome().size());
+		assertEquals(m, pSimple.getListeMonome().get(0));
+
+		//Polynome à plusieurs monomes (non triés)
+		Monome m1 = new Monome(4.0, 3); 
+		Monome m2 = new Monome(-2.0, 1); 
+		Monome m3 = new Monome(5.0, 2); 
+		Polynome pPlusieurs = new Polynome(new ArrayList<>(List.of(m2, m3, m1)));
+		CalculateurPolynome.trierInsertion(pPlusieurs);
+		
+		List<Monome> listeTriee = pPlusieurs.getListeMonome();
+		
+		assertEquals(3, listeTriee.size());
+		assertEquals(m1, listeTriee.get(0)); // Degré 3
+		assertEquals(m3, listeTriee.get(1)); // Degré 2
+		assertEquals(m2, listeTriee.get(2)); // Degré 1
 	}
 }

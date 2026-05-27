@@ -46,6 +46,8 @@ import static org.junit.jupiter.api.Assertions.*;
  *  	- polynome simple (1 monome)
  *  	- polynome 10 monomes
  *  	- Integrer constante (monome de degres 0)
+ *  
+ *   
  *   
  * @author Gabriel TOLL , Alban ROZES , Wassim NAFAA , Erwan NAZAL
  */
