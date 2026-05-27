@@ -59,21 +59,4 @@ public class Polynome {
 		}
     	return affichage;
     }
-
-
-    /*
-    TODO : retourne le degre du monome le 
-    plus haut. (dans la liste)
-    */
-    /*
-    public int getMaxDegre() {
-
-    import java.util.ArrayList;
-    import java.util.List;
-
-    @Override
-    public String toString() {
-    
-    }
-    */
 }

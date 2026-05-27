@@ -24,5 +24,33 @@ public class SolveurPolynome {
 		
 		return resultat;
 	}
-
+	
+	public static double resoudreDirect(Polynome polynomeAResoudre, double x) {
+		
+		List<Monome> listeMonome = polynomeAResoudre.getListeMonome();
+		
+		double resultat;
+		double resMonome;
+		
+		if (listeMonome.isEmpty()) {
+			throw new IllegalArgumentException("Erreur : Le polynome est nul.");
+		} else {
+			resultat = 0;
+		}
+		
+		for (Monome monome : listeMonome) {
+			
+			resMonome = 1.0;
+			for (int iteration = 0; iteration < monome.getDegre(); iteration++) {
+				resMonome *= x;
+			}
+			System.out.println(resMonome);
+			resMonome *= monome.getCoefficient();
+			System.out.println(resMonome);
+			System.out.println();
+			resultat += resMonome;
+		}
+		
+		return resultat;
+	}
 }
