@@ -103,7 +103,7 @@ class CalculateurPolynomeTest {
 		
 		//Multiplication de polynome avec des monomes de degre différent
 		Polynome resultat2 = CalculateurPolynome.multiplierPolynomes(p1, p2);
-		Polynome resultatAttendu2 = new Polynome(List.of(new Monome(3.0 , 4) , new Monome(6.0 , 5)));
+		Polynome resultatAttendu2 = new Polynome(List.of(new Monome(6.0 , 5) , new Monome(3.0 , 4)));
 		assertEquals(resultat2, resultatAttendu2);
 		
 		//Multiplication de polynome avec des monomes de même degre et de degre différent
