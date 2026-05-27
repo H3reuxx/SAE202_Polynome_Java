@@ -45,6 +45,8 @@ public class MenuInterface {
                 1 : Création d'un polynome
                 2 : Affichage d'un polynome
                 3 : Calculs liée au polynome
+                4 : Transformation de polynome
+                5 : Calcul d'image pour une valeur x
                 0 : Quitter
                 """;
 
@@ -74,6 +76,9 @@ public class MenuInterface {
                 	System.out.println("-> Lancement des calculs...");
                     calculsPolynomes();
                     break;
+                case 4:
+                	System.out.println("-> Lancement du calcul d'image");
+                	break;
                 case 0:
                     System.out.println("Au revoir !");
                     ok = false;
@@ -297,5 +302,86 @@ public class MenuInterface {
                     break;
             }
         }
+        
+        private void calculImage() {
+        	final String CHOIX_IMAGE_POLYNOME = """
+    				1 : Méthode d'Horner
+    				2 : Méthode direct
+    				0 : Retour.
+    				""";
+        	
+        	
+        }
+    }
+    private void transfoPolynomes() {
+    	final String CHOIX_TRANSFO_POLYNOME = """
+    			1 : Integrer le polynome (primitive).
+    			2 : Deriver le polynome.
+    			0 : Quitter.
+    			""" ;
+    	
+    			boolean checkRetour = true;
+		
+		affichagePolynomes(); // Affichage des Polynômes pour guider l'utilisateur
+
+		while (checkRetour) {
+
+			System.out.print("\n" + CHOIX_TRANSFO_POLYNOME);
+			System.out.print("Votre choix : ");
+			
+			String saisie = scanner.nextLine();
+			int selection;
+			
+			try {
+				selection = Integer.parseInt(saisie);
+			} catch (IllegalArgumentException e) {
+				selection = -1;
+			}
+			
+			Polynome polynomeFinal;
+			switch (selection) {
+				case 1:
+					System.out.print("Veuillez saisir l'id du polynome dont vous souhaiter la primitive : ");
+					if(scanner.hasNextInt()) {
+						int idPolynome = scanner.nextInt();
+						scanner.nextLine();
+						if(idPolynome != -1) {
+							System.out.print("Veuillez saisir la constante d'integration : ");
+							if (scanner.hasNextDouble()) {
+								double c = scanner.nextDouble();
+								scanner.nextLine();
+								polynomeFinal = listePolynomeEnregistre.get(idPolynome-1).integrer(c);
+								listePolynomeEnregistre.add(polynomeFinal);
+								System.out.println(polynomeFinal.toString());
+								break;
+							}
+						} else {
+							System.out.println(ERREUR_ENTREE_INVALIDE);
+						}
+					} else {
+						System.out.println(ERREUR_ENTREE_INVALIDE);
+					}
+				case 2:
+					System.out.print("Veuillez saisir l'id du polynome à dériver : ");
+					if(scanner.hasNextInt()) {
+						int idPolynome = scanner.nextInt();
+						scanner.nextLine();
+						if(idPolynome != -1) {
+							polynomeFinal = listePolynomeEnregistre.get(idPolynome-1).deriver();
+							listePolynomeEnregistre.add(polynomeFinal);
+							System.out.println(polynomeFinal.toString());
+							break;
+						} else {
+							System.out.println(ERREUR_ENTREE_INVALIDE);
+						}
+					} else {
+						System.out.println(ERREUR_ENTREE_INVALIDE);
+					}
+				case 0:
+					checkRetour = false;
+					break;
+			}
+		}
+    		
     }
 }
