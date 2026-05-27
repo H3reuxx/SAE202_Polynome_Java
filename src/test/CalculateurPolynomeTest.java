@@ -36,14 +36,19 @@ import static org.junit.jupiter.api.Assertions.*;
  *   	- polynome vide
  *   	- polynome simple (1 monome)
  *   	- polynome 10 monomes
+ *   test de calcul de la multiplication de polynome avec un scalaire :
+ *      - mulitiplication de polynome avec un scalaire positif 
+ *      - multiplication de polynome avec un scalaire négatif 
+ *      - multiplication de polynome avec un scalaire nul
+ *      - multiplication de polynome avec un scalaire de type double
  */
 
 
 class CalculateurPolynomeTest {
 	
 	// Declaration des variables pour les tests
-    private Monome m1, m2, m3, mnull;
-    private Polynome p1, p2, p3, pnul;
+    private Monome m1, m2, m3, mnull , m4, m5, m6, m7;
+    private Polynome p1, p2, p3, pnul , pscalaire1, pscalaire2, pscalaire3, pscalaire4;
 
     
     /**
@@ -55,12 +60,24 @@ class CalculateurPolynomeTest {
         m2 = new Monome(2.0 , 2);
         m3 = new Monome(3.0 , 3);
         mnull = new Monome(0.0 , 0);
-		
+        //Monome pour les tests mulitplier avec un scalaire 
+        m4 = new Monome(2.0, 0);
+        m5 = new Monome(-5.0, 0);
+        m6 = new Monome(0.0, 0);
+        m7 = new Monome(3.5, 0);
+        
         p1 = new Polynome(List.of(m1 , m2));
         p2 = new Polynome(List.of(m3));
         p3 = new Polynome(List.of(m2 , m3));
         pnul = new Polynome(List.of(mnull));
+        //Polynome pour les tests multiplier avec un scalaire
+        pscalaire1 = new Polynome(List.of(m4));
+        pscalaire2 = new Polynome(List.of(m5));
+        pscalaire3 = new Polynome(List.of(m6));
+        pscalaire4 = new Polynome(List.of(m7));
+        
     }
+
 	
     @Test
     public void testAdditionDePolynome() {
@@ -151,4 +168,28 @@ class CalculateurPolynomeTest {
 		assertEquals(m3, listeTriee.get(1)); // Degré 2
 		assertEquals(m2, listeTriee.get(2)); // Degré 1
 	}
+    
+    @Test
+    public void testMultiplierPolynomeAvecScalaire() { 
+    	//Test pour un scalaire positif
+    	Polynome resultat1 = CalculateurPolynome.multiplierPolynomes(p1, pscalaire1); 
+    	Polynome resultatAttendu1 = new Polynome(List.of(new Monome(2.0,1), new Monome(4.0,2)));
+    	assertEquals(resultat1,resultatAttendu1);
+    	
+    	//Test pour un scalaire négatif
+    	Polynome resultat2 = CalculateurPolynome.multiplierPolynomes(p1, pscalaire2);
+    	Polynome resultatAttendu2 = new Polynome(List.of(new Monome(-5.0,1), new Monome(-10.0,2)));
+    	assertEquals(resultat2,resultatAttendu2);
+    	
+    	//Test pour un scalaire nul
+    	Polynome resultat3 = CalculateurPolynome.multiplierPolynomes(p1, pscalaire3);
+    	Polynome resultatAttendu3 = new Polynome(List.of(new Monome(0.0,1), new Monome(0.0,2)));
+    	assertEquals(resultat3,resultatAttendu3);
+    	
+    	//Test pour un scalaire de type double 
+    	Polynome resultat4 = CalculateurPolynome.multiplierPolynomes(p1, pscalaire4);
+    	Polynome resultatAttendu4 = new Polynome(List.of(new Monome(3.5,1), new Monome(7.0,2)));
+    	assertEquals(resultat4,resultatAttendu4);
+    }
+    
 }

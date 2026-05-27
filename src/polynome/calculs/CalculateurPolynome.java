@@ -133,6 +133,11 @@ public class CalculateurPolynome {
             liste.set(j + 1, key);
         }
     }
-    	
+    
+    public static Polynome multiplierPolynomeAvecScalaire(Polynome polynome1, double scalaire) { 
+		Monome monomeScalaire = new Monome(scalaire,0);
+		Polynome polynomeScalaire = new Polynome(List.of(monomeScalaire));
+		return multiplierPolynomes(polynome1,polynomeScalaire); 
+	}
     
 }
