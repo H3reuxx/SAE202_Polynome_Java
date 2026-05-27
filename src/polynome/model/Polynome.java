@@ -97,7 +97,7 @@ public class Polynome {
         return primitivePolynome;
     }
     
-    public void TriInsertion(Polynome polynome) {
+    public void TriInsertion(Polynome polynome) { //A tester
     	this.listeMonome = new ArrayList<Monome>(polynome.getListeMonome());
     	for (int i = 1; i < this.listeMonome.size(); i++) {
 			Monome key = this.listeMonome.get(i);
