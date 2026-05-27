@@ -46,7 +46,7 @@ public class Polynome {
                 double nouveauCoeff = monome.getCoefficient() + m.getCoefficient();
                 monome.setCoefficient(nouveauCoeff);
                 degreTrouve = true;
-                break; //
+                break;
             }
         }
         if (!degreTrouve) {

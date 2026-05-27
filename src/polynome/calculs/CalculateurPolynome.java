@@ -7,7 +7,6 @@
 package polynome.calculs;
 
 import java.util.List;
-import java.util.ArrayList;
 import polynome.model.Monome;
 import polynome.model.Polynome;
 
@@ -19,7 +18,7 @@ import polynome.model.Polynome;
 public class CalculateurPolynome {
 
     /*
-     * Addition de deux polynôme : on crée un polynome de résultat, on copie
+     * Addition de deux polynômes : on crée un polynome de résultat, on copie
      * les monomes du premier polynome (P1) pour les inserer dans polynomeFinal,
      * ensuite on parcours le deuxieme polynome (P2) en comparant les monomes de
      * polynomeFinal, si il existe deja un monome du même degre alors on additionne
@@ -62,6 +61,51 @@ public class CalculateurPolynome {
 
             if (!isDegreExistant) {
                 polynomeFinal.ajouterMonome(monomeP2);
+            }
+        }
+
+        return polynomeFinal;
+    }
+
+    /*
+     * Soustraction de deux polynômes : on crée un polynome de résultat, on copie
+     * les monomes du premier polynome (P1) pour les inserer dans polynomeFinal,
+     * ensuite on parcours le deuxieme polynome (P2) en comparant les monomes de
+     * polynomeFinal, si il existe deja un monome du même degre alors on soustrait
+     * sinon on ajoute en négatif.
+     * 
+     * @param polynome1
+     * @param polynome2
+     * @return polynomeFinal
+     */
+    public static Polynome soustractionPolynome(Polynome polynome1, Polynome polynome2) {
+
+        Polynome polynomeFinal = new Polynome(polynome1.getListeMonome());
+
+        List<Monome> listeMonomeFinal = polynomeFinal.getListeMonome();
+        List<Monome> listeMonomePolynome2 = polynome2.getListeMonome();
+
+        for (Monome monomeP2 : listeMonomePolynome2) {
+
+            boolean isDegreExistant = false;
+
+            for (int indexMonomeP1 = 0; indexMonomeP1 < listeMonomeFinal.size() && !isDegreExistant; indexMonomeP1++) {
+                
+                Monome monomeP1 = listeMonomeFinal.get(indexMonomeP1);
+                
+                if (monomeP2.getDegre() == monomeP1.getDegre()) {
+
+                    double nouveauCoef = monomeP1.getCoefficient() - monomeP2.getCoefficient();
+
+                    listeMonomeFinal.set(indexMonomeP1, new Monome(nouveauCoef, monomeP1.getDegre()));
+
+                    isDegreExistant = true; 
+                }
+            }
+
+            if (!isDegreExistant) {
+                double coefInverse = -monomeP2.getCoefficient();
+                polynomeFinal.ajouterMonome(new Monome(coefInverse, monomeP2.getDegre()));
             }
         }
 
