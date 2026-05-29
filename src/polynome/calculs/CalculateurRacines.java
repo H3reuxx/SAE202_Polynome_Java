@@ -28,24 +28,33 @@ public class CalculateurRacines {
 	 * @param polynome
 	 * @return int , nombre de racines du polynome dans l'intervalle [borneMin, borneMax]
 	 */
-	public static int suiteStrum (double borneMax , double borneMin , Polynome polynome) {
+	public static int suiteSturm (double borneMax , double borneMin , Polynome polynome) {
+		
+		if (polynome == null) {
+            throw new IllegalArgumentException("Le polynôme ne peut pas être nul.");
+        }
+        
+        if (borneMax < borneMin) {
+            throw new IllegalArgumentException("La borne maximum doit être supérieure ou égale à la borne minimum.");
+        }
+        
 		Polynome polynomeDerive = polynome.deriver(); //P0
 		Polynome resultat = new Polynome(); //P1
 		
-		List<Polynome> suiteStrum = new ArrayList<Polynome>();
-		suiteStrum.add(polynome);//P0 (initialement p-2)
-		suiteStrum.add(polynomeDerive); //P1 (initialement p-1)
+		List<Polynome> suiteSturm = new ArrayList<Polynome>();
+		suiteSturm.add(polynome);//P0 (initialement p-2)
+		suiteSturm.add(polynomeDerive); //P1 (initialement p-1)
 		
-		while (suiteStrum.get(suiteStrum.size()-1).getListeMonome().get(0).getDegre() != 0.0) {
+		while (suiteSturm.get(suiteSturm.size()-1).getListeMonome().get(0).getDegre() != 0.0) {
 			resultat = null;//- (reste de la division euclidienne de P0 par P1)
-			suiteStrum.add(resultat);	
+			suiteSturm.add(resultat);	
 		}
 		
 		int changementSigneMax = 0;
 		int changementSigneMin = 0;
 		double dernierSigneNonNulMax = 0.0;
 		double dernierSigneNonNulMin = 0.0;
-		for (Polynome p : suiteStrum) {
+		for (Polynome p : suiteSturm) {
 			double evaluationBorneMax = p.evaluer(borneMax);
 			double evaluationBorneMin = p.evaluer(borneMin);
 			
@@ -68,7 +77,6 @@ public class CalculateurRacines {
 	            }
 	            dernierSigneNonNulMax = signeActuelMin;
 			}
-			
 			int nombreRacines = changementSigneMin - changementSigneMax;
 		}
 	}
