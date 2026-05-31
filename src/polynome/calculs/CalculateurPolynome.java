@@ -9,6 +9,7 @@ package polynome.calculs;
 import java.util.List;
 import polynome.model.Monome;
 import polynome.model.Polynome;
+import polynome.model.CreationPolynome;
 
 /**
  * Classe utilitaire qui permet d'éffectuer les calculs liées aux polynomes.
@@ -154,5 +155,42 @@ public class CalculateurPolynome {
         }
 
         return polynomeFinal;
+    }
+
+    /* 
+     * division euclidienne de deux polynome.
+     */
+    public static List<Polynome> diviserPolynomes(Polynome polynomeDividende, Polynome polynomeDiviseur) {
+    	
+    	if (polynomeDiviseur == null) {
+    		throw new IllegalArgumentException("La division par le pôlynome nul est impossible.");
+    	}
+    	
+    	Polynome polynomeQuotient = new Polynome();
+    	Polynome polynomeReste = polynomeDividende;
+    	
+    	Monome termeDominantDiviseur = Polynome.getTermeDominant(polynomeDiviseur);
+    	/*
+    	 * condition : tant que le polynome 
+    	 */
+    	while(!Polynome.estNul(polynomeReste) && Polynome.getTermeDominant(polynomeReste).getDegre() >= termeDominantDiviseur.getDegre()) {
+    		Monome termeDominantReste = Polynome.getTermeDominant(polynomeReste);
+            
+            /* "t" désigne le nouveau terme */
+            double coefT = termeDominantReste.getCoefficient() / termeDominantDiviseur.getCoefficient();
+            int degreT = termeDominantReste.getDegre() - termeDominantDiviseur.getDegre();
+            Monome t = new Monome(coefT, degreT);
+            
+            /* Ajout de "t" au quotient */
+            polynomeQuotient.ajouterMonome(t);
+            
+            /* Reste = Reste - (t * Diviseur) */
+            Polynome polynomeT = new Polynome(List.of(t));
+            Polynome produit = multiplierPolynomes(polynomeDiviseur, polynomeT);
+            
+            polynomeReste = soustractionPolynome(polynomeReste, produit);
+    	}
+    	
+    	return List.of(polynomeQuotient, polynomeReste);
     }
 }
