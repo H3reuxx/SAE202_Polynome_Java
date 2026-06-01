@@ -82,7 +82,6 @@ public class MonomeTest {
         assertEquals(0.0, m4.getCoefficient(), 0.001);
     }
     
-
     @Test
     void testToString() {
         Monome m = new Monome(0.0 , 0);

@@ -253,6 +253,7 @@ public class MenuInterface {
     	final String CHOIX_CALCULS_POLYNOME = """
     				1 : Addition de deux polynomes.
     				2 : Multiplication de deux polynomes. 
+    				3 : Multiplication d'un polynome par un scalaire.
     				0 : Retour.
     				""";
         boolean checkRetour = true;
@@ -297,6 +298,29 @@ public class MenuInterface {
                     } else {
                         System.out.println(ERREUR_ENTREE_INVALIDE);
                     }
+                case 3:
+                	System.out.print("Veuillez saisir l'id du polynome à multiplier : ");
+                	if(scanner.hasNextInt()) {
+						int idPolynome = scanner.nextInt();
+						scanner.nextLine();
+						if(idPolynome != -1) {
+							System.out.print("Veuillez saisir votre scalaire : ");
+							if (scanner.hasNextDouble()) {
+								double scalaire = scanner.nextDouble();
+								scanner.nextLine();
+								polynomeFinal = listePolynomeEnregistre.get(idPolynome-1);
+								Polynome reponse = CalculateurPolynome.multiplierPolynomeAvecScalaire(polynomeFinal, scalaire);
+								listePolynomeEnregistre.add(reponse);
+								System.out.println(reponse.toString());
+								break;
+							}
+						} else {
+							System.out.println(ERREUR_ENTREE_INVALIDE);
+						}
+					} else {
+						System.out.println(ERREUR_ENTREE_INVALIDE);
+					}
+                    
                 case 0:
                     checkRetour = false;
                     break;
@@ -383,5 +407,5 @@ public class MenuInterface {
 			}
 		}
     		
-    }
+    }    
 }

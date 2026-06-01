@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import polynome.calculs.CalculateurPolynome;
+
 /**
  * Création d'un objet polynome représenté par une liste de monome.
  * @author Gabriel TOLL , Alban ROZES , Wassim NAFAA , Erwan NAZAL
@@ -132,19 +134,7 @@ public class Polynome {
         return primitivePolynome;
     }
     
-    public void TriInsertion(Polynome polynome) {
-    	this.listeMonome = new ArrayList<Monome>(polynome.getListeMonome());
-    	for (int i = 1; i < this.listeMonome.size(); i++) {
-			Monome key = this.listeMonome.get(i);
-			int j = i - 1;
-			while (j >= 0 && this.listeMonome.get(j).getDegre() < key.getDegre()) {
-				this.listeMonome.set(j + 1, this.listeMonome.get(j));
-				j--;
-			}
-			this.listeMonome.set(j + 1, key);
-		}
-    }
-    	
+    /** @return la liste des monomes du polynome */
     public List<Monome> getListeMonome() {
         return this.listeMonome;
     }
@@ -152,7 +142,7 @@ public class Polynome {
     @Override
     public String toString() {
         // On trie d'abord le polynôme par puissances décroissantes
-        TriInsertion(this);
+        CalculateurPolynome.trierInsertion(this);
         
         // Si le polynôme est vide ou ne contient que le monôme nul 0.0X^0
         if (this.listeMonome.isEmpty() || (this.listeMonome.size() == 1 && this.listeMonome.get(0).getCoefficient() == 0)) {

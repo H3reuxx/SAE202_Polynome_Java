@@ -20,7 +20,9 @@ public class Monome {
         this.coefficient = coefficient;
         this.degre = degre;
     }   
-
+    
+    
+    //A tester
     public static String signe (double nombre) {
         if (nombre > 0) {
         	return "+";
@@ -40,10 +42,11 @@ public class Monome {
     public void setCoefficient(double nouveauCoefficient) {
         this.coefficient = nouveauCoefficient;
     }
-
+    
     public String getSigne() {
-		return signe(coefficient);
+		    return signe(coefficient);
 	}
+    
     
     @Override
     public String toString() {   	
