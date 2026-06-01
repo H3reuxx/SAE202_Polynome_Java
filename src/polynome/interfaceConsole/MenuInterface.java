@@ -46,6 +46,7 @@ public class MenuInterface {
                 2 : Affichage d'un polynome
                 3 : Calculs liée au polynome
                 4 : Transformation de polynome
+                5 : Calcul d'image pour une valeur x
                 0 : Quitter
                 """;
 
@@ -76,9 +77,8 @@ public class MenuInterface {
                     calculsPolynomes();
                     break;
                 case 4:
-                	System.out.println("-> Lancement des calculs...");
-                    transfoPolynomes();
-                    break;
+                	System.out.println("-> Lancement du calcul d'image");
+                	break;
                 case 0:
                     System.out.println("Au revoir !");
                     ok = false;
@@ -325,6 +325,16 @@ public class MenuInterface {
                     checkRetour = false;
                     break;
             }
+        }
+        
+        private void calculImage() {
+        	final String CHOIX_IMAGE_POLYNOME = """
+    				1 : Méthode d'Horner
+    				2 : Méthode direct
+    				0 : Retour.
+    				""";
+        	
+        	
         }
     }
     private void transfoPolynomes() {
