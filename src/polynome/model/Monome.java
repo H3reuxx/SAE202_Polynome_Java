@@ -42,9 +42,10 @@ public class Monome {
     public void setCoefficient(double nouveauCoefficient) {
         this.coefficient = nouveauCoefficient;
     }
+    
     public String getSigne() {
 		    return signe(coefficient);
-	  }
+	}
     
     
     @Override
