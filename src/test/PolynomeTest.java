@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Plan de test unitaire pour la classe Polynome.
  * 
  * Plan de test unitaire :
- * 	réation de polynome vide
+ * 	création de polynome vide
  * 	acréation a partir de liste de monome :
  * 		- Liste vide 
  * 		- Liste 1 élement 

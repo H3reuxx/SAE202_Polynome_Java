@@ -52,8 +52,10 @@ public class CalculateurRacines {
 		
 		int changementSigneMax = 0;
 		int changementSigneMin = 0;
+		
 		double dernierSigneNonNulMax = 0.0;
 		double dernierSigneNonNulMin = 0.0;
+		
 		for (Polynome p : suiteSturm) {
 			double evaluationBorneMax = p.evaluer(borneMax);
 			double evaluationBorneMin = p.evaluer(borneMin);
