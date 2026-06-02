@@ -58,14 +58,15 @@ public class Polynome {
     
     /**
      * Méthode utilitaire pour vérifier si un polynôme est mathématiquement nul 
-     * (c'est-à-dire que tous ses monômes ont un coefficient de 0.0)
+     * (c'est-à-dire que tous ses monômes ont un coefficient proche de 0.0)
      */
     public static boolean estNul(Polynome polynome) {
         if (polynome == null || polynome.getListeMonome().isEmpty()) {
             return true;
         }
         for (Monome m : polynome.getListeMonome()) {
-            if (m.getCoefficient() != 1e-9) {
+            // Un monôme est considéré non nul si sa valeur absolue dépasse le seuil de tolérance
+            if (Math.abs(m.getCoefficient()) > 1e-9) {
                 return false;
             }
         }

@@ -326,17 +326,8 @@ public class MenuInterface {
                     break;
             }
         }
-        
-        private void calculImage() {
-        	final String CHOIX_IMAGE_POLYNOME = """
-    				1 : Méthode d'Horner
-    				2 : Méthode direct
-    				0 : Retour.
-    				""";
-        	
-        	
-        }
     }
+    
     private void transfoPolynomes() {
     	final String CHOIX_TRANSFO_POLYNOME = """
     			1 : Integrer le polynome (primitive).
