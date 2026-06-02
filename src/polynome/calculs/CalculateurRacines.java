@@ -28,7 +28,7 @@ public class CalculateurRacines {
         }
         
         //si le polynôme initial est nul
-        if (Polynome.estNul(polynome)) {
+        if (polynome.estNul()) {
             return 0; 
         }
 
@@ -43,12 +43,12 @@ public class CalculateurRacines {
             Polynome pDernier = suiteSturm.get(taille - 1);
             
             // Condition d'arrêt : si le dernier élément est mathématiquement nul
-            if (Polynome.estNul(pDernier)) {
+            if (pDernier.estNul()) {
                 break;
             }
             
             // Si le dernier élément est une constante non nulle (degré 0), on s'arrête après l'avoir traité
-            if (Polynome.getTermeDominant(pDernier).getDegre() == 0) {
+            if (pDernier.getTermeDominant().getDegre() == 0) {
                 break;
             }
             
@@ -56,7 +56,7 @@ public class CalculateurRacines {
             List<Polynome> division = CalculateurPolynome.diviserPolynomes(pPrecedent, pDernier);
             Polynome reste = division.get(1);
             
-            if (Polynome.estNul(reste)) {
+            if (reste.estNul()) {
                 break;
             }
             
