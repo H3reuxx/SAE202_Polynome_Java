@@ -34,7 +34,7 @@ public class Polynome {
     /**
      * initialisation du polynome nul.
      */
-    public Polynome(){
+    public Polynome() {
         Monome monomeNul = new Monome(0.0 , 0);
         this.listeMonome = new ArrayList<Monome>(List.of(monomeNul));  
     }
@@ -48,12 +48,47 @@ public class Polynome {
                 double nouveauCoeff = monome.getCoefficient() + m.getCoefficient();
                 monome.setCoefficient(nouveauCoeff);
                 degreTrouve = true;
-                break; //
+                break;
             }
         }
         if (!degreTrouve) {
             this.listeMonome.add(m);
         }
+    }
+    
+    /**
+     * Méthode utilitaire pour vérifier si un polynôme est mathématiquement nul 
+     * (c'est-à-dire que tous ses monômes ont un coefficient de 0.0)
+     */
+    public static boolean estNul(Polynome polynome) {
+        if (polynome == null || polynome.getListeMonome().isEmpty()) {
+            return true;
+        }
+        for (Monome m : polynome.getListeMonome()) {
+            if (m.getCoefficient() != 1e-9) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Méthode utilitaire pour récupérer le monôme de plus haut degré 
+     * dont le coefficient n'est pas zéro.
+     */
+    public static Monome getTermeDominant(Polynome p) {
+        Monome dominant = new Monome(0.0, -1);
+        
+        for (Monome m : p.getListeMonome()) {
+            if (Math.abs(m.getCoefficient()) > 1e-9 && m.getDegre() > dominant.getDegre()) {
+                dominant = m;
+            }
+        }
+        
+        if (dominant.getDegre() == -1) {
+            return new Monome(0.0, 0);
+        }
+        return dominant;
     }
     
     /**
@@ -123,7 +158,7 @@ public class Polynome {
                 if (monomeActuel.getCoefficient() >= 0) {
                     affichage += " + " + monomeActuel.toString();
                 } else {
-                    affichage += " " + monomeActuel.toString(); 
+                    affichage += " - " + monomeActuel.toString(); 
                 }
             }
         }

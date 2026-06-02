@@ -6,10 +6,12 @@
  
 package polynome.calculs;
 
+import java.util.List;
 import java.util.List; 
 import java.util.ArrayList;
 import polynome.model.Monome;
 import polynome.model.Polynome;
+import polynome.model.CreationPolynome;
 
 /**
  * Classe utilitaire qui permet d'éffectuer les calculs liées aux polynomes.
@@ -19,7 +21,7 @@ import polynome.model.Polynome;
 public class CalculateurPolynome {
 
     /*
-     * Addition de deux polynôme : on crée un polynome de résultat, on copie
+     * Addition de deux polynômes : on crée un polynome de résultat, on copie
      * les monomes du premier polynome (P1) pour les inserer dans polynomeFinal,
      * ensuite on parcours le deuxieme polynome (P2) en comparant les monomes de
      * polynomeFinal, si il existe deja un monome du même degre alors on additionne
@@ -68,6 +70,51 @@ public class CalculateurPolynome {
         return polynomeFinal;
     }
 
+    /*
+     * Soustraction de deux polynômes : on crée un polynome de résultat, on copie
+     * les monomes du premier polynome (P1) pour les inserer dans polynomeFinal,
+     * ensuite on parcours le deuxieme polynome (P2) en comparant les monomes de
+     * polynomeFinal, si il existe deja un monome du même degre alors on soustrait
+     * sinon on ajoute en négatif.
+     * 
+     * @param polynome1
+     * @param polynome2
+     * @return polynomeFinal
+     */
+    public static Polynome soustractionPolynome(Polynome polynome1, Polynome polynome2) {
+
+        Polynome polynomeFinal = new Polynome(polynome1.getListeMonome());
+
+        List<Monome> listeMonomeFinal = polynomeFinal.getListeMonome();
+        List<Monome> listeMonomePolynome2 = polynome2.getListeMonome();
+
+        for (Monome monomeP2 : listeMonomePolynome2) {
+
+            boolean isDegreExistant = false;
+
+            for (int indexMonomeP1 = 0; indexMonomeP1 < listeMonomeFinal.size() && !isDegreExistant; indexMonomeP1++) {
+                
+                Monome monomeP1 = listeMonomeFinal.get(indexMonomeP1);
+                
+                if (monomeP2.getDegre() == monomeP1.getDegre()) {
+
+                    double nouveauCoef = monomeP1.getCoefficient() - monomeP2.getCoefficient();
+
+                    listeMonomeFinal.set(indexMonomeP1, new Monome(nouveauCoef, monomeP1.getDegre()));
+
+                    isDegreExistant = true; 
+                }
+            }
+
+            if (!isDegreExistant) {
+                double coefInverse = -monomeP2.getCoefficient();
+                polynomeFinal.ajouterMonome(new Monome(coefInverse, monomeP2.getDegre()));
+            }
+        }
+
+        return polynomeFinal;
+    }
+
     /* multiplication de deux polynome : il faut que chaque monome de P1 rencoontre
      * chaque monome de P2 (distributivité), ensuite les coefficient se multiplient 
      * et les degres s'additionent puis on les insère dans polynomeFinal en additionant
@@ -110,6 +157,43 @@ public class CalculateurPolynome {
         }
 
         return polynomeFinal;
+    }
+
+    /* 
+     * division euclidienne de deux polynome.
+     */
+    public static List<Polynome> diviserPolynomes(Polynome polynomeDividende, Polynome polynomeDiviseur) {
+    	
+    	if (polynomeDiviseur == null) {
+    		throw new IllegalArgumentException("La division par le pôlynome nul est impossible.");
+    	}
+    	
+    	Polynome polynomeQuotient = new Polynome();
+    	Polynome polynomeReste = polynomeDividende;
+    	
+    	Monome termeDominantDiviseur = Polynome.getTermeDominant(polynomeDiviseur);
+    	/*
+    	 * condition : tant que le polynome 
+    	 */
+    	while(!Polynome.estNul(polynomeReste) && Polynome.getTermeDominant(polynomeReste).getDegre() >= termeDominantDiviseur.getDegre()) {
+    		Monome termeDominantReste = Polynome.getTermeDominant(polynomeReste);
+            
+            /* "t" désigne le nouveau terme */
+            double coefT = termeDominantReste.getCoefficient() / termeDominantDiviseur.getCoefficient();
+            int degreT = termeDominantReste.getDegre() - termeDominantDiviseur.getDegre();
+            Monome t = new Monome(coefT, degreT);
+            
+            /* Ajout de "t" au quotient */
+            polynomeQuotient.ajouterMonome(t);
+            
+            /* Reste = Reste - (t * Diviseur) */
+            Polynome polynomeT = new Polynome(List.of(t));
+            Polynome produit = multiplierPolynomes(polynomeDiviseur, polynomeT);
+            
+            polynomeReste = soustractionPolynome(polynomeReste, produit);
+    	}
+    	
+    	return List.of(polynomeQuotient, polynomeReste);
     }
     
 
