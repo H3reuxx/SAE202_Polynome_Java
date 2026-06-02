@@ -121,7 +121,6 @@ class CalculateurRacineTest {
     @Test
     @DisplayName("Polynôme avec racines distinctes (ex: (x-1)(x-2)(x-3))")
     void testRacinesDistinctes() {
-        // Utilisation de la méthode de reconstruction par racines : (x-1)(x-2)(x-3)
         // Racines: 1.0, 2.0, 3.0 avec multiplicité 1 chacune, coef dominant = 1.0
         Polynome p = CreationPolynome.creationPolynomeRacines(
             Arrays.asList(1.0, 2.0, 3.0),
@@ -140,7 +139,6 @@ class CalculateurRacineTest {
     @DisplayName("Polynôme avec racines multiples (ex: (x-2)^3 -> vérification du compte unique)")
     void testRacinesMultiples() {
         // P(x) = (x-2)^3 -> Racine: 2.0, Multiplicité: 3, Coef dominant: 1.0
-        // Rappel mathématique : La suite de Sturm standard compte le nombre de racines *distinctes*.
         Polynome p = CreationPolynome.creationPolynomeRacines(
             List.of(2.0),
             List.of(3),
@@ -154,7 +152,6 @@ class CalculateurRacineTest {
     @Test
     @DisplayName("Polynôme de haut degré (long) pour tester la performance/stabilité")
     void testHautDegre() {
-        // Générons un polynôme ayant 6 racines distinctes : 1, 2, 3, 4, 5, 6
         // P(x) = (x-1)(x-2)(x-3)(x-4)(x-5)(x-6) -> Degré 6
         Polynome p = CreationPolynome.creationPolynomeRacines(
             Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 6.0),
@@ -179,8 +176,6 @@ class CalculateurRacineTest {
     @Test
     @DisplayName("Coefficients réels (doubles à virgule, ex: 0.25x^2 - 0.5x)")
     void testCoefficientsReels() {
-        // P(x) = -0.5x + 0.25x^2 -> Factorisable en 0.25x(x - 2) -> Racines en 0 et 2
-        // Indice 0 (constante) = 0.0, Indice 1 (x^1) = -0.5, Indice 2 (x^2) = 0.25
         Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(0.0, -0.5, 0.25));
         
         int nbRacines = CalculateurRacines.suiteSturm(3.0, -1.0, p);
