@@ -153,8 +153,16 @@ public class Polynome {
         String affichage = "";
         for (int i = 0; i < this.listeMonome.size(); i++) {
             Monome monomeActuel = this.listeMonome.get(i);
-            if (i == 0) {
-                affichage += monomeActuel.toString();
+            
+            if (Math.abs(monomeActuel.getCoefficient()) < 1e-9) {
+                continue; 
+            }
+            if (affichage.isEmpty()) {
+                if (monomeActuel.getCoefficient() < 0) {
+                    affichage += "- " + monomeActuel.toString();
+                } else {
+                    affichage += monomeActuel.toString();
+                }
             } else {
                 if (monomeActuel.getCoefficient() >= 0) {
                     affichage += " + " + monomeActuel.toString();
@@ -162,6 +170,10 @@ public class Polynome {
                     affichage += " - " + monomeActuel.toString(); 
                 }
             }
+        }
+
+        if (affichage.isEmpty()) {
+            return "0";
         }
         return affichage;
     }

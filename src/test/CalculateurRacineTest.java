@@ -1,11 +1,15 @@
 package test;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test; 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.Arrays;
 import polynome.model.Polynome;
 import polynome.model.CreationPolynome;
 import polynome.calculs.CalculateurRacines;
+import java.util.List;
+import org.junit.jupiter.api.DisplayName;
+
+
 
 /**
  * Plan de tests Unitaires pour CalculateurRacines (Suite de Sturm) :
@@ -23,133 +27,163 @@ import polynome.calculs.CalculateurRacines;
  * - Coefficients entiers (sans virgule)
  * - Coefficients réels (doubles à virgule, ex: 0.25x^2 - 0.5x)
  */
-public class CalculateurRacineTest {
+
+
+
+class CalculateurRacineTest {
 
     @Test
-    void testBorneInvalideMaxInferieurMin() {
-        // x^2 - 1
-        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(-1.0, 0.0, 1.0));
+    @DisplayName("Borne invalide : borneMax < borneMin (doit lever IllegalArgumentException)")
+    void testBorneInvalide() {
+        // P(x) = x
+        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(0.0, 1.0));
         
-        // L'exception doit être levée car borneMax (-10) < borneMin (10)
         assertThrows(IllegalArgumentException.class, () -> {
-            CalculateurRacines.suiteSturm(-10.0, 10.0, p);
+            CalculateurRacines.suiteSturm(1.0, 5.0, p); // borneMax (1.0) < borneMin (5.0)
         });
     }
 
     @Test
+    @DisplayName("Polynôme nul (doit renvoyer 0)")
     void testPolynomeNul() {
         // P(x) = 0
-        Polynome pNul = CreationPolynome.CreationPolynomeCoefficients(Collections.singletonList(0.0));
+        Polynome p = new Polynome(); // Le constructeur par défaut initialise à 0.0
         
-        // Le polynôme nul ne possède pas de racine dénombrable, on attend 0
-        assertEquals(0, CalculateurRacines.suiteSturm(5.0, -5.0, pNul));
+        int nbRacines = CalculateurRacines.suiteSturm(5.0, -5.0, p);
+        assertEquals(0, nbRacines, "Un polynôme nul doit renvoyer 0 racine.");
     }
 
     @Test
+    @DisplayName("Polynôme constant non nul ex: P(x) = 5 (doit renvoyer 0)")
     void testPolynomeConstantNonNul() {
-        // P(x) = 5.0 (Une ligne horizontale qui ne croise jamais l'axe X)
-        Polynome pConstant = CreationPolynome.CreationPolynomeCoefficients(Collections.singletonList(5.0));
+        // P(x) = 5.0 (une liste avec un seul coefficient pour le degré 0)
+        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(5.0));
         
-        assertEquals(0, CalculateurRacines.suiteSturm(10.0, -10.0, pConstant));
+        int nbRacines = CalculateurRacines.suiteSturm(10.0, -10.0, p);
+        assertEquals(0, nbRacines, "Un polynôme constant n'a pas de racine.");
     }
 
     @Test
-    void testBorneEgaleAZero() {
-        // x^2 - 1 -> racines en -1 et 1
+    @DisplayName("Borne minimale ou maximale égale à 0 ou 1")
+    void testBornesZeroOuUn() {
+        // P(x) = x - 0.5 -> une racine en 0.5 (comprise entre 0 et 1)
+        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(-0.5, 1.0));
+        
+        int nbRacines = CalculateurRacines.suiteSturm(1.0, 0.0, p);
+        assertEquals(1, nbRacines, "Il doit y avoir 1 racine (0.5) entre 0 et 1.");
+    }
+
+    @Test
+    @DisplayName("Bornes entièrement négatives (ex: [-5, -2])")
+    void testBornesNegatives() {
+        // P(x) = x + 3 -> une racine en -3, qui est dans [-5, -2]
+        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(3.0, 1.0));
+        
+        int nbRacines = CalculateurRacines.suiteSturm(-2.0, -5.0, p);
+        assertEquals(1, nbRacines, "Il doit y avoir 1 racine (-3) dans l'intervalle [-5, -2].");
+    }
+
+    @Test
+    @DisplayName("Racine positionnée exactement sur une borne (ex: P(x)=x^2-1 sur [0, 1])")
+    void testRacineSurBorne() {
+        // P(x) = x^2 - 1 -> racines en -1 et 1
         Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(-1.0, 0.0, 1.0));
         
-        // Sur [0, 2], seule la racine 1 est présente -> On attend 1 racine
-        assertEquals(1, CalculateurRacines.suiteSturm(2.0, 0.0, p));
+        // La méthode de Sturm compte les racines sur l'intervalle ]a, b] 
+        // 1 est sur la borne Max, elle doit donc être comptée.
+        int nbRacines = CalculateurRacines.suiteSturm(1.0, 0.0, p);
+        assertEquals(1, nbRacines, "La racine 1 située sur la borne supérieure doit être comptée.");
     }
 
     @Test
-    void testBornesEntierementNegatives() {
-        // x^2 - 1 -> racines en -1 et 1
-        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(-1.0, 0.0, 1.0));
+    @DisplayName("Polynôme de degré 1 (ex: 2x - 4)")
+    void testDegreUn() {
+        // P(x) = -4 + 2x -> racine en 2
+        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(-4.0, 2.0));
         
-        // Sur l'intervalle [-5, -0.5], seule la racine -1 est présente -> On attend 1 racine
-        assertEquals(1, CalculateurRacines.suiteSturm(-0.5, -5.0, p));
-    }
-
-    @Test
-    void testRacineExactementSurLaBorne() {
-        // x^2 - 1 -> racines en -1 et 1
-        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(-1.0, 0.0, 1.0));
+        int nbRacinesDansIntervalle = CalculateurRacines.suiteSturm(5.0, 0.0, p);
+        int nbRacinesHorsIntervalle = CalculateurRacines.suiteSturm(1.0, -1.0, p);
         
-        // Sur [0, 1], la racine est pile sur la borne Max. 
-        // Selon l'implémentation de Sturm, elle est comptée.
-        assertEquals(1, CalculateurRacines.suiteSturm(1.0, 0.0, p));
+        assertEquals(1, nbRacinesDansIntervalle, "La racine 2 est dans [0, 5].");
+        assertEquals(0, nbRacinesHorsIntervalle, "La racine 2 n'est pas dans [-1, 1].");
     }
 
     @Test
-    void testPolynomeDegreUn() {
-        // P(x) = 2x - 4 -> unique racine en x = 2
-        Polynome pDeg1 = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(-4.0, 2.0));
+    @DisplayName("Polynôme n'ayant aucune racine réelle dans l'intervalle (ex: x^2 + 1)")
+    void testAucuneRacineReelle() {
+        // P(x) = 1 + x^2
+        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(1.0, 0.0, 1.0));
         
-        // Entre 0 et 5, il y a bien la racine 2
-        assertEquals(1, CalculateurRacines.suiteSturm(5.0, 0.0, pDeg1));
+        int nbRacines = CalculateurRacines.suiteSturm(10.0, -10.0, p);
+        assertEquals(0, nbRacines, "x^2 + 1 n'a aucune racine réelle.");
     }
 
     @Test
-    void testPolynomeSansAucuneRacineReelle() {
-        // P(x) = x^2 + 1 -> Ne traverse jamais l'axe des abscisses
-        Polynome pSansRacine = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(1.0, 0.0, 1.0));
-        
-        assertEquals(0, CalculateurRacines.suiteSturm(10.0, -10.0, pSansRacine));
-    }
-
-    @Test
-    void testPolynomeRacinesDistinctes() {
-        // P(x) = (x-1)(x-2)(x-3) -> 3 racines distinctes : 1, 2, et 3
-        Polynome pDistinctes = CreationPolynome.creationPolynomeRacines(
-            Arrays.asList(1.0, 2.0, 3.0), 
-            Arrays.asList(1, 1, 1), 
+    @DisplayName("Polynôme avec racines distinctes (ex: (x-1)(x-2)(x-3))")
+    void testRacinesDistinctes() {
+        // Utilisation de la méthode de reconstruction par racines : (x-1)(x-2)(x-3)
+        // Racines: 1.0, 2.0, 3.0 avec multiplicité 1 chacune, coef dominant = 1.0
+        Polynome p = CreationPolynome.creationPolynomeRacines(
+            Arrays.asList(1.0, 2.0, 3.0),
+            Arrays.asList(1, 1, 1),
             1.0
         );
         
-        // L'intervalle [0, 4] englobe 1, 2 et 3 -> On attend 3 racines
-        assertEquals(3, CalculateurRacines.suiteSturm(4.0, 0.0, pDistinctes));
+        int toutesLesRacines = CalculateurRacines.suiteSturm(4.0, 0.0, p);
+        int deuxRacines = CalculateurRacines.suiteSturm(2.5, 0.5, p); // contient 1 et 2
+        
+        assertEquals(3, toutesLesRacines, "Il y a 3 racines distinctes dans [0, 4].");
+        assertEquals(2, deuxRacines, "Il y a 2 racines distinctes dans [0.5, 2.5].");
     }
 
     @Test
-    void testPolynomeRacinesMultiples() {
-        // P(x) = (x-2)^3 -> x=2 est une racine triple.
-        // Sturm ne compte que les racines *distinctes* (sans la multiplicité).
-        Polynome pMultiple = CreationPolynome.creationPolynomeRacines(
-            Arrays.asList(2.0), 
-            Arrays.asList(3), 
+    @DisplayName("Polynôme avec racines multiples (ex: (x-2)^3 -> vérification du compte unique)")
+    void testRacinesMultiples() {
+        // P(x) = (x-2)^3 -> Racine: 2.0, Multiplicité: 3, Coef dominant: 1.0
+        // Rappel mathématique : La suite de Sturm standard compte le nombre de racines *distinctes*.
+        Polynome p = CreationPolynome.creationPolynomeRacines(
+            List.of(2.0),
+            List.of(3),
             1.0
         );
         
-        // On attend 1 seule racine distincte dans l'intervalle [0, 5]
-        assertEquals(1, CalculateurRacines.suiteSturm(5.0, 0.0, pMultiple));
+        int nbRacines = CalculateurRacines.suiteSturm(5.0, 0.0, p);
+        assertEquals(1, nbRacines, "La suite de Sturm doit compter la racine triple '2' comme une seule racine distincte.");
     }
 
     @Test
-    void testPolynomeHautDegre() {
-        // Polynôme avec 6 racines distinctes : {1, 2, 3, 4, 5, 6}
-        Polynome pLong = CreationPolynome.creationPolynomeRacines(
+    @DisplayName("Polynôme de haut degré (long) pour tester la performance/stabilité")
+    void testHautDegre() {
+        // Générons un polynôme ayant 6 racines distinctes : 1, 2, 3, 4, 5, 6
+        // P(x) = (x-1)(x-2)(x-3)(x-4)(x-5)(x-6) -> Degré 6
+        Polynome p = CreationPolynome.creationPolynomeRacines(
             Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 6.0),
             Arrays.asList(1, 1, 1, 1, 1, 1),
             1.0
         );
         
-        assertEquals(6, CalculateurRacines.suiteSturm(10.0, 0.0, pLong));
+        int nbRacines = CalculateurRacines.suiteSturm(7.0, 0.0, p);
+        assertEquals(6, nbRacines, "Le calculateur doit trouver de manière stable les 6 racines du polynôme de degré 6.");
     }
 
     @Test
+    @DisplayName("Coefficients entiers (sans virgule)")
     void testCoefficientsEntiers() {
-        // P(x) = 4 - x^2 -> racines en -2 et 2
-        Polynome pEntier = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(4.0, 0.0, -1.0));
+        // P(x) = x^2 - 4 -> Racines en -2 et 2 (Coefficients : -4, 0, 1)
+        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(-4.0, 0.0, 1.0));
         
-        assertEquals(2, CalculateurRacines.suiteSturm(3.0, -3.0, pEntier));
+        int nbRacines = CalculateurRacines.suiteSturm(3.0, -3.0, p);
+        assertEquals(2, nbRacines, "Il y a 2 racines (-2 et 2) pour ce polynôme à coefficients entiers.");
     }
 
     @Test
-    void testCoefficientsAFloatsEtVirgules() {
-        // P(x) = 0.25x^2 - 0.5x - 0.75 -> racines en -1.0 et 3.0
-        Polynome pVirgule = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(-0.75, -0.5, 0.25));
+    @DisplayName("Coefficients réels (doubles à virgule, ex: 0.25x^2 - 0.5x)")
+    void testCoefficientsReels() {
+        // P(x) = -0.5x + 0.25x^2 -> Factorisable en 0.25x(x - 2) -> Racines en 0 et 2
+        // Indice 0 (constante) = 0.0, Indice 1 (x^1) = -0.5, Indice 2 (x^2) = 0.25
+        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(0.0, -0.5, 0.25));
         
-        assertEquals(2, CalculateurRacines.suiteSturm(5.0, -2.0, pVirgule));
+        int nbRacines = CalculateurRacines.suiteSturm(3.0, -1.0, p);
+        assertEquals(2, nbRacines, "Il y a 2 racines (0 et 2) pour ce polynôme à coefficients décimaux.");
     }
 }

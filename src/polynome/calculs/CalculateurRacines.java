@@ -27,72 +27,77 @@ public class CalculateurRacines {
             throw new IllegalArgumentException("La borne maximum doit être supérieure ou égale à la borne minimum.");
         }
         
-        // Sécurité : si le polynôme initial est nul, la suite de Sturm n'est pas définie (retourne 0)
+        //si le polynôme initial est nul
         if (Polynome.estNul(polynome)) {
             return 0; 
         }
 
-        // Étape 1 : Initialisation et construction de la suite de Sturm
+        // Construction de la suite de Sturm
         List<Polynome> suiteSturm = new ArrayList<>();
-        suiteSturm.add(polynome);            // P0 = Polynôme de base
-        suiteSturm.add(polynome.deriver());  // P1 = Polynôme dérivé
+        suiteSturm.add(polynome);            // P0
+        suiteSturm.add(polynome.deriver());  // P1
         
-        while (true) {
+        while (true) { //P2 --> Pn
             int taille = suiteSturm.size();
             Polynome pPrecedent = suiteSturm.get(taille - 2);
             Polynome pDernier = suiteSturm.get(taille - 1);
             
-            // Condition d'arrêt : si le dernier élément est un polynôme nul ou une constante (degré 0)
-            if (Polynome.estNul(pDernier) || pDernier.getListeMonome().isEmpty() || pDernier.getListeMonome().get(0).getDegre() == 0) {
+            // Condition d'arrêt : si le dernier élément est mathématiquement nul
+            if (Polynome.estNul(pDernier)) {
                 break;
             }
             
-            // Récupération du reste de la division euclidienne (Index 1 de la liste retournée)
+            // Si le dernier élément est une constante non nulle (degré 0), on s'arrête après l'avoir traité
+            if (Polynome.getTermeDominant(pDernier).getDegre() == 0) {
+                break;
+            }
+            
+            // Récupération du reste de la division euclidienne
             List<Polynome> division = CalculateurPolynome.diviserPolynomes(pPrecedent, pDernier);
             Polynome reste = division.get(1);
             
-            // Si le reste est nul, la suite est complétée
-            if (Polynome.estNul(reste) || reste.getListeMonome().isEmpty()) {
+            if (Polynome.estNul(reste)) {
                 break;
             }
             
-            // Règle de Sturm : l'élément suivant est l'opposé du reste (P_i = -Reste)
+            // Règle de Sturm : P_i = -Reste
             Polynome opposeReste = CalculateurPolynome.multiplierPolynomeAvecScalaire(reste, -1.0);
             suiteSturm.add(opposeReste);	
         }
         
-        // Étape 2 : Évaluation des changements de signe aux bornes de l'intervalle
+        //Changements de signes.
         int changementSigneMax = 0;
         int changementSigneMin = 0;
         
-        double dernierSigneNonNulMax = 0.0;
-        double dernierSigneNonNulMin = 0.0;
+        // Utilisation d'objets Double pour savoir si un premier signe a été enregistré 
+        Double dernierSigneMax = null;
+        Double dernierSigneMin = null;
         
         for (Polynome p : suiteSturm) {
-            // Évaluation de la valeur du polynôme courant aux bornes via la méthode de Horner (plus précise que la methode directe)
-            double evaluationBorneMax = SolveurPolynome.resoudreHorner(p, borneMax);
-            double evaluationBorneMin = SolveurPolynome.resoudreHorner(p, borneMin);
+            // Utilisation obligatoire de resoudreDirect car resoudreHorner nécessite un polynôme complet
+            double evaluationBorneMax = SolveurPolynome.resoudreDirect(p, borneMax);
+            double evaluationBorneMin = SolveurPolynome.resoudreDirect(p, borneMin);
             
-            // Comptage des changements de signe pour la borne supérieure (Max)
-            if (evaluationBorneMax != 0.0) {
+            // Évaluation à la borne supérieure (Max)
+            if (Math.abs(evaluationBorneMax) > 1e-9) {
                 double signeActuelMax = Math.signum(evaluationBorneMax);
-                if (dernierSigneNonNulMax != 0.0 && signeActuelMax != dernierSigneNonNulMax) {
+                if (dernierSigneMax != null && signeActuelMax != dernierSigneMax) {
                     changementSigneMax++;
                 }
-                dernierSigneNonNulMax = signeActuelMax;
+                dernierSigneMax = signeActuelMax;
             }
             
-            // Comptage des changements de signe pour la borne inférieure (Min)
-            if (evaluationBorneMin != 0.0) {
+            // Évaluation à la borne inférieure (Min)
+            if (Math.abs(evaluationBorneMin) > 1e-9) {
                 double signeActuelMin = Math.signum(evaluationBorneMin);
-                if (dernierSigneNonNulMin != 0.0 && signeActuelMin != dernierSigneNonNulMin) {
+                if (dernierSigneMin != null && signeActuelMin != dernierSigneMin) {
                     changementSigneMin++; 
                 }
-                dernierSigneNonNulMin = signeActuelMin; 
+                dernierSigneMin = signeActuelMin; 
             }
         }
         
-        //N = V(borneMin) - V(borneMax)
+        // Formule de Sturm : N = V(borneMin) - V(borneMax)
         return changementSigneMin - changementSigneMax;
     }
 }
