@@ -129,17 +129,17 @@ public void testMultiplicationDePolynome() {
         //(3X^3) * (3X^3) = 9X^6
         Polynome resultat1 = CalculateurPolynome.multiplierPolynomes(p2, p2);
         System.out.println(resultat1);
-        assertEquals("9.0X^6", resultat1.toString());
+        assertEquals("9X^6", resultat1.toString());
         
         //Multiplication de polynômes avec des monômes de degrés différents (p1 * p2)
         //(3X^2 + 2X^1) * (3X^3) = 9X^5 + 6X^4
         Polynome resultat2 = CalculateurPolynome.multiplierPolynomes(p1, p2);
-        assertEquals("9.0X^5 + 6.0X^4", resultat2.toString());
+        assertEquals("9X^5 + 6X^4", resultat2.toString());
         
         //Multiplication de polynômes avec plusieurs degrés (p1 * p3)
         //(3X^2 + 2X^1) * (1X^3 + 1X^2) = 3X^5 + 3X^4 + 2X^4 + 2X^3 = 3X^5 + 5X^4 + 2X^3
         Polynome resultat3 = CalculateurPolynome.multiplierPolynomes(p1, p3);
-        assertEquals("3.0X^5 + 5.0X^4 + 2.0X^3", resultat3.toString());
+        assertEquals("3X^5 + 5X^4 + 2X^3", resultat3.toString());
         
         //Multiplication de polynôme avec un polynôme nul (p1 * pnul)
         //Tout polynôme multiplié par 0 doit renvoyer 0
@@ -187,22 +187,22 @@ public void testMultiplicationDePolynome() {
     	//Test pour un scalaire positif
     	Polynome resultat1 = CalculateurPolynome.multiplierPolynomes(p1, pscalaire1); 
     	Polynome resultatAttendu1 = new Polynome(List.of(new Monome(2.0,1), new Monome(4.0,2)));
-    	assertEquals(resultat1,resultatAttendu1);
+    	assertEquals(resultat1.toString(), resultatAttendu1.toString());
     	
     	//Test pour un scalaire négatif
     	Polynome resultat2 = CalculateurPolynome.multiplierPolynomes(p1, pscalaire2);
     	Polynome resultatAttendu2 = new Polynome(List.of(new Monome(-5.0,1), new Monome(-10.0,2)));
-    	assertEquals(resultat2,resultatAttendu2);
+    	assertEquals(resultat2.toString(), resultatAttendu2.toString());
     	
     	//Test pour un scalaire nul
     	Polynome resultat3 = CalculateurPolynome.multiplierPolynomes(p1, pscalaire3);
     	Polynome resultatAttendu3 = new Polynome(List.of(new Monome(0.0,1), new Monome(0.0,2)));
-    	assertEquals(resultat3,resultatAttendu3);
+    	assertEquals(resultat3.toString(), resultatAttendu3.toString());
     	
     	//Test pour un scalaire de type double 
     	Polynome resultat4 = CalculateurPolynome.multiplierPolynomes(p1, pscalaire4);
     	Polynome resultatAttendu4 = new Polynome(List.of(new Monome(3.5,1), new Monome(7.0,2)));
-    	assertEquals(resultat4,resultatAttendu4);
+    	assertEquals(resultat4.toString(), resultatAttendu4.toString());
     }
     
 }

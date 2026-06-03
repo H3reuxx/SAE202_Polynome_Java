@@ -122,19 +122,19 @@ public class MonomeTest {
     @DisplayName("ToString : Conversion textuelle (degrés 0, 1 et supérieur)")
     void testToString() {
         Monome m = new Monome(0.0 , 0);
-        assertEquals("0.0", m.toString());
+        assertEquals("0", m.toString());
         
         Monome m2 = new Monome(10.0 , 0);
-        assertEquals("10.0", m2.toString());
+        assertEquals("10", m2.toString());
         
         Monome m3 = new Monome(1.0 , 1);
-        assertEquals("1.0X", m3.toString());
+        assertEquals("1X", m3.toString());
         
         Monome m4 = new Monome(2.5 , 3);
-        assertEquals("2.5X^3", m4.toString());
+        assertEquals("2,5X^3", m4.toString());
         
         Monome mNegatif = new Monome(-4.0, 2);
-        assertEquals("4.0X^2", mNegatif.toString());
+        assertEquals("4X^2", mNegatif.toString());
     }
 
     @Test

@@ -1,15 +1,18 @@
 package polynome.resolutions;
 
-import java.util.List;
+import java.util.List; 
 import polynome.model.Monome;
 import polynome.model.Polynome;
+import polynome.calculs.CalculateurPolynome;
 
 public class SolveurPolynome {
 	
 	public static double resoudreHorner(Polynome polynomeAResoudre, double x) {
 		
 		double resultat;
-		List<Monome> listeMonome = polynomeAResoudre.getListeMonome();
+		Polynome polynome = new Polynome(polynomeAResoudre.getListeMonome());
+		CalculateurPolynome.trierInsertion(polynome );
+		List<Monome> listeMonome = polynome.getListeMonome();
 		
 		if (listeMonome.isEmpty()) {
 			throw new IllegalArgumentException("Erreur : Le polynome est nul.");
