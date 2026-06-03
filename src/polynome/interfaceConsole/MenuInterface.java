@@ -3,9 +3,11 @@
  */
 package polynome.interfaceConsole;
 
+import java.util.List; 
 import java.util.ArrayList;
 import java.util.Scanner;
 import polynome.model.Polynome;
+import polynome.resolutions.SolveurPolynome;
 import polynome.model.CreationPolynome;
 import polynome.calculs.CalculateurPolynome;
 
@@ -77,7 +79,11 @@ public class MenuInterface {
                     calculsPolynomes();
                     break;
                 case 4:
-                	System.out.println("-> Lancement du calcul d'image");
+                	System.out.println("-> Lancement des tranformations de polynômes...");
+                	transfoPolynomes();
+                case 5:
+                	System.out.println("-> Lancement du calcul d'image...");
+                	calculImage();
                 	break;
                 case 0:
                     System.out.println("Au revoir !");
@@ -214,35 +220,82 @@ public class MenuInterface {
      * S'occupe de l'affichage en console qui permet l'Affichage des polynomes
      * enregistrées en plus de gerer les entrées utilisateur et potentiels cas d'erreurs.
      */
-    private void affichagePolynomes(){
+    private void affichagePolynomes() {
+    	
+    	final String CHOIX_AFFICHAGE_POLYNOME = """
+    											1 : Afficher tous les polynomes enregistrés automatiquement.
+    											2 : Afficher la fiche identité d'un polynome.
+    											0 : Retour.
+    											""";
+    	
         if(listePolynomeEnregistre.isEmpty()) { 
             System.out.println("Aucun polynôme n'a été créé.");
         } else {
-            for (int choixPolynome = 0; choixPolynome < listePolynomeEnregistre.size(); choixPolynome++) {
-        		System.out.println(choixPolynome + 1 + ") " + listePolynomeEnregistre.get(choixPolynome));
+        	boolean checkRetour = true;
+        	
+        	while (checkRetour) {
+	        	System.out.print("\n" + CHOIX_AFFICHAGE_POLYNOME);
+	            System.out.print("Votre choix : ");
+	            
+	            String saisie = scanner.nextLine();
+	            int selection;
+	            
+	            try {
+	                selection = Integer.parseInt(saisie);
+	            } catch (IllegalArgumentException e) {
+	                selection = -1;
+	            }
+	            
+	            Polynome polynomeFinal;
+	            switch (selection) {
+	            	case 1:
+	            		for (int choixPolynome = 0; choixPolynome < listePolynomeEnregistre.size(); choixPolynome++) {
+	            			System.out.println(choixPolynome + 1 + ") " + listePolynomeEnregistre.get(choixPolynome));
+	            		}
+	            		break;
+	            	case 2:
+	            		int idPolynomeChoisi = recupererIDPolynome();
+	            		
+	            		if (idPolynomeChoisi != -1) {
+	            			System.out.println(listePolynomeEnregistre.get(idPolynomeChoisi-1).ficheIdentite());
+	            		}
+	            		break;
+	            	case 0:
+	                    checkRetour = false;
+	                    break;
+	            }
         	}
         }
     }
-
-    private int[] recupererIDPolynome() {
+    
+    private int recupererIDPolynome() {
         int idPolynome1 = -1;
-        int idPolynome2 = -1;
+        boolean saisieValide = false;
 
-        System.out.print("Veuillez saisir l'id du premier polynome : ");
-        if(scanner.hasNextInt()) {
-            idPolynome1 = scanner.nextInt();
-            scanner.nextLine();
-        } else {
-            System.out.println(ERREUR_ENTREE_INVALIDE);
+        while (!saisieValide) {
+            System.out.print("Veuillez saisir l'id du polynome : ");
+            
+            if (scanner.hasNextInt()) {
+                int test = scanner.nextInt();
+                
+                if (test >= 0 && test <= listePolynomeEnregistre.size()) {
+                    idPolynome1 = test;
+                    saisieValide = true;
+                } else {
+                    System.out.println(ERREUR_ENTREE_INVALIDE);
+                }
+            } else {
+                System.out.println(ERREUR_ENTREE_INVALIDE);
+            }
+            scanner.nextLine(); 
         }
         
-        System.out.print("Veuillez saisir l'id du deuxième polynome : ");
-        if(scanner.hasNextInt()) {
-            idPolynome2 = scanner.nextInt();
-            scanner.nextLine();
-        } else {
-            System.out.println(ERREUR_ENTREE_INVALIDE);
-        }
+        return idPolynome1;
+    }
+
+    private int[] recupererIDPolynomes() {
+        int idPolynome1 = recupererIDPolynome();
+        int idPolynome2 = recupererIDPolynome();
 
         int[] polynomes = {idPolynome1, idPolynome2};
 
@@ -254,6 +307,7 @@ public class MenuInterface {
     				1 : Addition de deux polynomes.
     				2 : Multiplication de deux polynomes. 
     				3 : Multiplication d'un polynome par un scalaire.
+    				4 : Division Euclidienne de deux polynomes.
     				0 : Retour.
     				""";
         boolean checkRetour = true;
@@ -261,7 +315,6 @@ public class MenuInterface {
         affichagePolynomes(); // Affichage des Polynômes pour guider l'utilisateur
 
         while (checkRetour) {
-
             System.out.print("\n" + CHOIX_CALCULS_POLYNOME);
             System.out.print("Votre choix : ");
             
@@ -277,53 +330,125 @@ public class MenuInterface {
             Polynome polynomeFinal;
             switch (selection) {
                 case 1:
-                    int[] polynomesAddition = recupererIDPolynome();
+                    int[] polynomesAddition = recupererIDPolynomes();
                     
                     if(polynomesAddition[0] != -1 && polynomesAddition[1] != -1) {
                         polynomeFinal = CalculateurPolynome.additionnerPolynome(listePolynomeEnregistre.get(polynomesAddition[0]-1), listePolynomeEnregistre.get(polynomesAddition[1]-1));
                         listePolynomeEnregistre.add(polynomeFinal);
                         System.out.println(polynomeFinal.toString());
-                        break;
                     } else {
                         System.out.println(ERREUR_ENTREE_INVALIDE);
                     }
+                    break;
                 case 2:
-                    int[] polynomesMultiplication = recupererIDPolynome();
+                    int[] polynomesMultiplication = recupererIDPolynomes();
                     
                     if(polynomesMultiplication[0] != -1 && polynomesMultiplication[1] != -1) {
                         polynomeFinal = CalculateurPolynome.multiplierPolynomes(listePolynomeEnregistre.get(polynomesMultiplication[0]-1), listePolynomeEnregistre.get(polynomesMultiplication[1]-1));
                         listePolynomeEnregistre.add(polynomeFinal);
                         System.out.println(polynomeFinal.toString());
-                        break;
                     } else {
                         System.out.println(ERREUR_ENTREE_INVALIDE);
                     }
+                    break;
                 case 3:
-                	System.out.print("Veuillez saisir l'id du polynome à multiplier : ");
-                	if(scanner.hasNextInt()) {
-						int idPolynome = scanner.nextInt();
-						scanner.nextLine();
-						if(idPolynome != -1) {
-							System.out.print("Veuillez saisir votre scalaire : ");
-							if (scanner.hasNextDouble()) {
-								double scalaire = scanner.nextDouble();
-								scanner.nextLine();
-								polynomeFinal = listePolynomeEnregistre.get(idPolynome-1);
-								Polynome reponse = CalculateurPolynome.multiplierPolynomeAvecScalaire(polynomeFinal, scalaire);
-								listePolynomeEnregistre.add(reponse);
-								System.out.println(reponse.toString());
-								break;
-							}
-						} else {
-							System.out.println(ERREUR_ENTREE_INVALIDE);
-						}
-					} else {
-						System.out.println(ERREUR_ENTREE_INVALIDE);
-					}
+                	
+                	break;
+                case 4:
+                	int[] polynomesDivision = recupererIDPolynomes();
                     
+                    if(polynomesDivision[0] != -1 && polynomesDivision[1] != -1) {
+                        List<Polynome> PolynomesQetR = CalculateurPolynome.diviserPolynomes(listePolynomeEnregistre.get(polynomesDivision[0]-1), listePolynomeEnregistre.get(polynomesDivision[1]-1));
+                        /* On ajoute le quotient a la liste */
+                        listePolynomeEnregistre.add(PolynomesQetR.get(0));
+                        System.out.println("Quotient : " + PolynomesQetR.get(0) + "\nReste : " + PolynomesQetR.get(1));
+                    } else {
+                        System.out.println(ERREUR_ENTREE_INVALIDE);
+                    }
+                	break;
                 case 0:
                     checkRetour = false;
                     break;
+            }
+        }   
+    }
+    
+    private void calculImage() {
+    	final String CHOIX_IMAGE_POLYNOME = """
+				1 : Méthode d'Horner
+				2 : Méthode direct
+				0 : Retour.
+				""";
+    	
+		boolean checkRetour = true;
+    	
+        affichagePolynomes(); // Affichage des Polynômes pour guider l'utilisateur
+
+        while (checkRetour) {
+
+            System.out.print("\n" + CHOIX_IMAGE_POLYNOME);
+            System.out.print("Votre choix : ");
+            
+            String saisie = scanner.nextLine();
+            int selection;
+            
+            try {
+                selection = Integer.parseInt(saisie);
+            } catch (IllegalArgumentException e) {
+                selection = -1;
+            }
+            
+            double resultat;
+            switch (selection) {
+            	case 1:
+            		int polynomeHorner = recupererIDPolynome();
+            		
+            		if(polynomeHorner != -1) {
+            			System.out.print("Résoudre en x : ");
+                        
+                        String saisieAAnalyser = scanner.nextLine();
+                        int x;
+                        
+                        try {
+                            x = Integer.parseInt(saisieAAnalyser);
+                        } catch (IllegalArgumentException e) {
+                            x = -1;
+                        }
+            			
+                        if (x != -1) {
+	            			resultat = SolveurPolynome.resoudreHorner(listePolynomeEnregistre.get(polynomeHorner-1), x);
+	                        System.out.println(resultat);
+                        } else {
+                        	System.out.println(ERREUR_ENTREE_INVALIDE);
+                        }
+            		}
+            		break;
+            	case 2:
+            		int polynomeDirect = recupererIDPolynome();
+            		
+            		if(polynomeDirect != -1) {
+            			System.out.print("Résoudre en x : ");
+                        
+                        String saisieAAnalyser = scanner.nextLine();
+                        int x;
+                        
+                        try {
+                            x = Integer.parseInt(saisieAAnalyser);
+                        } catch (IllegalArgumentException e) {
+                            x = -1;
+                        }
+            			
+                        if (x != -1) {
+	            			resultat = SolveurPolynome.resoudreDirect(listePolynomeEnregistre.get(polynomeDirect-1), x);
+	                        System.out.println(resultat);
+                        } else {
+                        	System.out.println(ERREUR_ENTREE_INVALIDE);
+                        }
+            		}
+            		break;
+            	case 0:
+            		checkRetour = false;
+            		break;
             }
         }
     }

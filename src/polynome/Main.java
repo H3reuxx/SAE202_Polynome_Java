@@ -28,8 +28,6 @@ class Main {
     public static void main(String[] args) {
     	MenuInterface menu = new MenuInterface();
     	
-    	Polynome p = CreationPolynome.CreationPolynomeCoefficients(List.of(2.0, 1.0, 0.0, 8.0));
-    	
-    	System.out.println(p.ficheIdentite());
+        menu.lancerMenu();
     }
 }
