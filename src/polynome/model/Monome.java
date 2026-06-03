@@ -6,6 +6,7 @@
 package polynome.model;
 
 import java.util.Objects;
+import java.text.DecimalFormat;
 
 /**
  * Creation du monome
@@ -49,14 +50,19 @@ public class Monome {
     
     
     @Override
-    public String toString() {   	
-    	if (degre == 0) {
-    		return Double.toString(Math.abs(coefficient));
-    	}
-    	if (degre == 1) {
-    		return Math.abs(coefficient) + "X";
-    	}
-        return Math.abs(coefficient) + "X^" + degre;
+    public String toString() {
+        /* df sert a garder seulement 3 chiffres après la virgule si nécessaire */
+        DecimalFormat df = new DecimalFormat("#0.###");
+        String coeffFormate = df.format(Math.abs(coefficient));
+        
+        if (degre == 0) {
+            return coeffFormate;
+        } 
+        if (degre == 1) {
+            return coeffFormate + "X";
+        } 
+        
+        return coeffFormate + "X^" + degre;
     }
     
     @Override

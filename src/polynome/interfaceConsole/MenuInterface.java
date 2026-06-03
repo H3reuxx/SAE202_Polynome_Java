@@ -3,6 +3,7 @@
  */
 package polynome.interfaceConsole;
 
+import java.util.List; 
 import java.util.ArrayList;
 import java.util.Scanner;
 import polynome.model.Polynome;
@@ -219,12 +220,50 @@ public class MenuInterface {
      * S'occupe de l'affichage en console qui permet l'Affichage des polynomes
      * enregistrées en plus de gerer les entrées utilisateur et potentiels cas d'erreurs.
      */
-    private void affichagePolynomes(){
+    private void affichagePolynomes() {
+    	
+    	final String CHOIX_AFFICHAGE_POLYNOME = """
+    											1 : Afficher tous les polynomes enregistrés automatiquement.
+    											2 : Afficher la fiche identité d'un polynome.
+    											0 : Retour.
+    											""";
+    	
         if(listePolynomeEnregistre.isEmpty()) { 
             System.out.println("Aucun polynôme n'a été créé.");
         } else {
-            for (int choixPolynome = 0; choixPolynome < listePolynomeEnregistre.size(); choixPolynome++) {
-        		System.out.println(choixPolynome + 1 + ") " + listePolynomeEnregistre.get(choixPolynome));
+        	boolean checkRetour = true;
+        	
+        	while (checkRetour) {
+	        	System.out.print("\n" + CHOIX_AFFICHAGE_POLYNOME);
+	            System.out.print("Votre choix : ");
+	            
+	            String saisie = scanner.nextLine();
+	            int selection;
+	            
+	            try {
+	                selection = Integer.parseInt(saisie);
+	            } catch (IllegalArgumentException e) {
+	                selection = -1;
+	            }
+	            
+	            Polynome polynomeFinal;
+	            switch (selection) {
+	            	case 1:
+	            		for (int choixPolynome = 0; choixPolynome < listePolynomeEnregistre.size(); choixPolynome++) {
+	            			System.out.println(choixPolynome + 1 + ") " + listePolynomeEnregistre.get(choixPolynome));
+	            		}
+	            		break;
+	            	case 2:
+	            		int idPolynomeChoisi = recupererIDPolynome();
+	            		
+	            		if (idPolynomeChoisi != -1) {
+	            			System.out.println(listePolynomeEnregistre.get(idPolynomeChoisi-1).ficheIdentite());
+	            		}
+	            		break;
+	            	case 0:
+	                    checkRetour = false;
+	                    break;
+	            }
         	}
         }
     }
@@ -234,7 +273,7 @@ public class MenuInterface {
         boolean saisieValide = false;
 
         while (!saisieValide) {
-            System.out.print("Veuillez saisir l'id du premier polynome : ");
+            System.out.print("Veuillez saisir l'id du polynome : ");
             
             if (scanner.hasNextInt()) {
                 int test = scanner.nextInt();
@@ -268,6 +307,7 @@ public class MenuInterface {
     				1 : Addition de deux polynomes.
     				2 : Multiplication de deux polynomes. 
     				3 : Multiplication d'un polynome par un scalaire.
+    				4 : Division Euclidienne de deux polynomes.
     				0 : Retour.
     				""";
         boolean checkRetour = true;
@@ -275,7 +315,6 @@ public class MenuInterface {
         affichagePolynomes(); // Affichage des Polynômes pour guider l'utilisateur
 
         while (checkRetour) {
-
             System.out.print("\n" + CHOIX_CALCULS_POLYNOME);
             System.out.print("Votre choix : ");
             
@@ -319,9 +358,10 @@ public class MenuInterface {
                 	int[] polynomesDivision = recupererIDPolynomes();
                     
                     if(polynomesDivision[0] != -1 && polynomesDivision[1] != -1) {
-                        polynomeFinal = CalculateurPolynome.diviserPolynomes(listePolynomeEnregistre.get(polynomesDivision[0]-1), listePolynomeEnregistre.get(polynomesMultiplication[1]-1));
-                        listePolynomeEnregistre.add(polynomeFinal);
-                        System.out.println(polynomeFinal.toString());
+                        List<Polynome> PolynomesQetR = CalculateurPolynome.diviserPolynomes(listePolynomeEnregistre.get(polynomesDivision[0]-1), listePolynomeEnregistre.get(polynomesDivision[1]-1));
+                        /* On ajoute le quotient a la liste */
+                        listePolynomeEnregistre.add(PolynomesQetR.get(0));
+                        System.out.println("Quotient : " + PolynomesQetR.get(0) + "\nReste : " + PolynomesQetR.get(1));
                     } else {
                         System.out.println(ERREUR_ENTREE_INVALIDE);
                     }
@@ -330,7 +370,7 @@ public class MenuInterface {
                     checkRetour = false;
                     break;
             }
-        }
+        }   
     }
     
     private void calculImage() {
