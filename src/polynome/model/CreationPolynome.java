@@ -47,12 +47,10 @@ public class CreationPolynome {
     public static Polynome creationPolynomeRacines(List<Double> racines, List<Integer> multiplicites, double coefDominant) {
     	Polynome polynomeFinal = new Polynome();
     	
-    	//A tester
     	if (racines.size() != multiplicites.size()) {
     		return polynomeFinal;
     	}
     	
-    	//A tester
     	if (racines == null || multiplicites == null) { 
     		polynomeFinal.ajouterMonome(new Monome(coefDominant , 0));
             return polynomeFinal;

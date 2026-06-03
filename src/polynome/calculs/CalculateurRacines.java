@@ -1,3 +1,8 @@
+/**
+ * CalculateurRacines.java
+ * iut Rodez, no copy right/left   
+ */
+
 package polynome.calculs;
 
 import java.util.List; 
@@ -8,12 +13,17 @@ import polynome.resolutions.SolveurPolynome;
 
 /**
  * Classe utilitaire qui permet d'effectuer les calculs liés aux polynômes.
+ * @author Gabriel TOLL , Alban ROZES, Erwan NAZAL
  */
 public class CalculateurRacines {
 
     /**
      * Calcule le nombre de racines distinctes d'un polynôme dans l'intervalle [borneMin, borneMax] 
      * en utilisant la méthode de la suite de Sturm.
+     * @param borneMax La borne supérieure de l'intervalle.
+     * @param borneMin La borne inférieure de l'intervalle.
+     * @param polynome Le polynôme dont on veut calculer les racines.
+     * @return Le nombre de racines distinctes du polynôme dans l'intervalle [borneMin, borneMax].
      */
     public static int suiteSturm(double borneMax, double borneMin, Polynome polynome) {
         
@@ -99,6 +109,13 @@ public class CalculateurRacines {
         return changementSigneMin - changementSigneMax;
     }
     
+    /**
+     * Calcule une approximation d'une racine d'un polynôme en utilisant la méthode de Newton-Raphson.
+     * en suivant la formule de Newton : x_{n+1} = x_n - f(x_n) / f'(x_n)
+     * @param p
+     * @param x0
+     * @return une approximation de la racine du polynôme p à partir du point de départ x0.
+     */
     public static double newton(Polynome p, double x0) {
         Polynome pDerive = p.deriver(); //
         double x = x0; //
@@ -129,19 +146,19 @@ public class CalculateurRacines {
     }
     
     
-    /**q
+    /**
      * Calcule une estimation de l'intervalle dans lequel se trouvent les racines d'un polynôme en utilisant le théorème de Cauchy.
      * @param p Polynome dont on veut estimer l'intervalle des racines.
      * @return Un tableau de deux éléments contenant les bornes inférieure et supérieure de l'intervalle estimé.
      */
     public static double[] calculerBornesInitiales(Polynome p) {
-        // 1. Trouver le coefficient dominant (an) et son degré
+        //Trouver le coefficient dominant (an) et son degré
         double an = Math.abs(p.getTermeDominant().getCoefficient());
         
         double maxCoeff = 0;
         
         
-        // 2. Trouver le plus grand coefficient parmi tous les autres (de a0 à an-1)
+        //Trouver le plus grand coefficient parmi tous les autres (de a0 à an-1)
         for (int i = 0; i < p.getListeMonome().size(); i++) {
             double coeffActuel = Math.abs(p.getListeMonome().get(i).getCoefficient());
             if (coeffActuel > maxCoeff) {

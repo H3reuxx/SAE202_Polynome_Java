@@ -1,7 +1,6 @@
 /* 
  * CalculateurPolynome.java
- * 
- * IUT de Rodez, no copy right/left    10/04
+ * IUT de Rodez, no copy right/left
  */
  
 package polynome.calculs;
@@ -13,9 +12,9 @@ import polynome.model.Polynome;
 import polynome.model.CreationPolynome;
 
 /**
- * Classe utilitaire qui permet d'éffectuer les calculs liées aux polynomes.
+ * Classe utilitaire qui permet d'éffectuer des calculs liées aux polynomes.
  * 
- * @autor 
+ * @autor gabriel TOLL , Alban ROZES, Erwan NAZAL
  */
 public class CalculateurPolynome {
 
@@ -111,13 +110,21 @@ public class CalculateurPolynome {
             }
         }
 
+        
+        
+        
+        
+        
         return polynomeFinal;
     }
 
-    /* multiplication de deux polynome : il faut que chaque monome de P1 rencoontre
+    /** multiplication de deux polynome : il faut que chaque monome de P1 rencoontre
      * chaque monome de P2 (distributivité), ensuite les coefficient se multiplient 
      * et les degres s'additionent puis on les insère dans polynomeFinal en additionant
      * les monomes de même degre (en utilisant la logique de l'addition de polynome)
+     * @param polynome1
+     * @param polynome2
+     * @return polynomeFinal
      */
     public static Polynome multiplierPolynomes(Polynome polynome1, Polynome polynome2) {
         Polynome polynomeFinal = new Polynome();
@@ -158,8 +165,11 @@ public class CalculateurPolynome {
         return polynomeFinal;
     }
 
-    /* 
+    /* *
      * division euclidienne de deux polynome.
+     * @param polynomeDividende : le polynome à diviser
+     * @param polynomeDiviseur : le polynome par lequel on divise
+     * @return une liste de deux éléments : le premier est le polynome quotient et le second est le polynome reste
      */
     public static List<Polynome> diviserPolynomes(Polynome polynomeDividende, Polynome polynomeDiviseur) {
     	
@@ -171,9 +181,7 @@ public class CalculateurPolynome {
     	Polynome polynomeReste = polynomeDividende;
     	
     	Monome termeDominantDiviseur = polynomeDiviseur.getTermeDominant();
-    	/*
-    	 * condition : tant que le polynome 
-    	 */
+    	
     	while(!polynomeReste.estNul() && polynomeReste.getTermeDominant().getDegre() >= termeDominantDiviseur.getDegre()) {
     		Monome termeDominantReste = polynomeReste.getTermeDominant();
             
@@ -216,6 +224,12 @@ public class CalculateurPolynome {
         }
     }
     
+    /**
+     * Multiplie un polynome par un scalaire. 
+     * @param polynome1
+     * @param scalaire
+     * @return le résultat de la multiplication du polynome1 par le scalaire
+     */
     public static Polynome multiplierPolynomeAvecScalaire(Polynome polynome1, double scalaire) { 
 		Monome monomeScalaire = new Monome(scalaire,0);
 		Polynome polynomeScalaire = new Polynome(List.of(monomeScalaire));

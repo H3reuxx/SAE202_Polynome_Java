@@ -1,6 +1,5 @@
 /* 
 * Polynome.java
-* 
 * IUT de Rodez, no copy right/left    10/04
 */
 
@@ -39,7 +38,10 @@ public class Polynome {
         this.listeMonome = new ArrayList<Monome>(List.of(monomeNul));  
     }
     
-    //Méthode permettant d'ajouter un monome à un polynome.
+    /**
+     * Méthode permettant d'ajouter un monome à un polynome.
+     * @param m Le monome à ajouter au polynome
+     */
     public void ajouterMonome(Monome m) {
         boolean degreTrouve = false;
         
@@ -59,6 +61,7 @@ public class Polynome {
     /**
      * Méthode utilitaire pour vérifier si un polynôme est mathématiquement nul 
      * (c'est-à-dire que tous ses monômes ont un coefficient proche de 0.0)
+     * @return true si le polynôme est nul, false sinon
      */
     public boolean estNul() {
         if (this.getListeMonome().isEmpty()) {
@@ -76,6 +79,7 @@ public class Polynome {
     /**
      * Méthode utilitaire pour récupérer le monôme de plus haut degré 
      * dont le coefficient n'est pas zéro.
+     * @return le monôme dominant du polynôme, ou un monôme nul de degré 0 si tous les monômes sont nuls
      */
     public Monome getTermeDominant() {
         Monome dominant = new Monome(0.0, -1);

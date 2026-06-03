@@ -1,7 +1,6 @@
 /* 
  * Monome.java
- * 
- * IUT de Rodez, no copy right/left    10/04
+ * IUT de Rodez, no copy right/left 
  */
 package polynome.model;
 
@@ -9,9 +8,9 @@ import java.util.Objects;
 import java.text.DecimalFormat;
 
 /**
- * Creation du monome
+ * Creation du monome avec un coefficient et un degre.
  * 
- * @autor 
+ * @autor gabriel TOLL , Alban ROZES , Erwan NAZAL
  */
 public class Monome {
     private int degre;
@@ -22,8 +21,11 @@ public class Monome {
         this.degre = degre;
     }   
     
-    
-    //A tester
+    /**
+     * Méthode utilitaire pour déterminer le signe d'un nombre, elle retourne "+" si le nombre est positif, "-" si le nombre est négatif et "0" si le nombre est nul.
+     * @param nombre
+     * @return le signe du nombre sous forme de String
+     */
     public static String signe (double nombre) {
         if (nombre > 0) {
         	return "+";
@@ -31,23 +33,25 @@ public class Monome {
         	return "-";
         } else return "0";
     }
-    
+    /** @return le degre du monome */
     public int getDegre() {
         return this.degre;
     }
     
+    /** @return le coefficient du monome */
     public double getCoefficient() {
         return this.coefficient;
     }
     
-    public void setCoefficient(double nouveauCoefficient) {
-        this.coefficient = nouveauCoefficient;
-    }
-    
+    /** @return le signe du monome sous forme de String */
     public String getSigne() {
 		    return signe(coefficient);
 	}
     
+    /** @param nouveauCoefficient le nouveau coefficient du monome */
+    public void setCoefficient(double nouveauCoefficient) {
+        this.coefficient = nouveauCoefficient;
+    }
     
     @Override
     public String toString() {

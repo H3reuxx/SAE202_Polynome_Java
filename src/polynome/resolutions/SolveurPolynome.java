@@ -1,3 +1,8 @@
+/**
+ * SolveurPolynome.java
+ * IUT de Rodez, no copy right/left
+ */
+
 package polynome.resolutions;
 
 import java.util.List; 
@@ -5,8 +10,18 @@ import polynome.model.Monome;
 import polynome.model.Polynome;
 import polynome.calculs.CalculateurPolynome;
 
+/**
+ * Classe utilitaire qui permet de résoudre un polynome à l'aide de différentes méthodes de résolution.
+ * @author Gabriel TOLL , Alban ROZES, Erwan NAZAL
+ */
 public class SolveurPolynome {
 	
+	/**
+	 * Résolution d'un polynome à l'aide de la méthode de Horner.
+	 * @param polynomeAResoudre
+	 * @param x
+	 * @return resultat (valeur du polynome pour x)
+	 */
 	public static double resoudreHorner(Polynome polynomeAResoudre, double x) {
 		
 		double resultat;
@@ -28,6 +43,13 @@ public class SolveurPolynome {
 		return resultat;
 	}
 	
+	
+	/**
+	 * Résolution d'un polynome à l'aide de la méthode directe. donc on utilise la formule : P(x) = a0*x^n + a1*x^(n-1) + ... + an-1*x + an
+	 * @param polynomeAResoudre
+	 * @param x
+	 * @return resultat (valeur du polynome pour x)
+	 */
 	public static double resoudreDirect(Polynome polynomeAResoudre, double x) {
 		
 		List<Monome> listeMonome = polynomeAResoudre.getListeMonome();

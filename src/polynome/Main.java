@@ -1,7 +1,6 @@
 /* 
  * Main.java
- * 
- * IUT de Rodez, no copy right/left    10/04
+ * IUT de Rodez, no copy right/left
  */
 
 package polynome;
@@ -18,13 +17,12 @@ import polynome.resolutions.SolveurPolynome;
 import polynome.model.Polynome;
 
 /**
- * TODO
- * 
- * @autor 
+ * classe principale du projet , elle contient la méthode main qui lance le menu de l'application.
+ * @autor gabriel TOLL , Alban ROZES , Erwan NAZAL
  */
 
 class Main {
-
+	
     public static void main(String[] args) {
     	MenuInterface menu = new MenuInterface();
     	menu.lancerMenu();
