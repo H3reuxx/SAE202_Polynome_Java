@@ -134,7 +134,8 @@ class PolynomeTest {
         Monome m1 = new Monome(2.0, 1);
         Monome m2 = new Monome(-1.0, 2);
         Polynome pPlusieurs = new Polynome(new ArrayList<>(List.of(m1, m2)));
-        assertEquals(m2.toString() + " + " + m1.toString(), pPlusieurs.toString());
+        //L'affichage des signe est gérer dans le ToString du polynome donc on doit rajouter - a la main.
+        assertEquals("- " + m2.toString() + " + " + m1.toString(), pPlusieurs.toString());
     }
     
     @Test

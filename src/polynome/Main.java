@@ -27,7 +27,6 @@ class Main {
 
     public static void main(String[] args) {
     	MenuInterface menu = new MenuInterface();
-    	
-        menu.lancerMenu();
+    	menu.lancerMenu();
     }
 }
