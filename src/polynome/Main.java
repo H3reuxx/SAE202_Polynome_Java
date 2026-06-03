@@ -27,9 +27,6 @@ class Main {
     public static void main(String[] args) {
     	MenuInterface menu = new MenuInterface();
     	
-        Polynome p1 = CreationPolynome.CreationPolynomeCoefficients(List.of(-7.0, 3.0, -5.0, 2.0));
-        System.out.println(p1.toString());
-        
-        System.out.println(SolveurPolynome.resoudreDirect(p1, 2));
+        menu.lancerMenu();
     }
 }

@@ -44,10 +44,7 @@ public class SolveurPolynome {
 			for (int iteration = 0; iteration < monome.getDegre(); iteration++) {
 				resMonome *= x;
 			}
-			System.out.println(resMonome);
 			resMonome *= monome.getCoefficient();
-			System.out.println(resMonome);
-			System.out.println();
 			resultat += resMonome;
 		}
 		
