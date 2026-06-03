@@ -12,6 +12,7 @@ import java.util.List;
 import polynome.interfaceConsole.MenuInterface;
 import static polynome.resolutions.SolveurPolynome.resoudreDirect;
 import static polynome.model.CreationPolynome.CreationPolynomeCoefficients;
+import polynome.calculs.CalculateurPolynome;
 import polynome.model.CreationPolynome;
 import polynome.resolutions.SolveurPolynome;
 import polynome.model.Polynome;
