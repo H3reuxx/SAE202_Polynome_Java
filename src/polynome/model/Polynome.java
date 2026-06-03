@@ -153,6 +153,49 @@ public class Polynome {
         return this.listeMonome;
     }
     
+    public String calculerLimite(boolean positifInfinity) {
+    	
+    	//Range le polynome pour avoir le plus degré en premier
+    	CalculateurPolynome.trierInsertion(this);
+    	
+    	//Prend le coefficient dominant et prend son degré et son coefficient 
+    	Monome coeffDominant = this.getListeMonome().get(0);
+    	int degre = coeffDominant.getDegre();
+    	double coeff = coeffDominant.getCoefficient();
+    	
+    	if (degre == 0) {
+    		return Double.toString(coeff);
+    	}
+    	
+    	if (coeff==0) {
+    		return "0";
+    	}
+    	
+    	//Vérification en +infini
+    	if (positifInfinity) {
+    		if (coeff > 0) {
+        		return "+∞";
+        	} else {
+        		return "-∞";
+        	}
+    	//Vérification en -infini	
+    	} else {
+    		if (degre%2==0) {
+    			if (coeff > 0) {
+    				return "+∞";
+    			} else { 
+    				return "-∞";
+    			}
+        	} else {
+        		if (coeff > 0) {
+        			return "-∞";
+        		} else {
+        			return "+∞";
+        		}
+        	}	
+    	}
+    }
+    
     /**
      * Affiche toutes les caractéristiques du polynome
      * @return fiche identité du polynome
@@ -169,6 +212,8 @@ public class Polynome {
     	
     	Polynome derive = this.deriver();
     	Polynome primitivePrincipale = this.integrer(0.0);
+    	String limiteInfiniPositif = this.calculerLimite(true);
+    	String limiteInfiniNegatif = this.calculerLimite(false);
     	
     	fiche = String.format("""
     			
@@ -185,6 +230,8 @@ public class Polynome {
     			 ---[ CALCULS ]------------------------------------
     			| Derivee P'(x)        : %s
     			| Primitive ∫P(x)      : %s
+    			| Limite en +inf       : %s
+    			| Limite en -inf       : %s
     			 --------------------------------------------------""", 
     			expressionStandard, 
     			degre, 
@@ -192,7 +239,9 @@ public class Polynome {
     			termeConstant, 
     			nbTermes, 
     			derive.toString(), 
-    			primitivePrincipale.toString());
+    			primitivePrincipale.toString(),
+    			limiteInfiniPositif,
+    			limiteInfiniNegatif);
     	
     	return fiche;
     }

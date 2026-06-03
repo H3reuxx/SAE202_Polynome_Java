@@ -194,7 +194,6 @@ public class CalculateurPolynome {
     	
     	return List.of(polynomeQuotient, polynomeReste);
     }
-    
 
     /**
      * Trie le polynôme passé en paramètre par degrés décroissants.

@@ -11,7 +11,7 @@ public class SolveurPolynome {
 		
 		double resultat;
 		Polynome polynome = new Polynome(polynomeAResoudre.getListeMonome());
-		CalculateurPolynome.trierInsertion(polynome );
+		CalculateurPolynome.trierInsertion(polynome);
 		List<Monome> listeMonome = polynome.getListeMonome();
 		
 		if (listeMonome.isEmpty()) {
