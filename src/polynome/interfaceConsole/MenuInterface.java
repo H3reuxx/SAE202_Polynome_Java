@@ -50,6 +50,7 @@ public class MenuInterface {
                 3 : Calculs liée au polynome (Addition, Multiplication, Scalaire)
                 4 : Transformation de polynome (Dérivée / Primitive)
                 5 : Recherche de racines (Sturm / Newton)
+                6 : Calcul d'images (Horner / Direct)
                 0 : Quitter
                 """;
 
@@ -81,15 +82,13 @@ public class MenuInterface {
                     calculsPolynomes();
                     break;
                 case 4:
-                    System.out.println("-> Lancement des transformations...\n");
+                    System.out.println("-> Lancement des transformations de polynômes...\n");
                     transfoPolynomes();
                     break;
                 case 5:
                     System.out.println("-> Lancement de la recherche de racines...\n");
                     menuRacines();
                     break;
-                	System.out.println("-> Lancement des tranformations de polynômes...");
-                	transfoPolynomes();
                 case 6:
                 	System.out.println("-> Lancement du calcul d'image...");
                 	calculImage();
@@ -223,6 +222,12 @@ public class MenuInterface {
         }
     }
     
+    private void afficherPolynomes() {
+    	for (int choixPolynome = 0; choixPolynome < listePolynomeEnregistre.size(); choixPolynome++) {
+			System.out.println(choixPolynome + 1 + ") " + listePolynomeEnregistre.get(choixPolynome));
+		}
+    }
+    
     /**
      * Sous interface de la partie "Affichage d'un polynome".
      * S'occupe de l'affichage en console qui permet l'Affichage des polynomes
@@ -257,9 +262,7 @@ public class MenuInterface {
 	            Polynome polynomeFinal;
 	            switch (selection) {
 	            	case 1:
-	            		for (int choixPolynome = 0; choixPolynome < listePolynomeEnregistre.size(); choixPolynome++) {
-	            			System.out.println(choixPolynome + 1 + ") " + listePolynomeEnregistre.get(choixPolynome));
-	            		}
+	            		afficherPolynomes();
 	            		break;
 	            	case 2:
 	            		int idPolynomeChoisi = recupererIDPolynome();
@@ -319,7 +322,7 @@ public class MenuInterface {
         boolean checkRetour = true;
         
         while (checkRetour) {
-            affichagePolynomes(); 
+        	afficherPolynomes();
             System.out.print("\n" + CHOIX_CALCULS_POLYNOME);
             System.out.print("Votre choix : ");
             
@@ -335,7 +338,7 @@ public class MenuInterface {
             Polynome polynomeFinal;
             switch (selection) {
                 case 1:
-                    int[] polynomesAddition = recupererIDPolynome();
+                    int[] polynomesAddition = recupererIDPolynomes();
                     if(polynomesAddition[0] >= 1 && polynomesAddition[1] >= 1 && polynomesAddition[0] <= listePolynomeEnregistre.size() && polynomesAddition[1] <= listePolynomeEnregistre.size()) {
                         polynomeFinal = CalculateurPolynome.additionnerPolynome(listePolynomeEnregistre.get(polynomesAddition[0]-1), listePolynomeEnregistre.get(polynomesAddition[1]-1));
                         listePolynomeEnregistre.add(polynomeFinal);
@@ -345,7 +348,7 @@ public class MenuInterface {
                     }
                     break;
                 case 2:
-                    int[] polynomesMultiplication = recupererIDPolynome();
+                    int[] polynomesMultiplication = recupererIDPolynomes();
                     if(polynomesMultiplication[0] >= 1 && polynomesMultiplication[1] >= 1 && polynomesMultiplication[0] <= listePolynomeEnregistre.size() && polynomesMultiplication[1] <= listePolynomeEnregistre.size()) {
                         polynomeFinal = CalculateurPolynome.multiplierPolynomes(listePolynomeEnregistre.get(polynomesMultiplication[0]-1), listePolynomeEnregistre.get(polynomesMultiplication[1]-1));
                         listePolynomeEnregistre.add(polynomeFinal);
@@ -382,8 +385,6 @@ public class MenuInterface {
                         System.out.println(ERREUR_ENTREE_INVALIDE + "\n");
                     }
                     break;
-                	
-                	break;
                 case 4:
                 	int[] polynomesDivision = recupererIDPolynomes();
                     
@@ -414,7 +415,7 @@ public class MenuInterface {
     	
 		boolean checkRetour = true;
     	
-        affichagePolynomes(); // Affichage des Polynômes pour guider l'utilisateur
+		afficherPolynomes(); // Affichage des Polynômes pour guider l'utilisateur
 
         while (checkRetour) {
 
@@ -495,7 +496,7 @@ public class MenuInterface {
         boolean checkRetour = true;
 
         while (checkRetour) {
-            affichagePolynomes(); 
+        	afficherPolynomes(); 
             System.out.print("\n" + CHOIX_TRANSFO_POLYNOME);
             System.out.print("Votre choix : ");
             
@@ -576,7 +577,7 @@ public class MenuInterface {
         boolean checkRetour = true;
 
         while (checkRetour) {
-            affichagePolynomes();
+        	afficherPolynomes();
             System.out.print("\n" + CHOIX_RACINES);
             System.out.print("Votre choix : ");
 
