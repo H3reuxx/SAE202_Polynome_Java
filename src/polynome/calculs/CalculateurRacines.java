@@ -98,4 +98,60 @@ public class CalculateurRacines {
         // Formule de Sturm : N = V(borneMin) - V(borneMax)
         return changementSigneMin - changementSigneMax;
     }
+    
+    public static double newton(Polynome p, double x0) {
+        Polynome pDerive = p.deriver(); //
+        double x = x0; //
+        double epsilon = 1e-9; //
+        
+        int maxIterations = 100; //
+        int iterations = 0; //
+        
+        while (iterations < maxIterations) { //
+        	// À insérer dans ta boucle while de Newton :
+            double fx = SolveurPolynome.resoudreHorner(p, x); //
+            double fPrimeX = SolveurPolynome.resoudreHorner(pDerive, x); //
+            
+            if (Math.abs(fPrimeX) < epsilon) { //
+                throw new ArithmeticException("La dérivée est trop proche de zéro. Choisissez un autre point de départ."); //
+            }
+            
+            double xNext = x - fx / fPrimeX; //
+            
+            if (Math.abs(xNext - x) < epsilon) { //
+                return xNext; //
+            }
+            
+            x = xNext; //
+            iterations++; //
+        }
+        throw new ArithmeticException("L'algorithme de Newton n'a pas convergé après " + maxIterations + " itérations."); //
+    }
+    
+    
+    /**q
+     * Calcule une estimation de l'intervalle dans lequel se trouvent les racines d'un polynôme en utilisant le théorème de Cauchy.
+     * @param p Polynome dont on veut estimer l'intervalle des racines.
+     * @return Un tableau de deux éléments contenant les bornes inférieure et supérieure de l'intervalle estimé.
+     */
+    public static double[] calculerBornesInitiales(Polynome p) {
+        // 1. Trouver le coefficient dominant (an) et son degré
+        double an = Math.abs(p.getTermeDominant().getCoefficient());
+        
+        double maxCoeff = 0;
+        
+        
+        // 2. Trouver le plus grand coefficient parmi tous les autres (de a0 à an-1)
+        for (int i = 0; i < p.getListeMonome().size(); i++) {
+            double coeffActuel = Math.abs(p.getListeMonome().get(i).getCoefficient());
+            if (coeffActuel > maxCoeff) {
+                maxCoeff = coeffActuel;
+            }
+        }
+        
+        //Formule de Cauchy : R = 1 + (Max(|ai|) / |an|) (avec ai le coef max et an le coef dominant)
+        double r = 1.0 + (maxCoeff / an);
+        return new double[]{-r, r};
+    }
+    
 }

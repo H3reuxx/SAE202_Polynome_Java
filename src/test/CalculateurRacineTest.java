@@ -13,19 +13,30 @@ import org.junit.jupiter.api.DisplayName;
 
 /**
  * Plan de tests Unitaires pour CalculateurRacines (Suite de Sturm) :
- * - Borne invalide : borneMax < borneMin (doit lever IllegalArgumentException)
- * - Polynôme nul (doit renvoyer 0 ou être rejeté)
- * - Polynôme constant non nul ex: P(x) = 5 (doit renvoyer 0)
- * - Borne minimale ou maximale égale à 0 ou 1
- * - Bornes entièrement négatives (ex: [-5, -2])
- * - Racine positionnée exactement sur une borne (ex: P(x)=x^2-1 sur [0, 1])
- * - Polynôme de degré 1 (ex: 2x - 4)
- * - Polynôme n'ayant aucune racine réelle dans l'intervalle (ex: x^2 + 1)
- * - Polynôme avec racines distinctes (ex: (x-1)(x-2)(x-3))
- * - Polynôme avec racines multiples (ex: (x-2)^3 -> vérification du compte unique)
- * - Polynôme de haut degré (long) pour tester la performance/stabilité
- * - Coefficients entiers (sans virgule)
- * - Coefficients réels (doubles à virgule, ex: 0.25x^2 - 0.5x)
+ * 	- Borne invalide : borneMax < borneMin (doit lever IllegalArgumentException)
+ * 	- Polynôme nul (doit renvoyer 0 ou être rejeté)
+ * 	- Polynôme constant non nul ex: P(x) = 5 (doit renvoyer 0)
+ * 	- Borne minimale ou maximale égale à 0 ou 1
+ * 	- Bornes entièrement négatives (ex: [-5, -2])
+ * 	- Racine positionnée exactement sur une borne (ex: P(x)=x^2-1 sur [0, 1])
+ * 	- Polynôme de degré 1 (ex: 2x - 4)
+ * 	- Polynôme n'ayant aucune racine réelle dans l'intervalle (ex: x^2 + 1)
+ * 	- Polynôme avec racines distinctes (ex: (x-1)(x-2)(x-3))
+ * 	- Polynôme avec racines multiples (ex: (x-2)^3 -> vérification du compte unique)
+ * 	- Polynôme de haut degré (long) pour tester la performance/stabilité
+ * 	- Coefficients entiers (sans virgule)
+ * 	- Coefficients réels (doubles à virgule, ex: 0.25x^2 - 0.5x)
+ * * Plan de tests Unitaires pour la méthode de Newton :
+ * 	- 0 racine réelle globale : comportement aveugle (doit lever ArithmeticException pour non-convergence après 100 itérations)
+ * 	- Présence de plusieurs racines : convergence locale vers la plus proche selon x0 (ex: x^2 - 4)
+ * 	- Polynôme de degré 1 (ex: 2x - 4, convergence vers la racine x = 2.0)
+ * 	- Polynôme de degré supérieur (ex: x^2 - 2, convergence vers x = sqrt(2))
+ * 	- x0 positionné exactement sur la racine réelle (0 itération requise)
+ * 	- Point de départ éloigné.
+ * 	- x0 positionné sur un extremum local où f'(x) = 0 (doit lever ArithmeticException)
+ * 	- dérivée f'(x) extrêmement proche de zéro, sous le seuil epsilon (doit lever ArithmeticException)
+ * 	- cas de cycles d'oscillations infinis entre deux valeurs (doit lever ArithmeticException après 100 itérations)
+ * * @author Gabriel TOLL , Alban ROZES
  */
 
 
@@ -180,5 +191,105 @@ class CalculateurRacineTest {
         
         int nbRacines = CalculateurRacines.suiteSturm(3.0, -1.0, p);
         assertEquals(2, nbRacines, "Il y a 2 racines (0 et 2) pour ce polynôme à coefficients décimaux.");
+    }
+    
+    // TESTS POUR LA MÉTHODE DE NEWTON -------------------------------
+    
+    @Test
+    @DisplayName("Newton : 0 racine réelle (Doit lever ArithmeticException pour non-convergence)")
+    void testNewtonZeroRacineSturm() {
+        // P(X) = X^2 + 4 (N'a aucune racine réelle) -> liste: [4.0, 0.0, 1.0]
+        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(4.0, 0.0, 1.0));
+        
+        // On s'attend à ce que Newton ne trouve rien et lève une ArithmeticException après 100 itérations
+        assertThrows(ArithmeticException.class, () -> {
+            CalculateurRacines.newton(p, 1.0);
+        }, "Le polynôme n'a pas de racine réelle, l'algorithme ne doit pas converger.");
+    }
+
+    @Test
+    @DisplayName("Newton : Choix de la racine la plus proche parmi plusieurs")
+    void testNewtonPlusieursRacinesStandard() {
+        // P(X) = X^2 - 4 (Racines : -2.0 et 2.0) -> liste: [-4.0, 0.0, 1.0]
+        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(-4.0, 0.0, 1.0));
+        
+        // Test 1 : En partant de 3.0, on doit converger vers 2.0
+        double racinePositive = CalculateurRacines.newton(p, 3.0);
+        assertEquals(2.0, racinePositive, 1e-7, "Newton doit converger vers la racine 2.0.");
+        
+        // Test 2 : En partant de -3.0, on doit converger vers -2.0
+        double racineNegative = CalculateurRacines.newton(p, -3.0);
+        assertEquals(-2.0, racineNegative, 1e-7, "Newton doit converger vers la racine -2.0.");
+    }
+    
+    @Test
+    @DisplayName("Newton : Polynôme de degré 1 (2x - 4 = 0 -> x = 2.0)")
+    void testNewtonDegreUn() {
+        // P(X) = 2X - 4 -> liste: [-4.0, 2.0]. Racine exacte = 2.0
+        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(-4.0, 2.0));
+        
+        // On choisit un point de départ proche (x0 = 2.5) pour être sûr de rester 
+        // dans l'intervalle calculé par calculerBornesInitiales
+        double racine = CalculateurRacines.newton(p, 2.5); 
+        assertEquals(2.0, racine, 1e-7, "La racine calculée pour 2x - 4 doit être 2.0");
+    }
+
+    @Test
+    @DisplayName("Newton , Polynome de degre supérieur avec racine simple (x^2 - 2 = 0)")
+    void testNewtonDegreSupérieur() {
+        // P(X) = X^2 - 2 (Racines: -sqrt(2) et +sqrt(2)) -> liste: [-2.0, 0.0, 1.0]
+        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(-2.0, 0.0, 1.0));
+        
+        // Si tes bornes initiales automatiques isolent la racine positive :
+        double racine = CalculateurRacines.newton(p, 2.0); 
+        assertEquals(Math.sqrt(2.0), racine, 1e-7, "Newton doit renvoyer la racine carrée de 2.");
+    }
+
+    @Test
+    @DisplayName("Point de départ idéal x0 positionné sur la racine exacte")
+    void testNewtonDejaSurLaRacine() {
+        // P(X) = X - 3 -> liste: [-3.0, 1.0] (Racine évidente = 3.0)
+        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(-3.0, 1.0));
+        
+        double racine = CalculateurRacines.newton(p, 3.0); // x0 est déjà égal à 3.0
+        assertEquals(3.0, racine, 1e-9, "L'algorithme doit s'arrêter immédiatement en 0 itération.");
+    }
+
+    @Test
+    @DisplayName("Newton : Sécurité f'(x) = 0 au point de départ (Doit lever ArithmeticException)")
+    void testNewtonDeriveeNulle() {
+        // P(X) = X^3 - 3X^2 + 3X - 1 -> Unique racine en X = 1.0
+        // Sa dérivée est P'(X) = 3X^2 - 6X + 3. En x0 = 1.0, f'(1) = 0.0.
+        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(-1.0, 3.0, -3.0, 1.0));
+        
+        assertThrows(ArithmeticException.class, () -> {
+            CalculateurRacines.newton(p, 1.0);
+        }, "La tangente est horizontale, l'algorithme doit lever une ArithmeticException.");
+    }
+
+    @Test
+    @DisplayName("sous le seuil epsilon")
+    void testNewtonDeriveeProcheZero() {
+        // P(x) = x^3 - 3x^2 + 3x - 1 -> Une seule racine réelle globale en x = 1.0
+        // Liste des coefficients : a0 = -1.0, a1 = 3.0, a2 = -3.0, a3 = 1.0
+        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(-1.0, 3.0, -3.0, 1.0));
+        
+        assertThrows(ArithmeticException.class, () -> {
+            // En démarrant en x0 = 1.0, f'(1.0) sera strictement égal à 0.0, ce qui est inférieur à ton epsilon (1e-9)
+            CalculateurRacines.newton(p, 1.0);
+        }, "La dérivée est trop petite, l'exception de sécurité doit se déclencher.");
+    }
+
+    @Test
+    @DisplayName("Newton : Non-convergence / Oscillation infinie (Doit lever ArithmeticException après 100 itérations)")
+    void testNewtonNonConvergenceOscillation() {
+        // P(X) = X^3 - 2X + 2 -> liste: [2.0, -2.0, 0.0, 1.0]
+        // Si x0 = 0.0 -> x1 = 1.0 -> x2 = 0.0. L'algorithme oscille indéfiniment entre 0 et 1.
+        Polynome p = CreationPolynome.CreationPolynomeCoefficients(Arrays.asList(2.0, -2.0, 0.0, 1.0));
+        
+        assertThrows(ArithmeticException.class, () -> {
+            // On commence l'oscillation à 0.0
+            CalculateurRacines.newton(p, 0.0);
+        }, "L'algorithme boucle à l'infini, le compteur d'itérations max doit bloquer et lever une exception.");
     }
 }
