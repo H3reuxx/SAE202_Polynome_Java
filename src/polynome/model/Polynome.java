@@ -185,8 +185,7 @@ public class Polynome {
     			 ---[ CALCULS ]------------------------------------
     			| Derivee P'(x)        : %s
     			| Primitive ∫P(x)      : %s
-    			 --------------------------------------------------
-    			""", 
+    			 --------------------------------------------------""", 
     			expressionStandard, 
     			degre, 
     			coefDominant, 
