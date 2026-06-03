@@ -61,7 +61,7 @@ public class Polynome {
      * (c'est-à-dire que tous ses monômes ont un coefficient proche de 0.0)
      */
     public boolean estNul() {
-        if (this == null || this.getListeMonome().isEmpty()) {
+        if (this.getListeMonome().isEmpty()) {
             return true;
         }
         for (Monome m : this.getListeMonome()) {
@@ -102,7 +102,6 @@ public class Polynome {
                 return m.getCoefficient();
             }
         }
-        
         return 0.0; 
     }
     
@@ -154,6 +153,10 @@ public class Polynome {
         return this.listeMonome;
     }
     
+    /**
+     * Affiche toutes les caractéristiques du polynome
+     * @return fiche identité du polynome
+     */
     public String ficheIdentite() {
     	String fiche;
     	

@@ -3,10 +3,8 @@ package polynome.calculs;
 import java.util.List; 
 import java.util.ArrayList;
 import java.lang.Math;
-import polynome.model.Monome;
 import polynome.model.Polynome;
 import polynome.resolutions.SolveurPolynome;
-import polynome.calculs.CalculateurPolynome;
 
 /**
  * Classe utilitaire qui permet d'effectuer les calculs liés aux polynômes.
