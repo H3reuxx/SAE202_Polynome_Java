@@ -60,11 +60,11 @@ public class Polynome {
      * Méthode utilitaire pour vérifier si un polynôme est mathématiquement nul 
      * (c'est-à-dire que tous ses monômes ont un coefficient proche de 0.0)
      */
-    public static boolean estNul(Polynome polynome) {
-        if (polynome == null || polynome.getListeMonome().isEmpty()) {
+    public boolean estNul() {
+        if (this == null || this.getListeMonome().isEmpty()) {
             return true;
         }
-        for (Monome m : polynome.getListeMonome()) {
+        for (Monome m : this.getListeMonome()) {
             // Un monôme est considéré non nul si sa valeur absolue dépasse le seuil de tolérance
             if (Math.abs(m.getCoefficient()) > 1e-9) {
                 return false;
@@ -77,10 +77,10 @@ public class Polynome {
      * Méthode utilitaire pour récupérer le monôme de plus haut degré 
      * dont le coefficient n'est pas zéro.
      */
-    public static Monome getTermeDominant(Polynome p) {
+    public Monome getTermeDominant() {
         Monome dominant = new Monome(0.0, -1);
         
-        for (Monome m : p.getListeMonome()) {
+        for (Monome m : this.getListeMonome()) {
             if (Math.abs(m.getCoefficient()) > 1e-9 && m.getDegre() > dominant.getDegre()) {
                 dominant = m;
             }
@@ -90,6 +90,20 @@ public class Polynome {
             return new Monome(0.0, 0);
         }
         return dominant;
+    }
+    
+    /**
+     * Récupère le terme constant du polynôme (le coefficient du monôme de degré 0).
+     * @return Le terme constant.
+     */
+    public double getTermeConstant() {
+        for (Monome m : this.listeMonome) {
+            if (m.getDegre() == 0) {
+                return m.getCoefficient();
+            }
+        }
+        
+        return 0.0; 
     }
     
     /**
@@ -138,6 +152,47 @@ public class Polynome {
     /** @return la liste des monomes du polynome */
     public List<Monome> getListeMonome() {
         return this.listeMonome;
+    }
+    
+    public String ficheIdentite() {
+    	String fiche;
+    	
+    	String expressionStandard = this.toString();
+    	int degre = this.getTermeDominant().getDegre();
+    	double coefDominant = this.getTermeDominant().getCoefficient();
+    	double termeConstant = this.getTermeConstant();
+    	
+    	int nbTermes = this.listeMonome.size();
+    	
+    	Polynome derive = this.deriver();
+    	Polynome primitivePrincipale = this.integrer(0.0);
+    	
+    	fiche = String.format("""
+    			
+    			 ---[ POLYNOME ]---------------------------
+    			|
+    			| P(x) = %s
+    			|
+    			 ---[ STRUCTURE ]----------------------------------
+    			| Degre                : %d
+    			| Coefficient dominant : %s
+    			| Terme constant       : %s
+    			| Taille (monomes)     : %d
+    			|
+    			 ---[ CALCULS ]------------------------------------
+    			| Derivee P'(x)        : %s
+    			| Primitive ∫P(x)      : %s
+    			 --------------------------------------------------
+    			""", 
+    			expressionStandard, 
+    			degre, 
+    			coefDominant, 
+    			termeConstant, 
+    			nbTermes, 
+    			derive.toString(), 
+    			primitivePrincipale.toString());
+    	
+    	return fiche;
     }
     
     @Override

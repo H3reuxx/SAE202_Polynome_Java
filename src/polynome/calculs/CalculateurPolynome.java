@@ -171,12 +171,12 @@ public class CalculateurPolynome {
     	Polynome polynomeQuotient = new Polynome();
     	Polynome polynomeReste = polynomeDividende;
     	
-    	Monome termeDominantDiviseur = Polynome.getTermeDominant(polynomeDiviseur);
+    	Monome termeDominantDiviseur = polynomeDiviseur.getTermeDominant();
     	/*
     	 * condition : tant que le polynome 
     	 */
-    	while(!Polynome.estNul(polynomeReste) && Polynome.getTermeDominant(polynomeReste).getDegre() >= termeDominantDiviseur.getDegre()) {
-    		Monome termeDominantReste = Polynome.getTermeDominant(polynomeReste);
+    	while(!polynomeReste.estNul() && polynomeReste.getTermeDominant().getDegre() >= termeDominantDiviseur.getDegre()) {
+    		Monome termeDominantReste = polynomeReste.getTermeDominant();
             
             /* "t" désigne le nouveau terme */
             double coefT = termeDominantReste.getCoefficient() / termeDominantDiviseur.getCoefficient();
