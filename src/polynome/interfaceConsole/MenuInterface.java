@@ -312,6 +312,20 @@ public class MenuInterface {
                         System.out.println(ERREUR_ENTREE_INVALIDE);
                     }
                     break;
+                case 3:
+                	
+                	break;
+                case 4:
+                	int[] polynomesDivision = recupererIDPolynomes();
+                    
+                    if(polynomesDivision[0] != -1 && polynomesDivision[1] != -1) {
+                        polynomeFinal = CalculateurPolynome.diviserPolynomes(listePolynomeEnregistre.get(polynomesDivision[0]-1), listePolynomeEnregistre.get(polynomesMultiplication[1]-1));
+                        listePolynomeEnregistre.add(polynomeFinal);
+                        System.out.println(polynomeFinal.toString());
+                    } else {
+                        System.out.println(ERREUR_ENTREE_INVALIDE);
+                    }
+                	break;
                 case 0:
                     checkRetour = false;
                     break;
